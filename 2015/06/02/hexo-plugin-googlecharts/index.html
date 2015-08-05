@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="juampi92&#39;s Blog">
+    <title>Google Charts Hexo-Tag Plugin - juampi92&#39;s Blog</title>
+    <meta name="author" content="Juan Pablo Barreto">
+    <meta name="description" content="juampi92&#39;s Blog">
+    
+    
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="Hello! This post is for demonstration purposes only. The idea is to show working examples of the new plugin I’ve made for embedding Google Dynamic Charts into your Hexo blog. It’s a pretty straight fo">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Google Charts Hexo-Tag Plugin">
+<meta property="og:url" content="https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/index.html">
+<meta property="og:site_name" content="juampi92's Blog">
+<meta property="og:description" content="Hello! This post is for demonstration purposes only. The idea is to show working examples of the new plugin I’ve made for embedding Google Dynamic Charts into your Hexo blog. It’s a pretty straight fo">
+<meta property="og:updated_time" content="2015-08-04T23:43:07.466Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Google Charts Hexo-Tag Plugin">
+<meta name="twitter:description" content="Hello! This post is for demonstration purposes only. The idea is to show working examples of the new plugin I’ve made for embedding Google Dynamic Charts into your Hexo blog. It’s a pretty straight fo">
+    
+    
+        
+            <meta property="fb:admins" content="1260881676" />
+        
+    
+    
+        <meta property="og:image" content="http://www.gravatar.com/avatar/f3df4c82a6d390d3f0fa8b8d6f55e60f?s=640"/>
+    
+    
+        <meta property="og:image" content="/2015/06/02/hexo-plugin-googlecharts/https://076c4862e0ed5fdf0e2e91acc537823f1e790191.googledrive.com/host/0B3hebDTcxGYcenhzbmY2N3prNEk"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/https://076c4862e0ed5fdf0e2e91acc537823f1e790191.googledrive.com/host/0B3hebDTcxGYcenhzbmY2N3prNEk" />
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-63660411-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    
+    <!-- ADD GOOGLE SCRIPT -->
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">juampi92&#39;s Blog</a>
+    </h1>
+    
+        <a class="header-right-picture" href="/#about">
+            <img class="header-picture" src="http://www.gravatar.com/avatar/f3df4c82a6d390d3f0fa8b8d6f55e60f?s=90"/>
+        </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="1">
+    
+    <div class="sidebar-profile">
+        <a href="/#about">
+            
+            <img class="sidebar-profile-picture" src="http://www.gravatar.com/avatar/f3df4c82a6d390d3f0fa8b8d6f55e60f?s=90"/>
+            
+        </a>
+        <span class="sidebar-profile-name">Juan Pablo Barreto</span>
+    </div>
+    
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link "
+                    href="/ 
+                    ">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link "
+                    href="/#about
+                            ">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About me</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link "
+                    href="/all-tags
+                            ">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link "
+                    href="/all-archives
+                            ">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link "
+                    href="/atom.xml
+                            ">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+            <div id="main" data-behavior="1">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">Google Charts Hexo-Tag Plugin</h1>
+    
+    
+      <div class="post-meta">
+    <time  itemprop="datePublished" content="Tue Jun 02 2015 21:09:02 GMT-0300">
+        Jun 02, 2015
+    </time>
+    
+</div>
+    
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        
+            <p>Hello! This post is for demonstration purposes only. The idea is to show working examples of the new plugin I’ve made for embedding Google Dynamic Charts into your Hexo blog. It’s a pretty straight forward tag plugin.</p>
+<a id="more"></a>
+<p>Feel free to fork it! <a href="https://github.com/juampi92/hexo-tag-googlecharts" target="_blank" rel="external">hexo-tag-googlecharts</a></p>
+<p>Instructions and more are in the Readme of the repository.</p>
+<h2 id="Geographic_Chart_Comparison">Geographic Chart Comparison</h2><p>Chart <code>GeoChart</code><br><div id="googleChart5631"></div>
+<script>
+  if (!window.google) {
+    alert('You need to include the script //google.com/jsapi on your template');
+    throw 'Google JS API is needed';
+  } else {
+    (function() {
+      google.load('visualization', '1.0', {'packages': ["corechart","table","geochart"]});
+      google.setOnLoadCallback(function() {
+        (new google.visualization.GeoChart(document.getElementById("googleChart5631"))).draw(google.visualization.arrayToDataTable([['City', 'Population', 'Area'],['Rome', 2761477, 1285.31],['Milan', 1324110, 181.76],['Naples', 959574, 117.27],['Turin', 907563, 130.17],['Palermo', 655875, 158.9],['Genoa', 607906, 243.60],['Bologna', 380181, 140.7],['Florence', 371282, 102.41],['Fiumicino', 67370, 213.44],['Anzio', 52192, 43.43],['Ciampino', 38262, 11]]),{"region":"IT","displayMode":"markers","colorAxis":{"colors":["green","blue"]},"title":"Geographic Chart Comparison","width":"900","height":"500"});
+      });
+    })();
+  }
+</script></p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts GeoChart 900 500 %&#125;</span><br><span class="line">  Geographic Chart Comparison</span><br><span class="line">  &#123;"region": "IT", "displayMode": "markers", "colorAxis": &#123;"colors": ["green", "blue"]&#125; &#125;</span><br><span class="line">  'City', 'Population', 'Area'</span><br><span class="line">  'Rome', 2761477, 1285.31</span><br><span class="line">  'Milan', 1324110, 181.76</span><br><span class="line">  'Naples', 959574, 117.27</span><br><span class="line">  'Turin', 907563, 130.17</span><br><span class="line">  'Palermo', 655875, 158.9</span><br><span class="line">  'Genoa', 607906, 243.60</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Lengths_of_dinosaurs,_in_meters">Lengths of dinosaurs, in meters</h2><p>Chart <code>Histogram</code><br><div id="googleChart6196"></div>
+<script>
+  if (!window.google) {
+    alert('You need to include the script //google.com/jsapi on your template');
+    throw 'Google JS API is needed';
+  } else {
+    (function() {
+      google.load('visualization', '1.0', {'packages': ["corechart","table"]});
+      google.setOnLoadCallback(function() {
+        (new google.visualization.Histogram(document.getElementById("googleChart6196"))).draw(google.visualization.arrayToDataTable([['Dinosaur', 'Length'],['Acrocanthosaurus (top-spined lizard)', 12.2],['Albertosaurus (Alberta lizard)', 9.1],['Allosaurus (other lizard)', 12.2],['Apatosaurus (deceptive lizard)', 22.9],['Archaeopteryx (ancient wing)', 0.9],['Argentinosaurus (Argentina lizard)', 36.6],['Baryonyx (heavy claws)', 9.1],['Brachiosaurus (arm lizard)', 30.5],['Ceratosaurus (horned lizard)', 6.1 ],['Coelophysis (hollow form)', 2.7],['Compsognathus (elegant jaw)', 0.9],['Deinonychus (terrible claw)', 2.7],['Diplodocus (double beam)', 27.1],['Dromicelomimus (emu mimic)', 3.4],['Gallimimus (fowl mimic)', 5.5],['Mamenchisaurus (Mamenchi lizard)', 21.0],['Megalosaurus (big lizard)', 7.9],['Microvenator (small hunter)', 1.2],['Ornithomimus (bird mimic)', 4.6],['Oviraptor (egg robber)', 1.5],['Plateosaurus (flat lizard)', 7.9],['Sauronithoides (narrow-clawed lizard)', 2.0],['Seismosaurus (tremor lizard)', 45.7],['Spinosaurus (spiny lizard)', 12.2],['Supersaurus (super lizard)', 30.5],['Tyrannosaurus (tyrant lizard)', 15.2],['Ultrasaurus (ultra lizard)', 30.5],['Velociraptor (swift robber)', 1.8]]),{"legend":{"position":"none"},"title":"Lengths of dinosaurs, in meters","width":"900","height":"500"});
+      });
+    })();
+  }
+</script></p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts Histogram 900 500 %&#125;</span><br><span class="line">  Lengths of dinosaurs, in meters</span><br><span class="line">  &#123;"legend": &#123; "position": "none" &#125;&#125;</span><br><span class="line">  'Dinosaur', 'Length'</span><br><span class="line">  'Acrocanthosaurus (top-spined lizard)', 12.2</span><br><span class="line">  'Albertosaurus (Alberta lizard)', 9.1</span><br><span class="line">  'Allosaurus (other lizard)', 12.2</span><br><span class="line">  'Apatosaurus (deceptive lizard)', 22.9</span><br><span class="line">  'Archaeopteryx (ancient wing)', 0.9</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Correlation_between_life_expectancy,_fertility_rate_and_population_of_some_world_countries_(2010)">Correlation between life expectancy, fertility rate and population of some world countries (2010)</h2><p>Chart <code>BubbleChart</code><br><div id="googleChart712"></div>
+<script>
+  if (!window.google) {
+    alert('You need to include the script //google.com/jsapi on your template');
+    throw 'Google JS API is needed';
+  } else {
+    (function() {
+      google.load('visualization', '1.0', {'packages': ["corechart","table"]});
+      google.setOnLoadCallback(function() {
+        (new google.visualization.BubbleChart(document.getElementById("googleChart712"))).draw(google.visualization.arrayToDataTable([['ID', 'Life Expectancy', 'Fertility Rate', 'Region', 'Population'],['CAN', 80.66, 1.67, 'North America', 33739900],['DEU', 79.84, 1.36, 'Europe', 81902307],['DNK', 78.6, 1.84, 'Europe', 5523095],['EGY', 72.73, 2.78, 'Middle East', 79716203],['GBR', 80.05, 2, 'Europe', 61801570],['IRN', 72.49, 1.7, 'Middle East', 73137148],['IRQ', 68.09, 4.77, 'Middle East', 31090763],['ISR', 81.55, 2.96, 'Middle East', 7485600],['RUS', 68.6, 1.54, 'Europe', 141850000],['USA', 78.09, 2.05, 'North America', 307007000]]),{"hAxis":{"title":"Life Expectancy"},"vAxis":{"title":"Fertility Rate"},"bubble":{"textStyle":{"fontSize":11}},"title":"Correlation between life expectancy, fertility rate and population of some world countries (2010)","width":"900","height":"500"});
+      });
+    })();
+  }
+</script></p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts BubbleChart 900 500 %&#125;</span><br><span class="line">  Correlation between life expectancy, fertility rate and population of some world countries (2010)</span><br><span class="line">  &#123;"hAxis": &#123;"title": "Life Expectancy"&#125;, "vAxis": &#123;"title": "Fertility Rate"&#125;,"bubble":&#123;"textStyle": &#123;"fontSize": 11&#125;&#125;&#125;</span><br><span class="line">  'ID', 'Life Expectancy', 'Fertility Rate', 'Region', 'Population'</span><br><span class="line">  'CAN', 80.66, 1.67, 'North America', 33739900</span><br><span class="line">  'DEU', 79.84, 1.36, 'Europe', 81902307</span><br><span class="line">  'DNK', 78.6, 1.84, 'Europe', 5523095</span><br><span class="line">  'EGY', 72.73, 2.78, 'Middle East', 79716203</span><br><span class="line">  'GBR', 80.05, 2, 'Europe', 61801570</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="BarChart_Example">BarChart Example</h2><p>Chart <code>BarChart</code><br><div id="googleChart8377"></div>
+<script>
+  if (!window.google) {
+    alert('You need to include the script //google.com/jsapi on your template');
+    throw 'Google JS API is needed';
+  } else {
+    (function() {
+      google.load('visualization', '1.0', {'packages': ["corechart","table"]});
+      google.setOnLoadCallback(function() {
+        (new google.visualization.BarChart(document.getElementById("googleChart8377"))).draw(google.visualization.arrayToDataTable([['Genre', 'Fantasy & Sci Fi', 'Romance', 'Mystery/Crime', 'General', 'Western', 'Literature'],['2010', 10, 24, 20, 32, 18, 5],['2020', 16, 22, 23, 30, 16, 9],['2030', 28, 19, 29, 30, 12, 13]]),{"legend":{"position":"top","maxLines":3},"bar":{"groupWidth":"75%"},"isStacked":true,"title":"BarChart Example","width":"900","height":"500"});
+      });
+    })();
+  }
+</script></p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts BarChart 900 500 %&#125;</span><br><span class="line">  BarChart Example</span><br><span class="line">  &#123;"legend": &#123; "position": "top", "maxLines": 3 &#125;,"bar": &#123; "groupWidth": "75%" &#125;,"isStacked": true&#125;</span><br><span class="line">  'Genre', 'Fantasy &amp; Sci Fi', 'Romance', 'Mystery/Crime', 'General', 'Western', 'Literature'</span><br><span class="line">  '2010', 10, 24, 20, 32, 18, 5</span><br><span class="line">  '2020', 16, 22, 23, 30, 16, 9</span><br><span class="line">  '2030', 28, 19, 29, 30, 12, 13</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="My_Daily_Activities">My Daily Activities</h2><p>Chart <code>PieChart</code><br><div id="googleChart4011"></div>
+<script>
+  if (!window.google) {
+    alert('You need to include the script //google.com/jsapi on your template');
+    throw 'Google JS API is needed';
+  } else {
+    (function() {
+      google.load('visualization', '1.0', {'packages': ["corechart","table"]});
+      google.setOnLoadCallback(function() {
+        (new google.visualization.PieChart(document.getElementById("googleChart4011"))).draw(google.visualization.arrayToDataTable([['Task', 'Hours per Day'],['Work', 11],['Eat', 2],['Commute', 2],['Watch TV', 2],['Sleep', 7]]),{"is3D":true,"title":"My Daily Activities","width":"900","height":"500"});
+      });
+    })();
+  }
+</script></p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts PieChart 900 500 %&#125;</span><br><span class="line">  My Daily Activities</span><br><span class="line">  &#123;"is3D": true&#125;</span><br><span class="line">  'Task', 'Hours per Day'</span><br><span class="line">  'Work', 11</span><br><span class="line">  'Eat', 2</span><br><span class="line">  'Commute', 2</span><br><span class="line">  'Watch TV', 2</span><br><span class="line">  'Sleep', 7</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
+        
+        
+    </div>
+    
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/blogs/">blogs</a> <a class="tag tag--primary tag--small t-link" href="/tags/plugins/">plugins</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/05/30/binary-file-manipulation/" data-tooltip="Binary File Manipulation in JS">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        
+    </ul>
+</div>
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+    
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 Juan Pablo Barreto. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/05/30/binary-file-manipulation/" data-tooltip="Binary File Manipulation in JS">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        
+    </ul>
+</div>
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://juampi92.github.io/2015/06/02/hexo-plugin-googlecharts/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="http://www.gravatar.com/avatar/f3df4c82a6d390d3f0fa8b8d6f55e60f?s=110"/>
+        
+            <h4 id="about-card-name">Juan Pablo Barreto</h4>
+        
+        
+            <h5 id="about-card-job" class="item">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location" class="item">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Mar del Plata
+            </h5>
+        
+       <h4 id="about-card-name">Contact</h4>
+        
+            <h5 class="item">
+                <a href="https://github.com/juampi92" target="_blank">
+                <i class="fa fa-github"></i>
+                <br/>
+                GitHub
+                </a>
+            </h5>
+        
+            <h5 class="item">
+                <a href="http://stackoverflow.com/users/2777970" target="_blank">
+                <i class="fa fa-stack-overflow"></i>
+                <br/>
+                Stack Overflow
+                </a>
+            </h5>
+        
+            <h5 class="item">
+                <a href="https://twitter.com/Juampi_92" target="_blank">
+                <i class="fa fa-twitter"></i>
+                <br/>
+                Twitter
+                </a>
+            </h5>
+        
+            <h5 class="item">
+                <a href="https://www.linkedin.com/in/juampi92" target="_blank">
+                <i class="fa fa-linkedin"></i>
+                <br/>
+                Linked In
+                </a>
+            </h5>
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('https://c42896af81bb891d4fc78acbfb0848fd8708e508-www.googledrive.com/host/0B3hebDTcxGYcSnZSekVqOVoxa0U');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+
+    <script type="text/javascript">
+        var disqus_shortname = 'juampi92';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+</html>

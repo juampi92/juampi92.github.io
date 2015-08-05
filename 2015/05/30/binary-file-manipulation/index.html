@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="juampi92&#39;s Blog">
+    <title>Binary File Manipulation in JS - juampi92&#39;s Blog</title>
+    <meta name="author" content="Juan Pablo Barreto">
+    <meta name="description" content="juampi92&#39;s Blog">
+    
+    
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="Hi guys! Today I bring you a nerd experiment. Almost 9 months ago, I was building a javascript program that would load a binary file and do stuff with it (maybe someday I’ll explain it more in depth),">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Binary File Manipulation in JS">
+<meta property="og:url" content="https://juampi92.github.io/2015/05/30/binary-file-manipulation/index.html">
+<meta property="og:site_name" content="juampi92's Blog">
+<meta property="og:description" content="Hi guys! Today I bring you a nerd experiment. Almost 9 months ago, I was building a javascript program that would load a binary file and do stuff with it (maybe someday I’ll explain it more in depth),">
+<meta property="og:updated_time" content="2015-08-04T23:45:58.011Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Binary File Manipulation in JS">
+<meta name="twitter:description" content="Hi guys! Today I bring you a nerd experiment. Almost 9 months ago, I was building a javascript program that would load a binary file and do stuff with it (maybe someday I’ll explain it more in depth),">
+    
+    
+        
+            <meta property="fb:admins" content="1260881676" />
+        
+    
+    
+        <meta property="og:image" content="http://www.gravatar.com/avatar/f3df4c82a6d390d3f0fa8b8d6f55e60f?s=640"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-63660411-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    
+    <!-- ADD GOOGLE SCRIPT -->
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">juampi92&#39;s Blog</a>
+    </h1>
+    
+        <a class="header-right-picture" href="/#about">
+            <img class="header-picture" src="http://www.gravatar.com/avatar/f3df4c82a6d390d3f0fa8b8d6f55e60f?s=90"/>
+        </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="1">
+    
+    <div class="sidebar-profile">
+        <a href="/#about">
+            
+            <img class="sidebar-profile-picture" src="http://www.gravatar.com/avatar/f3df4c82a6d390d3f0fa8b8d6f55e60f?s=90"/>
+            
+        </a>
+        <span class="sidebar-profile-name">Juan Pablo Barreto</span>
+    </div>
+    
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link "
+                    href="/ 
+                    ">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link "
+                    href="/#about
+                            ">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About me</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link "
+                    href="/all-tags
+                            ">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link "
+                    href="/all-archives
+                            ">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link "
+                    href="/atom.xml
+                            ">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+            <div id="main" data-behavior="1">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">Binary File Manipulation in JS</h1>
+    
+    
+      <div class="post-meta">
+    <time  itemprop="datePublished" content="Sat May 30 2015 01:48:37 GMT-0300">
+        May 30, 2015
+    </time>
+    
+</div>
+    
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        
+            <p>Hi guys! Today I bring you a nerd experiment. Almost 9 months ago, I was building a javascript program that would load a binary file and do stuff with it (maybe someday I’ll explain it more in depth), so I made back then a class for handling structs, like on C++. So the idea was to describe a typed structure specifying it’s properties, each with a type, so then when you give it a binary array buffer, it’ll create on memory the given structure.</p>
+<a id="more"></a>
+<p>So the class worked fine, and I felt like I should share it with the world, so I made a repository on github with this <a href="https://github.com/juampi92/TypedStruct.js" target="_blank" rel="external">TypedStruct.js</a>.</p>
+<p>Todays blog is about a new perspective that I have for this project. My idea is to take this small library to the next level, trying to beat it’s performance the best I can (and the language allows me), and then compare it with the libraries that exist out there.</p>
+<p>To do this, I’ll have to set up a performance test scenario, and run different benchmarks comparing different solutions and try to take notes on it’s improvements or failures to make a great performing library.</p>
+<h3 id="Setup">Setup</h3><p>I’ve found a couple of benchmark libraries, like <a href="https://github.com/bestiejs/benchmark.js" target="_blank" rel="external">Benchmark.js</a> but for this purpose, I’m gonna benchmark using the console and my own tests.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.time(<span class="string">'TypedStruct: Simple Structure'</span>);</span><br><span class="line"><span class="comment">// Heavy stuff here (with a for loop to test iterations)</span></span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'TypedStruct: Simple Structure'</span>);</span><br></pre></td></tr></table></figure>
+<p>The big benchmark test will be to read a full binary file full of structures, using this improved version, and some other library.</p>
+<p>Now I’m gonna set the Unit Tests to help me build this library. Sometimes is way better to test your app/library using the Unit Tests right when developing, because you control your scenario and know what to test, instead of making a small simulation that would end up in the trash. Besides, with Mocha and Shouldjs it’s really easy to create and run your test cases, so it’s a win win scenario.</p>
+<h3 id="Improvements">Improvements</h3><p>Fist, I’m changing the API from the initial (and old) version. Instead of using and array, I’m going to use an object (much more descriptive), and instead of saving the raw structure and then parsing it, I’m gonna build a Structure Type, that will create structures faster.<br>So now it takes more time to create new structures, but it takes much less time (lets hope) to convert to binary.</p>
+<h5 id="Building_Structures">Building Structures</h5><p>So how do I optimize the parsing process? Creating functions that already know what to do. So that’s what I did. When you create a structure now, the builder takes the guide (the English description of the structure, using types like int instead of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/getInt32" target="_blank" rel="external">Int32</a>, etc) and creates it’s real structure. For each property, it looks for it’s structure on the list of structures, and returns the function that builds it. After doing this internal structure, it returns a function to create itself.</p>
+<p>Here’s an example:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">point: &#123;</span><br><span class="line">  <span class="string">'x'</span>: <span class="string">'int'</span>,</span><br><span class="line">  <span class="string">'y'</span>: <span class="string">'int'</span>,</span><br><span class="line">  <span class="string">'z'</span>: <span class="string">'int'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Is turned into<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">point: &#123;</span><br><span class="line">  <span class="string">'x'</span>: [<span class="built_in">Function</span> that creates an Int32],</span><br><span class="line">  <span class="string">'y'</span>: [<span class="built_in">Function</span> that creates an Int32],</span><br><span class="line">  <span class="string">'z'</span>: [<span class="built_in">Function</span> that creates an Int32]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>And this function returns a <code>[Function that creates a point]</code>.</p>
+<p>This way, when actually parsing binary, we don’t have to go threw a pile of InstanceOf, isArray, or Ifs for that matter, we have the actual Function that will output our result.</p>
+<p>As functions are objects, if instead of executing the function, we ask for it’s size property, we would get the byte size of the </p>
+<p>To make this function lighter, it only takes one parameter, and it outputs the created structure. The input parameter is a DataViewCursor. It’s a common <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" target="_blank" rel="external">DataView</a>, but it has a cursor to tell the current reading position, and it’s incremented internally whenever you parse a structure (unless you manually change it).</p>
+<h5 id="Native_Types">Native Types</h5><p>Now as we demonstrated that the parsing process is recursive using custom functions for each structure, we have to talk about the root of the recursion: the native types.<br>The library initiates at first every native type, so then when you ask for the <code>int</code> type, it’s already loaded into the structs. This was made by binding the DataView methods into the output function. The DataView that receives as a argument is sent as context for the method that has cached.</p>
+<p>It’s like this:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Native type</span></span><br><span class="line"><span class="keyword">var</span> nativeType = <span class="function"><span class="keyword">function</span>(<span class="params">size, method, dataViewCursor</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Save output of the cached method</span></span><br><span class="line">  <span class="keyword">var</span> out = method.call(dataViewCursor.dataView, dataViewCursor.cursor, littleEndian);</span><br><span class="line">  <span class="comment">// Increment the cursor of the dataview</span></span><br><span class="line">  dataViewCursor.incrementCursor(size);</span><br><span class="line">  <span class="comment">// return the cached output</span></span><br><span class="line">  <span class="keyword">return</span> out;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Now to get a Int32 function generator is just<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> int32 = nativeType.bind(<span class="keyword">this</span>, <span class="number">4</span>, <span class="built_in">DataView</span>.prototype.getInt32);</span><br><span class="line"></span><br><span class="line"><span class="comment">// So now</span></span><br><span class="line"><span class="keyword">var</span> int = int32(DataViewCursor);</span><br></pre></td></tr></table></figure></p>
+<p>will output an integer, based on the position of the DataViewCursor in that moment, and increment the cursor 4 bytes.</p>
+<h5 id="Arrays">Arrays</h5><p>The arrays weren’t as complicated. When building a struct, we now ask it the property is a string, or an array. If it’s a string, it means we have to get the struct that matches that string, and if it’s an array, we have to do something else.</p>
+<p>We now have, in the first element of the array, the type of the array we’re creating. And the rest of them are the dimensions. What I did here, is to make three cache functions for the first three dimensions, so it’s O(n3) complex when has three dimensions, but in a way that does not affect it’s performance as recursion would not do. If it has more than three dimensions, it’s calculated using recursion.</p>
+<p>So the array cache method is pretty straight forward<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'3'</span>: <span class="function"><span class="keyword">function</span>(<span class="params">structure, x, y, z, dataViewCursor</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> out = [],</span><br><span class="line">    cursorx, cursory,</span><br><span class="line">    _x, _y, _z;</span><br><span class="line">  <span class="comment">// First x iteration</span></span><br><span class="line">  <span class="keyword">for</span> (_x = <span class="number">0</span>; _x &lt; x; _x++) &#123;</span><br><span class="line">    out[_x] = [];</span><br><span class="line">    cursorx = out[_x];</span><br><span class="line">    <span class="comment">// Second y iteration</span></span><br><span class="line">    <span class="keyword">for</span> (_y = <span class="number">0</span>; _y &lt; y; _y++) &#123;</span><br><span class="line">      cursorx[_y] = [];</span><br><span class="line">      cursory = cursorx[_y];</span><br><span class="line">      <span class="comment">// Third z iteration</span></span><br><span class="line">      <span class="keyword">for</span> (_z = <span class="number">0</span>; _z &lt; z; _z++) &#123;</span><br><span class="line">        cursory[_z] = structure(dataViewCursor);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> out;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>and we personalize this with a bind<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Having specified: [ 'int', 3, 3, 3 ]</span></span><br><span class="line"><span class="keyword">var</span> pr = propertiesArray;</span><br><span class="line"><span class="keyword">this</span>._arrays[<span class="number">3</span>].bind(<span class="keyword">this</span>, TypedStruct.getStruct(pr[<span class="number">0</span>]), pr[<span class="number">1</span>], pr[<span class="number">2</span>], pr[<span class="number">3</span>]);</span><br></pre></td></tr></table></figure></p>
+<p>Notice that each loop has a cursor, that caches the array position, so there’s no <code>out[x][y][z] = ...</code></p>
+<h3 id="Results">Results</h3><p>So after making this improvements, it was time to create a benchmark against <a href="https://github.com/vjeux/jParser" target="_blank" rel="external">jParser</a>, although I should have compared it with <a href="https://github.com/jDataView/jBinary" target="_blank" rel="external">jBinary</a> (and I will).</p>
+<p>I made a small benchmark to test small point structure, and the results were pretty good. Depending on the iterations, the difference was </p>
+<div id="googleChart1242"></div>
+<script>
+  if (!window.google) {
+    alert('You need to include the script //google.com/jsapi on your template');
+    throw 'Google JS API is needed';
+  } else {
+    (function() {
+      google.load('visualization', '1.0', {'packages': ["corechart","table"]});
+      google.setOnLoadCallback(function() {
+        (new google.visualization.ColumnChart(document.getElementById("googleChart1242"))).draw(google.visualization.arrayToDataTable([['N° of Rounds','jParser','TypedStruct'],[1000,28,5],[5000,71,19],[10000,143,37],[20000,282,68]]),{"hAxis":{"title":"Number of Rounds","textStyle":{"bold":true,"italic":false},"titleTextStyle":{"fontSize":18,"bold":true,"italic":false}},"vAxis":{"title":"Time elapsed (ms)","textStyle":{"fontSize":15,"color":"#67001f","bold":false,"italic":false},"titleTextStyle":{"fontSize":15,"bold":true,"italic":false}},"title":"Benchmark performance comparison","width":"700","height":"400"});
+      });
+    })();
+  }
+</script>
+<p>Clearly TypedStruct is faster, but I must recognize that jParser’s API is way better. It allows you to create the whole structure from inside the declaration, moving around the DataView and such, but that was not my goal for this library. I wanted it to be as fast as possible, because sometimes binary files are heavy, so taking a long time parsing it could affect your site in a bad way.</p>
+<p>I don’t want to leave this thing unclosed, so I have a project in mind that will help me demonstrate this library working it’s full potential. Also for that project I’ll have to finish the string type.</p>
+<p>So, if you spotted something wrong with my analysis, or just don’t get anything, feel free to leave me a comment!</p>
+
+        
+        
+    </div>
+    
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/project/">project</a> <a class="tag tag--primary tag--small t-link" href="/tags/research/">research</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/02/hexo-plugin-googlecharts/"  data-tooltip="Google Charts Hexo-Tag Plugin">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/05/16/hello-world/" data-tooltip="Hello World!">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://juampi92.github.io/2015/05/30/binary-file-manipulation/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://juampi92.github.io/2015/05/30/binary-file-manipulation/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://juampi92.github.io/2015/05/30/binary-file-manipulation/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        
+    </ul>
+</div>
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+    
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 Juan Pablo Barreto. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/02/hexo-plugin-googlecharts/"  data-tooltip="Google Charts Hexo-Tag Plugin">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/05/16/hello-world/" data-tooltip="Hello World!">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://juampi92.github.io/2015/05/30/binary-file-manipulation/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://juampi92.github.io/2015/05/30/binary-file-manipulation/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://juampi92.github.io/2015/05/30/binary-file-manipulation/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        
+    </ul>
+</div>
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://juampi92.github.io/2015/05/30/binary-file-manipulation/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://juampi92.github.io/2015/05/30/binary-file-manipulation/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://juampi92.github.io/2015/05/30/binary-file-manipulation/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="http://www.gravatar.com/avatar/f3df4c82a6d390d3f0fa8b8d6f55e60f?s=110"/>
+        
+            <h4 id="about-card-name">Juan Pablo Barreto</h4>
+        
+        
+            <h5 id="about-card-job" class="item">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location" class="item">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Mar del Plata
+            </h5>
+        
+       <h4 id="about-card-name">Contact</h4>
+        
+            <h5 class="item">
+                <a href="https://github.com/juampi92" target="_blank">
+                <i class="fa fa-github"></i>
+                <br/>
+                GitHub
+                </a>
+            </h5>
+        
+            <h5 class="item">
+                <a href="http://stackoverflow.com/users/2777970" target="_blank">
+                <i class="fa fa-stack-overflow"></i>
+                <br/>
+                Stack Overflow
+                </a>
+            </h5>
+        
+            <h5 class="item">
+                <a href="https://twitter.com/Juampi_92" target="_blank">
+                <i class="fa fa-twitter"></i>
+                <br/>
+                Twitter
+                </a>
+            </h5>
+        
+            <h5 class="item">
+                <a href="https://www.linkedin.com/in/juampi92" target="_blank">
+                <i class="fa fa-linkedin"></i>
+                <br/>
+                Linked In
+                </a>
+            </h5>
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('https://c42896af81bb891d4fc78acbfb0848fd8708e508-www.googledrive.com/host/0B3hebDTcxGYcSnZSekVqOVoxa0U');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+
+    <script type="text/javascript">
+        var disqus_shortname = 'juampi92';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+</html>
