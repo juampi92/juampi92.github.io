@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="https://juampi92.github.io//"/>
-  <updated>2015-08-04T23:43:07.466Z</updated>
+  <updated>2015-08-11T14:39:38.000Z</updated>
   <id>https://juampi92.github.io//</id>
   
   <author>
@@ -14,6 +14,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Ok, let's go]]></title>
+    <link href="https://juampi92.github.io/2015/08/10/Ok-let-s-go/"/>
+    <id>https://juampi92.github.io/2015/08/10/Ok-let-s-go/</id>
+    <published>2015-08-10T22:15:23.000Z</published>
+    <updated>2015-08-11T14:39:38.000Z</updated>
+    <content type="html"><![CDATA[<p>As the title says quoting the famous Counter-Strike radio sound, it’s time to reboot this Blog. I’m going to pick up where I left off, but staying productive and dedicated to the blog. I’m (kind of) sorting my life now, so I’m trying to incorporate blogging into my new routine; let me explain.</p>
+<a id="more"></a>
+<p>Last week, I quit my job. It might have been a risky move, but I did it for all the right reasons. I don’t wanna sound like a spoiled kid, but I wasn’t enjoying my job anymore. It’s not that I hate what I do (I love what I do), but it just didn’t feel right. Maybe it was the company, maybe the project, or maybe my position inside the company/project that were keeping me from working as I’d like to work: motivated.</p>
+<p>So now with all this free time, I’ve decided to start a journey. A knowledge journey among other things, and focus on what I like the most: experiments, tools, frameworks, learning and javascript, of course.  As I said before, I love the idea of a blog: it keeps my thoughts organized, and it preserves them for future reference. It’s also like a bragging resume, but that’s the least important feature, so I’m committing myself to blogging.</p>
+<p>I’ve started using this awesome theme <a href="https://github.com/LouisBarranqueiro/tranquilpeak-hexo-theme" target="_blank" rel="external">tranquilpeak</a>, and I’ve been loving it ever since. One of the many features it introduces is thumbnail and cover images for each post, so I’ve also committed myself to add an image (if they were taken by me, better) to every post, and trying to make it related to the topic discussed, if possible.</p>
+<p>As we all know, no one possesses a perfect memory, so lately I’ve been using a tool for sorting my thoughts and ideas, and I’d also like to share this, cause everybody should make a habit out of writing down every idea worth doing. And for that, I leave you <a href="https://workflowy.com/invite/2f57cc47.emlx" target="_blank" rel="external">WorkFlowy</a>. I’m still evaluating the tool, but so far it has been of great help.</p>
+<p>I’d better get started then!<br>See you in the next post!</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>As the title says quoting the famous Counter-Strike radio sound, it’s time to reboot this Blog. I’m going to pick up where I left off, but staying productive and dedicated to the blog. I’m (kind of) sorting my life now, so I’m trying to incorporate blogging into my new routine; let me explain.</p>]]>
+    
+    </summary>
+    
+      <category term="blogs" scheme="https://juampi92.github.io/tags/blogs/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Google Charts Hexo-Tag Plugin]]></title>
@@ -25,7 +48,7 @@
 <a id="more"></a>
 <p>Feel free to fork it! <a href="https://github.com/juampi92/hexo-tag-googlecharts" target="_blank" rel="external">hexo-tag-googlecharts</a></p>
 <p>Instructions and more are in the Readme of the repository.</p>
-<h2 id="Geographic_Chart_Comparison">Geographic Chart Comparison</h2><p>Chart <code>GeoChart</code><br><div id="googleChart5631"></div>
+<h2 id="Geographic_Chart_Comparison">Geographic Chart Comparison</h2><p>Chart <code>GeoChart</code><br><div id="googleChart838"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -34,13 +57,13 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table","geochart"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.GeoChart(document.getElementById("googleChart5631"))).draw(google.visualization.arrayToDataTable([['City', 'Population', 'Area'],['Rome', 2761477, 1285.31],['Milan', 1324110, 181.76],['Naples', 959574, 117.27],['Turin', 907563, 130.17],['Palermo', 655875, 158.9],['Genoa', 607906, 243.60],['Bologna', 380181, 140.7],['Florence', 371282, 102.41],['Fiumicino', 67370, 213.44],['Anzio', 52192, 43.43],['Ciampino', 38262, 11]]),{"region":"IT","displayMode":"markers","colorAxis":{"colors":["green","blue"]},"title":"Geographic Chart Comparison","width":"900","height":"500"});
+        (new google.visualization.GeoChart(document.getElementById("googleChart838"))).draw(google.visualization.arrayToDataTable([['City', 'Population', 'Area'],['Rome', 2761477, 1285.31],['Milan', 1324110, 181.76],['Naples', 959574, 117.27],['Turin', 907563, 130.17],['Palermo', 655875, 158.9],['Genoa', 607906, 243.60],['Bologna', 380181, 140.7],['Florence', 371282, 102.41],['Fiumicino', 67370, 213.44],['Anzio', 52192, 43.43],['Ciampino', 38262, 11]]),{"region":"IT","displayMode":"markers","colorAxis":{"colors":["green","blue"]},"title":"Geographic Chart Comparison","width":"900","height":"500"});
       });
     })();
   }
 </script></p>
 <figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts GeoChart 900 500 %&#125;</span><br><span class="line">  Geographic Chart Comparison</span><br><span class="line">  &#123;"region": "IT", "displayMode": "markers", "colorAxis": &#123;"colors": ["green", "blue"]&#125; &#125;</span><br><span class="line">  'City', 'Population', 'Area'</span><br><span class="line">  'Rome', 2761477, 1285.31</span><br><span class="line">  'Milan', 1324110, 181.76</span><br><span class="line">  'Naples', 959574, 117.27</span><br><span class="line">  'Turin', 907563, 130.17</span><br><span class="line">  'Palermo', 655875, 158.9</span><br><span class="line">  'Genoa', 607906, 243.60</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Lengths_of_dinosaurs,_in_meters">Lengths of dinosaurs, in meters</h2><p>Chart <code>Histogram</code><br><div id="googleChart6196"></div>
+<h2 id="Lengths_of_dinosaurs,_in_meters">Lengths of dinosaurs, in meters</h2><p>Chart <code>Histogram</code><br><div id="googleChart3309"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -49,13 +72,13 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.Histogram(document.getElementById("googleChart6196"))).draw(google.visualization.arrayToDataTable([['Dinosaur', 'Length'],['Acrocanthosaurus (top-spined lizard)', 12.2],['Albertosaurus (Alberta lizard)', 9.1],['Allosaurus (other lizard)', 12.2],['Apatosaurus (deceptive lizard)', 22.9],['Archaeopteryx (ancient wing)', 0.9],['Argentinosaurus (Argentina lizard)', 36.6],['Baryonyx (heavy claws)', 9.1],['Brachiosaurus (arm lizard)', 30.5],['Ceratosaurus (horned lizard)', 6.1 ],['Coelophysis (hollow form)', 2.7],['Compsognathus (elegant jaw)', 0.9],['Deinonychus (terrible claw)', 2.7],['Diplodocus (double beam)', 27.1],['Dromicelomimus (emu mimic)', 3.4],['Gallimimus (fowl mimic)', 5.5],['Mamenchisaurus (Mamenchi lizard)', 21.0],['Megalosaurus (big lizard)', 7.9],['Microvenator (small hunter)', 1.2],['Ornithomimus (bird mimic)', 4.6],['Oviraptor (egg robber)', 1.5],['Plateosaurus (flat lizard)', 7.9],['Sauronithoides (narrow-clawed lizard)', 2.0],['Seismosaurus (tremor lizard)', 45.7],['Spinosaurus (spiny lizard)', 12.2],['Supersaurus (super lizard)', 30.5],['Tyrannosaurus (tyrant lizard)', 15.2],['Ultrasaurus (ultra lizard)', 30.5],['Velociraptor (swift robber)', 1.8]]),{"legend":{"position":"none"},"title":"Lengths of dinosaurs, in meters","width":"900","height":"500"});
+        (new google.visualization.Histogram(document.getElementById("googleChart3309"))).draw(google.visualization.arrayToDataTable([['Dinosaur', 'Length'],['Acrocanthosaurus (top-spined lizard)', 12.2],['Albertosaurus (Alberta lizard)', 9.1],['Allosaurus (other lizard)', 12.2],['Apatosaurus (deceptive lizard)', 22.9],['Archaeopteryx (ancient wing)', 0.9],['Argentinosaurus (Argentina lizard)', 36.6],['Baryonyx (heavy claws)', 9.1],['Brachiosaurus (arm lizard)', 30.5],['Ceratosaurus (horned lizard)', 6.1 ],['Coelophysis (hollow form)', 2.7],['Compsognathus (elegant jaw)', 0.9],['Deinonychus (terrible claw)', 2.7],['Diplodocus (double beam)', 27.1],['Dromicelomimus (emu mimic)', 3.4],['Gallimimus (fowl mimic)', 5.5],['Mamenchisaurus (Mamenchi lizard)', 21.0],['Megalosaurus (big lizard)', 7.9],['Microvenator (small hunter)', 1.2],['Ornithomimus (bird mimic)', 4.6],['Oviraptor (egg robber)', 1.5],['Plateosaurus (flat lizard)', 7.9],['Sauronithoides (narrow-clawed lizard)', 2.0],['Seismosaurus (tremor lizard)', 45.7],['Spinosaurus (spiny lizard)', 12.2],['Supersaurus (super lizard)', 30.5],['Tyrannosaurus (tyrant lizard)', 15.2],['Ultrasaurus (ultra lizard)', 30.5],['Velociraptor (swift robber)', 1.8]]),{"legend":{"position":"none"},"title":"Lengths of dinosaurs, in meters","width":"900","height":"500"});
       });
     })();
   }
 </script></p>
 <figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts Histogram 900 500 %&#125;</span><br><span class="line">  Lengths of dinosaurs, in meters</span><br><span class="line">  &#123;"legend": &#123; "position": "none" &#125;&#125;</span><br><span class="line">  'Dinosaur', 'Length'</span><br><span class="line">  'Acrocanthosaurus (top-spined lizard)', 12.2</span><br><span class="line">  'Albertosaurus (Alberta lizard)', 9.1</span><br><span class="line">  'Allosaurus (other lizard)', 12.2</span><br><span class="line">  'Apatosaurus (deceptive lizard)', 22.9</span><br><span class="line">  'Archaeopteryx (ancient wing)', 0.9</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Correlation_between_life_expectancy,_fertility_rate_and_population_of_some_world_countries_(2010)">Correlation between life expectancy, fertility rate and population of some world countries (2010)</h2><p>Chart <code>BubbleChart</code><br><div id="googleChart712"></div>
+<h2 id="Correlation_between_life_expectancy,_fertility_rate_and_population_of_some_world_countries_(2010)">Correlation between life expectancy, fertility rate and population of some world countries (2010)</h2><p>Chart <code>BubbleChart</code><br><div id="googleChart3937"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -64,13 +87,13 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.BubbleChart(document.getElementById("googleChart712"))).draw(google.visualization.arrayToDataTable([['ID', 'Life Expectancy', 'Fertility Rate', 'Region', 'Population'],['CAN', 80.66, 1.67, 'North America', 33739900],['DEU', 79.84, 1.36, 'Europe', 81902307],['DNK', 78.6, 1.84, 'Europe', 5523095],['EGY', 72.73, 2.78, 'Middle East', 79716203],['GBR', 80.05, 2, 'Europe', 61801570],['IRN', 72.49, 1.7, 'Middle East', 73137148],['IRQ', 68.09, 4.77, 'Middle East', 31090763],['ISR', 81.55, 2.96, 'Middle East', 7485600],['RUS', 68.6, 1.54, 'Europe', 141850000],['USA', 78.09, 2.05, 'North America', 307007000]]),{"hAxis":{"title":"Life Expectancy"},"vAxis":{"title":"Fertility Rate"},"bubble":{"textStyle":{"fontSize":11}},"title":"Correlation between life expectancy, fertility rate and population of some world countries (2010)","width":"900","height":"500"});
+        (new google.visualization.BubbleChart(document.getElementById("googleChart3937"))).draw(google.visualization.arrayToDataTable([['ID', 'Life Expectancy', 'Fertility Rate', 'Region', 'Population'],['CAN', 80.66, 1.67, 'North America', 33739900],['DEU', 79.84, 1.36, 'Europe', 81902307],['DNK', 78.6, 1.84, 'Europe', 5523095],['EGY', 72.73, 2.78, 'Middle East', 79716203],['GBR', 80.05, 2, 'Europe', 61801570],['IRN', 72.49, 1.7, 'Middle East', 73137148],['IRQ', 68.09, 4.77, 'Middle East', 31090763],['ISR', 81.55, 2.96, 'Middle East', 7485600],['RUS', 68.6, 1.54, 'Europe', 141850000],['USA', 78.09, 2.05, 'North America', 307007000]]),{"hAxis":{"title":"Life Expectancy"},"vAxis":{"title":"Fertility Rate"},"bubble":{"textStyle":{"fontSize":11}},"title":"Correlation between life expectancy, fertility rate and population of some world countries (2010)","width":"900","height":"500"});
       });
     })();
   }
 </script></p>
 <figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts BubbleChart 900 500 %&#125;</span><br><span class="line">  Correlation between life expectancy, fertility rate and population of some world countries (2010)</span><br><span class="line">  &#123;"hAxis": &#123;"title": "Life Expectancy"&#125;, "vAxis": &#123;"title": "Fertility Rate"&#125;,"bubble":&#123;"textStyle": &#123;"fontSize": 11&#125;&#125;&#125;</span><br><span class="line">  'ID', 'Life Expectancy', 'Fertility Rate', 'Region', 'Population'</span><br><span class="line">  'CAN', 80.66, 1.67, 'North America', 33739900</span><br><span class="line">  'DEU', 79.84, 1.36, 'Europe', 81902307</span><br><span class="line">  'DNK', 78.6, 1.84, 'Europe', 5523095</span><br><span class="line">  'EGY', 72.73, 2.78, 'Middle East', 79716203</span><br><span class="line">  'GBR', 80.05, 2, 'Europe', 61801570</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="BarChart_Example">BarChart Example</h2><p>Chart <code>BarChart</code><br><div id="googleChart8377"></div>
+<h2 id="BarChart_Example">BarChart Example</h2><p>Chart <code>BarChart</code><br><div id="googleChart4205"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -79,13 +102,13 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.BarChart(document.getElementById("googleChart8377"))).draw(google.visualization.arrayToDataTable([['Genre', 'Fantasy & Sci Fi', 'Romance', 'Mystery/Crime', 'General', 'Western', 'Literature'],['2010', 10, 24, 20, 32, 18, 5],['2020', 16, 22, 23, 30, 16, 9],['2030', 28, 19, 29, 30, 12, 13]]),{"legend":{"position":"top","maxLines":3},"bar":{"groupWidth":"75%"},"isStacked":true,"title":"BarChart Example","width":"900","height":"500"});
+        (new google.visualization.BarChart(document.getElementById("googleChart4205"))).draw(google.visualization.arrayToDataTable([['Genre', 'Fantasy & Sci Fi', 'Romance', 'Mystery/Crime', 'General', 'Western', 'Literature'],['2010', 10, 24, 20, 32, 18, 5],['2020', 16, 22, 23, 30, 16, 9],['2030', 28, 19, 29, 30, 12, 13]]),{"legend":{"position":"top","maxLines":3},"bar":{"groupWidth":"75%"},"isStacked":true,"title":"BarChart Example","width":"900","height":"500"});
       });
     })();
   }
 </script></p>
 <figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts BarChart 900 500 %&#125;</span><br><span class="line">  BarChart Example</span><br><span class="line">  &#123;"legend": &#123; "position": "top", "maxLines": 3 &#125;,"bar": &#123; "groupWidth": "75%" &#125;,"isStacked": true&#125;</span><br><span class="line">  'Genre', 'Fantasy &amp; Sci Fi', 'Romance', 'Mystery/Crime', 'General', 'Western', 'Literature'</span><br><span class="line">  '2010', 10, 24, 20, 32, 18, 5</span><br><span class="line">  '2020', 16, 22, 23, 30, 16, 9</span><br><span class="line">  '2030', 28, 19, 29, 30, 12, 13</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="My_Daily_Activities">My Daily Activities</h2><p>Chart <code>PieChart</code><br><div id="googleChart4011"></div>
+<h2 id="My_Daily_Activities">My Daily Activities</h2><p>Chart <code>PieChart</code><br><div id="googleChart1680"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -94,7 +117,7 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.PieChart(document.getElementById("googleChart4011"))).draw(google.visualization.arrayToDataTable([['Task', 'Hours per Day'],['Work', 11],['Eat', 2],['Commute', 2],['Watch TV', 2],['Sleep', 7]]),{"is3D":true,"title":"My Daily Activities","width":"900","height":"500"});
+        (new google.visualization.PieChart(document.getElementById("googleChart1680"))).draw(google.visualization.arrayToDataTable([['Task', 'Hours per Day'],['Work', 11],['Eat', 2],['Commute', 2],['Watch TV', 2],['Sleep', 7]]),{"is3D":true,"title":"My Daily Activities","width":"900","height":"500"});
       });
     })();
   }
@@ -145,7 +168,7 @@
 <p>Notice that each loop has a cursor, that caches the array position, so there’s no <code>out[x][y][z] = ...</code></p>
 <h3 id="Results">Results</h3><p>So after making this improvements, it was time to create a benchmark against <a href="https://github.com/vjeux/jParser" target="_blank" rel="external">jParser</a>, although I should have compared it with <a href="https://github.com/jDataView/jBinary" target="_blank" rel="external">jBinary</a> (and I will).</p>
 <p>I made a small benchmark to test small point structure, and the results were pretty good. Depending on the iterations, the difference was </p>
-<div id="googleChart1242"></div>
+<div id="googleChart5263"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -154,7 +177,7 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.ColumnChart(document.getElementById("googleChart1242"))).draw(google.visualization.arrayToDataTable([['N° of Rounds','jParser','TypedStruct'],[1000,28,5],[5000,71,19],[10000,143,37],[20000,282,68]]),{"hAxis":{"title":"Number of Rounds","textStyle":{"bold":true,"italic":false},"titleTextStyle":{"fontSize":18,"bold":true,"italic":false}},"vAxis":{"title":"Time elapsed (ms)","textStyle":{"fontSize":15,"color":"#67001f","bold":false,"italic":false},"titleTextStyle":{"fontSize":15,"bold":true,"italic":false}},"title":"Benchmark performance comparison","width":"700","height":"400"});
+        (new google.visualization.ColumnChart(document.getElementById("googleChart5263"))).draw(google.visualization.arrayToDataTable([['N° of Rounds','jParser','TypedStruct'],[1000,28,5],[5000,71,19],[10000,143,37],[20000,282,68]]),{"hAxis":{"title":"Number of Rounds","textStyle":{"bold":true,"italic":false},"titleTextStyle":{"fontSize":18,"bold":true,"italic":false}},"vAxis":{"title":"Time elapsed (ms)","textStyle":{"fontSize":15,"color":"#67001f","bold":false,"italic":false},"titleTextStyle":{"fontSize":15,"bold":true,"italic":false}},"title":"Benchmark performance comparison","width":"700","height":"400"});
       });
     })();
   }

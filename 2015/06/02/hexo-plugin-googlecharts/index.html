@@ -174,7 +174,7 @@
 <a id="more"></a>
 <p>Feel free to fork it! <a href="https://github.com/juampi92/hexo-tag-googlecharts" target="_blank" rel="external">hexo-tag-googlecharts</a></p>
 <p>Instructions and more are in the Readme of the repository.</p>
-<h2 id="Geographic_Chart_Comparison">Geographic Chart Comparison</h2><p>Chart <code>GeoChart</code><br><div id="googleChart5631"></div>
+<h2 id="Geographic_Chart_Comparison">Geographic Chart Comparison</h2><p>Chart <code>GeoChart</code><br><div id="googleChart838"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -183,13 +183,13 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table","geochart"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.GeoChart(document.getElementById("googleChart5631"))).draw(google.visualization.arrayToDataTable([['City', 'Population', 'Area'],['Rome', 2761477, 1285.31],['Milan', 1324110, 181.76],['Naples', 959574, 117.27],['Turin', 907563, 130.17],['Palermo', 655875, 158.9],['Genoa', 607906, 243.60],['Bologna', 380181, 140.7],['Florence', 371282, 102.41],['Fiumicino', 67370, 213.44],['Anzio', 52192, 43.43],['Ciampino', 38262, 11]]),{"region":"IT","displayMode":"markers","colorAxis":{"colors":["green","blue"]},"title":"Geographic Chart Comparison","width":"900","height":"500"});
+        (new google.visualization.GeoChart(document.getElementById("googleChart838"))).draw(google.visualization.arrayToDataTable([['City', 'Population', 'Area'],['Rome', 2761477, 1285.31],['Milan', 1324110, 181.76],['Naples', 959574, 117.27],['Turin', 907563, 130.17],['Palermo', 655875, 158.9],['Genoa', 607906, 243.60],['Bologna', 380181, 140.7],['Florence', 371282, 102.41],['Fiumicino', 67370, 213.44],['Anzio', 52192, 43.43],['Ciampino', 38262, 11]]),{"region":"IT","displayMode":"markers","colorAxis":{"colors":["green","blue"]},"title":"Geographic Chart Comparison","width":"900","height":"500"});
       });
     })();
   }
 </script></p>
 <figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts GeoChart 900 500 %&#125;</span><br><span class="line">  Geographic Chart Comparison</span><br><span class="line">  &#123;"region": "IT", "displayMode": "markers", "colorAxis": &#123;"colors": ["green", "blue"]&#125; &#125;</span><br><span class="line">  'City', 'Population', 'Area'</span><br><span class="line">  'Rome', 2761477, 1285.31</span><br><span class="line">  'Milan', 1324110, 181.76</span><br><span class="line">  'Naples', 959574, 117.27</span><br><span class="line">  'Turin', 907563, 130.17</span><br><span class="line">  'Palermo', 655875, 158.9</span><br><span class="line">  'Genoa', 607906, 243.60</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Lengths_of_dinosaurs,_in_meters">Lengths of dinosaurs, in meters</h2><p>Chart <code>Histogram</code><br><div id="googleChart6196"></div>
+<h2 id="Lengths_of_dinosaurs,_in_meters">Lengths of dinosaurs, in meters</h2><p>Chart <code>Histogram</code><br><div id="googleChart3309"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -198,13 +198,13 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.Histogram(document.getElementById("googleChart6196"))).draw(google.visualization.arrayToDataTable([['Dinosaur', 'Length'],['Acrocanthosaurus (top-spined lizard)', 12.2],['Albertosaurus (Alberta lizard)', 9.1],['Allosaurus (other lizard)', 12.2],['Apatosaurus (deceptive lizard)', 22.9],['Archaeopteryx (ancient wing)', 0.9],['Argentinosaurus (Argentina lizard)', 36.6],['Baryonyx (heavy claws)', 9.1],['Brachiosaurus (arm lizard)', 30.5],['Ceratosaurus (horned lizard)', 6.1 ],['Coelophysis (hollow form)', 2.7],['Compsognathus (elegant jaw)', 0.9],['Deinonychus (terrible claw)', 2.7],['Diplodocus (double beam)', 27.1],['Dromicelomimus (emu mimic)', 3.4],['Gallimimus (fowl mimic)', 5.5],['Mamenchisaurus (Mamenchi lizard)', 21.0],['Megalosaurus (big lizard)', 7.9],['Microvenator (small hunter)', 1.2],['Ornithomimus (bird mimic)', 4.6],['Oviraptor (egg robber)', 1.5],['Plateosaurus (flat lizard)', 7.9],['Sauronithoides (narrow-clawed lizard)', 2.0],['Seismosaurus (tremor lizard)', 45.7],['Spinosaurus (spiny lizard)', 12.2],['Supersaurus (super lizard)', 30.5],['Tyrannosaurus (tyrant lizard)', 15.2],['Ultrasaurus (ultra lizard)', 30.5],['Velociraptor (swift robber)', 1.8]]),{"legend":{"position":"none"},"title":"Lengths of dinosaurs, in meters","width":"900","height":"500"});
+        (new google.visualization.Histogram(document.getElementById("googleChart3309"))).draw(google.visualization.arrayToDataTable([['Dinosaur', 'Length'],['Acrocanthosaurus (top-spined lizard)', 12.2],['Albertosaurus (Alberta lizard)', 9.1],['Allosaurus (other lizard)', 12.2],['Apatosaurus (deceptive lizard)', 22.9],['Archaeopteryx (ancient wing)', 0.9],['Argentinosaurus (Argentina lizard)', 36.6],['Baryonyx (heavy claws)', 9.1],['Brachiosaurus (arm lizard)', 30.5],['Ceratosaurus (horned lizard)', 6.1 ],['Coelophysis (hollow form)', 2.7],['Compsognathus (elegant jaw)', 0.9],['Deinonychus (terrible claw)', 2.7],['Diplodocus (double beam)', 27.1],['Dromicelomimus (emu mimic)', 3.4],['Gallimimus (fowl mimic)', 5.5],['Mamenchisaurus (Mamenchi lizard)', 21.0],['Megalosaurus (big lizard)', 7.9],['Microvenator (small hunter)', 1.2],['Ornithomimus (bird mimic)', 4.6],['Oviraptor (egg robber)', 1.5],['Plateosaurus (flat lizard)', 7.9],['Sauronithoides (narrow-clawed lizard)', 2.0],['Seismosaurus (tremor lizard)', 45.7],['Spinosaurus (spiny lizard)', 12.2],['Supersaurus (super lizard)', 30.5],['Tyrannosaurus (tyrant lizard)', 15.2],['Ultrasaurus (ultra lizard)', 30.5],['Velociraptor (swift robber)', 1.8]]),{"legend":{"position":"none"},"title":"Lengths of dinosaurs, in meters","width":"900","height":"500"});
       });
     })();
   }
 </script></p>
 <figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts Histogram 900 500 %&#125;</span><br><span class="line">  Lengths of dinosaurs, in meters</span><br><span class="line">  &#123;"legend": &#123; "position": "none" &#125;&#125;</span><br><span class="line">  'Dinosaur', 'Length'</span><br><span class="line">  'Acrocanthosaurus (top-spined lizard)', 12.2</span><br><span class="line">  'Albertosaurus (Alberta lizard)', 9.1</span><br><span class="line">  'Allosaurus (other lizard)', 12.2</span><br><span class="line">  'Apatosaurus (deceptive lizard)', 22.9</span><br><span class="line">  'Archaeopteryx (ancient wing)', 0.9</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Correlation_between_life_expectancy,_fertility_rate_and_population_of_some_world_countries_(2010)">Correlation between life expectancy, fertility rate and population of some world countries (2010)</h2><p>Chart <code>BubbleChart</code><br><div id="googleChart712"></div>
+<h2 id="Correlation_between_life_expectancy,_fertility_rate_and_population_of_some_world_countries_(2010)">Correlation between life expectancy, fertility rate and population of some world countries (2010)</h2><p>Chart <code>BubbleChart</code><br><div id="googleChart3937"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -213,13 +213,13 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.BubbleChart(document.getElementById("googleChart712"))).draw(google.visualization.arrayToDataTable([['ID', 'Life Expectancy', 'Fertility Rate', 'Region', 'Population'],['CAN', 80.66, 1.67, 'North America', 33739900],['DEU', 79.84, 1.36, 'Europe', 81902307],['DNK', 78.6, 1.84, 'Europe', 5523095],['EGY', 72.73, 2.78, 'Middle East', 79716203],['GBR', 80.05, 2, 'Europe', 61801570],['IRN', 72.49, 1.7, 'Middle East', 73137148],['IRQ', 68.09, 4.77, 'Middle East', 31090763],['ISR', 81.55, 2.96, 'Middle East', 7485600],['RUS', 68.6, 1.54, 'Europe', 141850000],['USA', 78.09, 2.05, 'North America', 307007000]]),{"hAxis":{"title":"Life Expectancy"},"vAxis":{"title":"Fertility Rate"},"bubble":{"textStyle":{"fontSize":11}},"title":"Correlation between life expectancy, fertility rate and population of some world countries (2010)","width":"900","height":"500"});
+        (new google.visualization.BubbleChart(document.getElementById("googleChart3937"))).draw(google.visualization.arrayToDataTable([['ID', 'Life Expectancy', 'Fertility Rate', 'Region', 'Population'],['CAN', 80.66, 1.67, 'North America', 33739900],['DEU', 79.84, 1.36, 'Europe', 81902307],['DNK', 78.6, 1.84, 'Europe', 5523095],['EGY', 72.73, 2.78, 'Middle East', 79716203],['GBR', 80.05, 2, 'Europe', 61801570],['IRN', 72.49, 1.7, 'Middle East', 73137148],['IRQ', 68.09, 4.77, 'Middle East', 31090763],['ISR', 81.55, 2.96, 'Middle East', 7485600],['RUS', 68.6, 1.54, 'Europe', 141850000],['USA', 78.09, 2.05, 'North America', 307007000]]),{"hAxis":{"title":"Life Expectancy"},"vAxis":{"title":"Fertility Rate"},"bubble":{"textStyle":{"fontSize":11}},"title":"Correlation between life expectancy, fertility rate and population of some world countries (2010)","width":"900","height":"500"});
       });
     })();
   }
 </script></p>
 <figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts BubbleChart 900 500 %&#125;</span><br><span class="line">  Correlation between life expectancy, fertility rate and population of some world countries (2010)</span><br><span class="line">  &#123;"hAxis": &#123;"title": "Life Expectancy"&#125;, "vAxis": &#123;"title": "Fertility Rate"&#125;,"bubble":&#123;"textStyle": &#123;"fontSize": 11&#125;&#125;&#125;</span><br><span class="line">  'ID', 'Life Expectancy', 'Fertility Rate', 'Region', 'Population'</span><br><span class="line">  'CAN', 80.66, 1.67, 'North America', 33739900</span><br><span class="line">  'DEU', 79.84, 1.36, 'Europe', 81902307</span><br><span class="line">  'DNK', 78.6, 1.84, 'Europe', 5523095</span><br><span class="line">  'EGY', 72.73, 2.78, 'Middle East', 79716203</span><br><span class="line">  'GBR', 80.05, 2, 'Europe', 61801570</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="BarChart_Example">BarChart Example</h2><p>Chart <code>BarChart</code><br><div id="googleChart8377"></div>
+<h2 id="BarChart_Example">BarChart Example</h2><p>Chart <code>BarChart</code><br><div id="googleChart4205"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -228,13 +228,13 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.BarChart(document.getElementById("googleChart8377"))).draw(google.visualization.arrayToDataTable([['Genre', 'Fantasy & Sci Fi', 'Romance', 'Mystery/Crime', 'General', 'Western', 'Literature'],['2010', 10, 24, 20, 32, 18, 5],['2020', 16, 22, 23, 30, 16, 9],['2030', 28, 19, 29, 30, 12, 13]]),{"legend":{"position":"top","maxLines":3},"bar":{"groupWidth":"75%"},"isStacked":true,"title":"BarChart Example","width":"900","height":"500"});
+        (new google.visualization.BarChart(document.getElementById("googleChart4205"))).draw(google.visualization.arrayToDataTable([['Genre', 'Fantasy & Sci Fi', 'Romance', 'Mystery/Crime', 'General', 'Western', 'Literature'],['2010', 10, 24, 20, 32, 18, 5],['2020', 16, 22, 23, 30, 16, 9],['2030', 28, 19, 29, 30, 12, 13]]),{"legend":{"position":"top","maxLines":3},"bar":{"groupWidth":"75%"},"isStacked":true,"title":"BarChart Example","width":"900","height":"500"});
       });
     })();
   }
 </script></p>
 <figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;% googlecharts BarChart 900 500 %&#125;</span><br><span class="line">  BarChart Example</span><br><span class="line">  &#123;"legend": &#123; "position": "top", "maxLines": 3 &#125;,"bar": &#123; "groupWidth": "75%" &#125;,"isStacked": true&#125;</span><br><span class="line">  'Genre', 'Fantasy &amp; Sci Fi', 'Romance', 'Mystery/Crime', 'General', 'Western', 'Literature'</span><br><span class="line">  '2010', 10, 24, 20, 32, 18, 5</span><br><span class="line">  '2020', 16, 22, 23, 30, 16, 9</span><br><span class="line">  '2030', 28, 19, 29, 30, 12, 13</span><br><span class="line">&#123;% endgooglecharts %&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="My_Daily_Activities">My Daily Activities</h2><p>Chart <code>PieChart</code><br><div id="googleChart4011"></div>
+<h2 id="My_Daily_Activities">My Daily Activities</h2><p>Chart <code>PieChart</code><br><div id="googleChart1680"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -243,7 +243,7 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.PieChart(document.getElementById("googleChart4011"))).draw(google.visualization.arrayToDataTable([['Task', 'Hours per Day'],['Work', 11],['Eat', 2],['Commute', 2],['Watch TV', 2],['Sleep', 7]]),{"is3D":true,"title":"My Daily Activities","width":"900","height":"500"});
+        (new google.visualization.PieChart(document.getElementById("googleChart1680"))).draw(google.visualization.arrayToDataTable([['Task', 'Hours per Day'],['Work', 11],['Eat', 2],['Commute', 2],['Watch TV', 2],['Sleep', 7]]),{"is3D":true,"title":"My Daily Activities","width":"900","height":"500"});
       });
     })();
   }
@@ -267,7 +267,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/10/Ok-let-s-go/"  data-tooltip="Ok, let&#39;s go">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -339,7 +339,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/10/Ok-let-s-go/"  data-tooltip="Ok, let&#39;s go">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>

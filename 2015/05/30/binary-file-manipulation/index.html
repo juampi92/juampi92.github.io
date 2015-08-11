@@ -195,7 +195,7 @@
 <p>Notice that each loop has a cursor, that caches the array position, so there’s no <code>out[x][y][z] = ...</code></p>
 <h3 id="Results">Results</h3><p>So after making this improvements, it was time to create a benchmark against <a href="https://github.com/vjeux/jParser" target="_blank" rel="external">jParser</a>, although I should have compared it with <a href="https://github.com/jDataView/jBinary" target="_blank" rel="external">jBinary</a> (and I will).</p>
 <p>I made a small benchmark to test small point structure, and the results were pretty good. Depending on the iterations, the difference was </p>
-<div id="googleChart1242"></div>
+<div id="googleChart5263"></div>
 <script>
   if (!window.google) {
     alert('You need to include the script //google.com/jsapi on your template');
@@ -204,7 +204,7 @@
     (function() {
       google.load('visualization', '1.0', {'packages': ["corechart","table"]});
       google.setOnLoadCallback(function() {
-        (new google.visualization.ColumnChart(document.getElementById("googleChart1242"))).draw(google.visualization.arrayToDataTable([['N° of Rounds','jParser','TypedStruct'],[1000,28,5],[5000,71,19],[10000,143,37],[20000,282,68]]),{"hAxis":{"title":"Number of Rounds","textStyle":{"bold":true,"italic":false},"titleTextStyle":{"fontSize":18,"bold":true,"italic":false}},"vAxis":{"title":"Time elapsed (ms)","textStyle":{"fontSize":15,"color":"#67001f","bold":false,"italic":false},"titleTextStyle":{"fontSize":15,"bold":true,"italic":false}},"title":"Benchmark performance comparison","width":"700","height":"400"});
+        (new google.visualization.ColumnChart(document.getElementById("googleChart5263"))).draw(google.visualization.arrayToDataTable([['N° of Rounds','jParser','TypedStruct'],[1000,28,5],[5000,71,19],[10000,143,37],[20000,282,68]]),{"hAxis":{"title":"Number of Rounds","textStyle":{"bold":true,"italic":false},"titleTextStyle":{"fontSize":18,"bold":true,"italic":false}},"vAxis":{"title":"Time elapsed (ms)","textStyle":{"fontSize":15,"color":"#67001f","bold":false,"italic":false},"titleTextStyle":{"fontSize":15,"bold":true,"italic":false}},"title":"Benchmark performance comparison","width":"700","height":"400"});
       });
     })();
   }
