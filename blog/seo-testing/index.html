@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="A little bit about the site">
+        <meta name="description" content="Just like any other test suite, SEO tests will give your team confidence in your HTML structure and will prevent expensive mistakes.">
 
-        <meta property="og:title" content="Home | Juampi&#039;s Blog"/>
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://barreto.jp/"/>
-        <meta property="og:description" content="A little bit about the site" />
+        <meta property="og:title" content="Testing your SEO with PHP | Juampi&#039;s Blog"/>
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://barreto.jp/blog/seo-testing"/>
+        <meta property="og:description" content="Just like any other test suite, SEO tests will give your team confidence in your HTML structure and will prevent expensive mistakes." />
 
-        <title>Home | Juampi&#039;s Blog</title>
+        <title>Testing your SEO with PHP | Juampi&#039;s Blog</title>
 
         <link rel="home" href="https://barreto.jp">
 
@@ -96,40 +96,199 @@
 </nav>
 
         <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-8 px-10">
-            
-            <h1 class="text-3xl">Hi 👋🏼</h1>
-        <p>I'm <b>Juan Pablo</b>, a PHP developer from Argentina living in <b>Amsterdam</b>.
-            <br>I currently work @ <a href="https://www.studocu.com/" target="_blank">Studocu</a> as a Staff Engineer.</p>
-        <p>You can check out my open source contributions in <a title="Github" href="https://github.com/juampi92" target="_blank">Github</a> and you can contact me in <a title="Twitter" href="https://twitter.com/Juampi_92" target="_blank">Twitter</a>.
-            <br>I'm not sure the direction of this blog yet, but for now, I will write about whatever interests me.</p>
-        <hr/>
+                
+    <h1 class="text-3xl sm:text-5xl font-normal">Testing your SEO with PHP</h1>
+
+    <p class="mt-0 mb-12 text-gray-400">March 21, 2022</p>
+
     
-            <div class="flex flex-col mb-4">
-    <h2 class="text-3xl mt-0">
-        <a
-            href="https://barreto.jp/blog/seo-testing"
-            title="Read more - Testing your SEO with PHP"
-            class="font-normal"
-        >Testing your SEO with PHP</a>
-        <p class="text-gray-500 font-thin my-2 text-sm">
-            March 21, 2022
-        </p>
-    </h2>
+    <div class="border-b border-blue-200 mb-10 pb-4" v-pre>
+        <p>SEO testing is a practice that can prevent unwanted changes in search engines.
+In the medium story I wrote, I explain the importance of it with a small story about duplicated content.</p>
 
-    <p class="mb-4 mt-0">SEO testing is a practice that can prevent unwanted changes in search engines.
-In the medium story I wrote, I explain the importance of it with a small story about duplicated content.
+<p>This article will focus on testing SEO for your PHP project using a package I made called <a href="https://github.com/juampi92/test-seo">test-seo</a>.
+Examples will be done using Pest, but the package only depends on PHPUnit to work (there is an example on how to run it there too).</p>
 
-This article...</p>
+<h2>Setup</h2>
 
-    <a
-        href="https://barreto.jp/blog/seo-testing"
-        title="Read more - Testing your SEO with PHP"
-        class="uppercase font-semibold tracking-wide mb-2"
-    >Read</a>
-</div>
+<p>To install the package, run:</p>
 
-            
-            </main>
+<pre><code class="language-bash">composer require juampi92/test-seo --dev
+</code></pre>
+
+<blockquote>
+  <p>It is assumed Phpunit and Pest is already installed in your project.</p>
+</blockquote>
+
+<h2>Testing the landing page</h2>
+
+<p>The first step to a successful landing page, is a 200 status code, so we'll start with that.</p>
+
+<pre><code class="language-php">test('landing page SEO tags', function () {
+    $response = get('/')-&gt;assertStatus(200);
+});
+</code></pre>
+
+<p>To use this package, you will have to instantiate the TestSEO using the HTML response:</p>
+
+<pre><code class="language-php">test('landing page SEO tags', function () {
+    $response = get('/')-&gt;assertStatus(200);
+
+    // And now we generate the TestSEO object with the html response:
+    $seo = new TestSEO($response-&gt;getContent());
+});
+</code></pre>
+
+<p>For the landing page, we would like to test that the title is <code>My Blog</code>, the canonical url is self-referencing, and the robots are correct.</p>
+
+<pre><code class="language-php">test('landing page SEO tags', function () {
+    // ...
+    $seo = new TestSEO($response-&gt;getContent());
+
+    expect($seo-&gt;data)
+        -&gt;title()-&gt;toBe('My Blog')
+        -&gt;canonical()-&gt;toBe(route('home'))
+        -&gt;robots()-&gt;index()-&gt;toBeTrue()
+        -&gt;robots()-&gt;follow()-&gt;toBeTrue();
+});
+</code></pre>
+
+<h2>Snapshot testing</h2>
+
+<p>To do snapshot testing, first we need to install spatie's snapshot package:</p>
+
+<pre><code class="language-bash">composer require spatie/pest-plugin-snapshots --dev
+</code></pre>
+
+<p>Now we only have to assert that the TestSEO matches the snapshot.</p>
+
+<pre><code class="language-php">use function Spatie\Snapshots\{assertMatchesJsonSnapshot};
+
+test('landing page SEO tags', function () {
+    // ...
+    $seo = new TestSEO($response-&gt;getContent());
+
+    assertMatchesJsonSnapshot($seo);
+});
+</code></pre>
+
+<p>The TestSEO implements the <a href="https://www.php.net/manual/en/jsonserializable.jsonserialize.php">jsonSerialize()</a> method, meaning that it will serialize into a JSON so it can be compared against the snapshot.</p>
+
+<p>By default, it will use simple data, like the title, description, robots, etc. If you would like to make your custom Serializer, you can follow the following steps:</p>
+
+<pre><code class="language-php">use Juampi92\TestSEO\SEOData;
+use Juampi92\TestSEO\SnapshotFormatters\SnapshotSerializer;
+
+class MySerializer implements SnapshotSerializer
+{
+    public function toArray(SEOData $data): array
+    {
+        return [
+            'title' =&gt; $data-&gt;title(),
+            'description' =&gt; $data-&gt;description(),
+            'robots' =&gt; (string) $data-&gt;robots(),
+            'canonical' =&gt; $this-&gt;formatUrl($data-&gt;canonical()),
+            'pagination' =&gt; [
+                'prev' =&gt; $this-&gt;formatUrl($data-&gt;prev()),
+                'next' =&gt; $this-&gt;formatUrl($data-&gt;next()),
+            ],
+            'relAltHreflang' =&gt; array_map(
+                fn (array $item) =&gt; [
+                    'hreflang' =&gt; $item['hreflang'],
+                    'href' =&gt; $this-&gt;formatUrl($item['href']),
+                ],
+                $data-&gt;alternateHrefLang()-&gt;jsonSerialize()
+            ),
+            'h1' =&gt; $data-&gt;h1s(),
+            'opengraph' =&gt; $this-&gt;formatTagCollection($data-&gt;openGraph()),
+            'twitter' =&gt; $this-&gt;formatTagCollection($data-&gt;twitter()),
+        ];
+    }
+
+    ...
+}
+</code></pre>
+
+<p>To use this formatter, you simply have to pass it as TestSEO's second parameter:</p>
+
+<pre><code class="language-php">test('landing page SEO tags', function () {
+    // ...
+    $seo = new TestSEO($response-&gt;getContent(), new MySerializer());
+
+    $json = json_encode($seo);
+});
+</code></pre>
+
+<h3>What about seeded data?</h3>
+
+<p>When testing dynamic pages, you will have to seed data in order to test. Seeded data usually uses random data, which will make every seed unique, and it will never match the previous snapshot.</p>
+
+<p><strong>How do we solve this problem?</strong> We don't fake.</p>
+
+<p>When testing SEO pages, we will control our strings. If we want to test how a long post title gets cropped in the <code>&lt;title/&gt;</code> tag, we will seed always the same long title.</p>
+
+<pre><code class="language-php">test('article page SEO tags', function () {
+    $article = Article::factory()-&gt;create([
+        'title' =&gt; 'This is a very long title, and I would like to see it cropped',
+    ]);
+
+    $url = RouteHelper::article($article);
+
+    $response = get($url)-&gt;assertStatus(200);
+
+    $seo = new TestSEO($response-&gt;getContent(), new MySerializer());
+
+    expect($seo-&gt;data)
+        -&gt;title()-&gt;toBe('This is a very long title, and I would like to see it... - My Blog')
+        -&gt;canonical()-&gt;toBe($url); // Canonical self-referencing
+
+    $json = json_encode($seo);
+});
+</code></pre>
+
+<p>Now we have a new issue: URLs have unique IDs. If you don't reset your database after each test (and it's fine if you don't), it's very likely that you will get different IDs per-run. This will make again snapshots fail.</p>
+
+<p>The easiest solution to his problem is to replace the unique IDs with a generic string, and that's what the default serializer is doing.</p>
+
+<pre><code class="language-text">/article/this-is-a-very-long-title/15
+Gets replaced to:
+/article/this-is-a-very-long-title/{id}
+</code></pre>
+
+<p>Now, any seeded article will match the snapshot.</p>
+
+<blockquote>
+  <p>In the case where replacing for {id} is not sufficient, snapshot testing may not be the best approach.</p>
+</blockquote>
+
+<h2>Most common assertions</h2>
+
+<p>From the SEO perspective, there are some rules that we must never break, and some of them are included in this package.</p>
+
+<h3>Never have more than one H1</h3>
+
+<p>Search engines pay a lot of attention to the H1, and that's also why they do not like it when you use more than one per page.
+This package comes with a method:</p>
+
+<pre><code class="language-php">$seo-&gt;assertThereIsOnlyOneH1();
+</code></pre>
+
+<h3>All images have <code>alt</code> attribute</h3>
+
+<p>This is also a good SEO practice: Images should have an "alternative" tag with a meaningful text.</p>
+
+<pre><code class="language-php">$seo-&gt;assertAllImagesHaveAltText();
+</code></pre>
+    </div>
+
+    <nav class="flex justify-between text-sm md:text-base">
+        <div>
+                    </div>
+
+        <div>
+                    </div>
+    </nav>
+        </main>
 
         <footer class="bg-white text-center text-sm mt-6 py-4 border-t-2 border-t-gray-300" role="contentinfo">
             <ul class="flex flex-col md:flex-row justify-center list-none">
