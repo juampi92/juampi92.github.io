@@ -6,12 +6,12 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="description" content="Just like any other test suite, SEO tests will give your team confidence in your HTML structure and will prevent expensive mistakes.">
 
-        <meta property="og:title" content="Testing your SEO with PHP | Juampi&#039;s Blog"/>
+        <meta property="og:title" content="Testing your SEO with PHP &amp; Pest | Juampi&#039;s Blog"/>
         <meta property="og:type" content="article" />
         <meta property="og:url" content="https://barreto.jp/blog/seo-testing"/>
         <meta property="og:description" content="Just like any other test suite, SEO tests will give your team confidence in your HTML structure and will prevent expensive mistakes." />
 
-        <title>Testing your SEO with PHP | Juampi&#039;s Blog</title>
+        <title>Testing your SEO with PHP &amp; Pest | Juampi&#039;s Blog</title>
 
         <link rel="home" href="https://barreto.jp">
 
@@ -33,7 +33,7 @@
             </script>
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=4ff0cc1ab78e79f24d442404acfb4e29">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=6237ac2e93c8ace84f3c48ffb93f2517">
     </head>
 
     <body class="flex flex-col justify-between min-h-screen text-gray-800 leading-normal font-sans">
@@ -97,9 +97,9 @@
 
         <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-8 px-10">
                 
-    <h1 class="text-3xl sm:text-5xl font-normal">Testing your SEO with PHP</h1>
+    <h1 class="text-3xl sm:text-5xl font-normal">Testing your SEO with PHP &amp; Pest</h1>
 
-    <p class="mt-0 mb-12 text-gray-400">March 21, 2022</p>
+    <p class="mt-0 mb-12 text-gray-400">September 1, 2022</p>
 
     
     <div class="border-b border-blue-200 mb-10 pb-4" v-pre>
@@ -107,7 +107,7 @@
 In the medium story I wrote, I explain the importance of it with a small story about duplicated content.</p>
 
 <p>This article will focus on testing SEO for your PHP project using a package I made called <a href="https://github.com/juampi92/test-seo">test-seo</a>.
-Examples will be done using Pest, but the package only depends on PHPUnit to work (there is an example on how to run it there too).</p>
+Examples in this post are made using <a href="https://pestphp.com/">Pest</a> with Laravel, but none of these are required for the package to work.</p>
 
 <h2>Setup</h2>
 
@@ -147,7 +147,7 @@ Examples will be done using Pest, but the package only depends on PHPUnit to wor
 
     expect($seo-&gt;data)
         -&gt;title()-&gt;toBe('My Blog')
-        -&gt;canonical()-&gt;toBe(route('home'))
+        -&gt;canonical()-&gt;toEqual(route('home'))
         -&gt;robots()-&gt;index()-&gt;toBeTrue()
         -&gt;robots()-&gt;follow()-&gt;toBeTrue();
 });
@@ -168,7 +168,7 @@ test('landing page SEO tags', function () {
     // ...
     $seo = new TestSEO($response-&gt;getContent());
 
-    assertMatchesJsonSnapshot($seo);
+    assertMatchesJsonSnapshot(json_encode($seo));
 });
 </code></pre>
 
@@ -187,25 +187,13 @@ class MySerializer implements SnapshotSerializer
             'title' =&gt; $data-&gt;title(),
             'description' =&gt; $data-&gt;description(),
             'robots' =&gt; (string) $data-&gt;robots(),
-            'canonical' =&gt; $this-&gt;formatUrl($data-&gt;canonical()),
+            'canonical' =&gt; $data-&gt;canonical(),
             'pagination' =&gt; [
-                'prev' =&gt; $this-&gt;formatUrl($data-&gt;prev()),
-                'next' =&gt; $this-&gt;formatUrl($data-&gt;next()),
+                'prev' =&gt; $data-&gt;prev(),
+                'next' =&gt; $data-&gt;next(),
             ],
-            'relAltHreflang' =&gt; array_map(
-                fn (array $item) =&gt; [
-                    'hreflang' =&gt; $item['hreflang'],
-                    'href' =&gt; $this-&gt;formatUrl($item['href']),
-                ],
-                $data-&gt;alternateHrefLang()-&gt;jsonSerialize()
-            ),
-            'h1' =&gt; $data-&gt;h1s(),
-            'opengraph' =&gt; $this-&gt;formatTagCollection($data-&gt;openGraph()),
-            'twitter' =&gt; $this-&gt;formatTagCollection($data-&gt;twitter()),
         ];
     }
-
-    ...
 }
 </code></pre>
 
@@ -232,17 +220,17 @@ class MySerializer implements SnapshotSerializer
         'title' =&gt; 'This is a very long title, and I would like to see it cropped',
     ]);
 
-    $url = RouteHelper::article($article);
-
-    $response = get($url)-&gt;assertStatus(200);
-
+    $response = get(RouteHelper::article($article))-&gt;assertStatus(200);
     $seo = new TestSEO($response-&gt;getContent(), new MySerializer());
 
     expect($seo-&gt;data)
-        -&gt;title()-&gt;toBe('This is a very long title, and I would like to see it... - My Blog')
-        -&gt;canonical()-&gt;toBe($url); // Canonical self-referencing
+        -&gt;title()-&gt;toBe('This is a very long title, and I would like to see it... - My Blog');
 
     $json = json_encode($seo);
+    // {
+    //    "title": "This is a very long title, and I would like to see it... - My Blog",
+    //    ...
+    // }
 });
 </code></pre>
 
@@ -279,6 +267,24 @@ This package comes with a method:</p>
 
 <pre><code class="language-php">$seo-&gt;assertAllImagesHaveAltText();
 </code></pre>
+
+<h2>Conclusion</h2>
+
+<p>If your website relies on search engines, you'll do whatever you can to please them, and that includes not messing up.
+Having a decent SEO coverage can give your team the confidence to refactor for example from blade to inertiajs, and now worry about modifying the SEO structure by accident.</p>
+
+<p>Checkout the package to see all the features it includes, and Pull-Request are welcome!</p>
+
+<p><a href="https://github.com/juampi92/test-seo#test-seo">https://github.com/juampi92/test-seo</a></p>
+    </div>
+
+    <div class="border-blue-200 mb-10 pb-4 pt-2">
+        <p>
+            Hi, I'm <b>Juan Pablo</b>, a PHP developer from Argentina living in <b>Amsterdam</b>.
+            <br>I currently work @ <a href="https://www.studocu.com/" target="_blank">Studocu</a> as a Staff Engineer.</p>
+        <p>
+            Feel free to follow me on <a title="Twitter" href="https://twitter.com/Juampi_92" target="_blank">Twitter</a> for more PHP/Laravel posts.
+        </p>
     </div>
 
     <nav class="flex justify-between text-sm md:text-base">
@@ -298,7 +304,8 @@ This package comes with a method:</p>
 
                 <li>
                     Built with <a href="http://jigsaw.tighten.co" title="Jigsaw by Tighten">Jigsaw</a>
-                    and <a href="https://tailwindcss.com" title="Tailwind CSS, a utility-first CSS framework">Tailwind CSS</a>.
+                    and <a href="https://tailwindcss.com" title="Tailwind CSS, a utility-first CSS framework">Tailwind CSS</a>;
+                    hosted by <a href="https://pages.github.com/">GitHub Pages</a>.
                 </li>
             </ul>
         </footer>

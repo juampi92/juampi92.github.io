@@ -3,7 +3,7 @@
     <title>Juampi&#039;s Blog</title>
     <link href="https://barreto.jp/blog" />
     <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom" />
-    <updated>2022-08-31T23:11:48+00:00</updated>
+    <updated>2022-09-01T16:57:43+00:00</updated>
     <id>https://barreto.jp/blog/feed.atom</id>
     <author>
         <name>Juan Pablo Barreto</name>
@@ -11,9 +11,9 @@
                 <entry>
     <id>https://barreto.jp/blog/seo-testing</id>
     <link type="text/html" rel="alternate" href="https://barreto.jp/blog/seo-testing" />
-    <title>Testing your SEO with PHP</title>
-    <published>2022-03-21T00:00:00+00:00</published>
-    <updated>2022-03-21T00:00:00+00:00</updated>
+    <title>Testing your SEO with PHP &amp; Pest</title>
+    <published>2022-09-01T00:00:00+00:00</published>
+    <updated>2022-09-01T00:00:00+00:00</updated>
     <author>
         <name>Juan Pablo Barreto</name>
     </author>
@@ -26,7 +26,7 @@ This article will focus on testing SEO for your PHP project using a......</summa
 In the medium story I wrote, I explain the importance of it with a small story about duplicated content.</p>
 
 <p>This article will focus on testing SEO for your PHP project using a package I made called <a href="https://github.com/juampi92/test-seo">test-seo</a>.
-Examples will be done using Pest, but the package only depends on PHPUnit to work (there is an example on how to run it there too).</p>
+Examples in this post are made using <a href="https://pestphp.com/">Pest</a> with Laravel, but none of these are required for the package to work.</p>
 
 <h2>Setup</h2>
 
@@ -66,7 +66,7 @@ Examples will be done using Pest, but the package only depends on PHPUnit to wor
 
     expect($seo-&gt;data)
         -&gt;title()-&gt;toBe('My Blog')
-        -&gt;canonical()-&gt;toBe(route('home'))
+        -&gt;canonical()-&gt;toEqual(route('home'))
         -&gt;robots()-&gt;index()-&gt;toBeTrue()
         -&gt;robots()-&gt;follow()-&gt;toBeTrue();
 });
@@ -87,7 +87,7 @@ test('landing page SEO tags', function () {
     // ...
     $seo = new TestSEO($response-&gt;getContent());
 
-    assertMatchesJsonSnapshot($seo);
+    assertMatchesJsonSnapshot(json_encode($seo));
 });
 </code></pre>
 
@@ -106,25 +106,13 @@ class MySerializer implements SnapshotSerializer
             'title' =&gt; $data-&gt;title(),
             'description' =&gt; $data-&gt;description(),
             'robots' =&gt; (string) $data-&gt;robots(),
-            'canonical' =&gt; $this-&gt;formatUrl($data-&gt;canonical()),
+            'canonical' =&gt; $data-&gt;canonical(),
             'pagination' =&gt; [
-                'prev' =&gt; $this-&gt;formatUrl($data-&gt;prev()),
-                'next' =&gt; $this-&gt;formatUrl($data-&gt;next()),
+                'prev' =&gt; $data-&gt;prev(),
+                'next' =&gt; $data-&gt;next(),
             ],
-            'relAltHreflang' =&gt; array_map(
-                fn (array $item) =&gt; [
-                    'hreflang' =&gt; $item['hreflang'],
-                    'href' =&gt; $this-&gt;formatUrl($item['href']),
-                ],
-                $data-&gt;alternateHrefLang()-&gt;jsonSerialize()
-            ),
-            'h1' =&gt; $data-&gt;h1s(),
-            'opengraph' =&gt; $this-&gt;formatTagCollection($data-&gt;openGraph()),
-            'twitter' =&gt; $this-&gt;formatTagCollection($data-&gt;twitter()),
         ];
     }
-
-    ...
 }
 </code></pre>
 
@@ -151,17 +139,17 @@ class MySerializer implements SnapshotSerializer
         'title' =&gt; 'This is a very long title, and I would like to see it cropped',
     ]);
 
-    $url = RouteHelper::article($article);
-
-    $response = get($url)-&gt;assertStatus(200);
-
+    $response = get(RouteHelper::article($article))-&gt;assertStatus(200);
     $seo = new TestSEO($response-&gt;getContent(), new MySerializer());
 
     expect($seo-&gt;data)
-        -&gt;title()-&gt;toBe('This is a very long title, and I would like to see it... - My Blog')
-        -&gt;canonical()-&gt;toBe($url); // Canonical self-referencing
+        -&gt;title()-&gt;toBe('This is a very long title, and I would like to see it... - My Blog');
 
     $json = json_encode($seo);
+    // {
+    //    "title": "This is a very long title, and I would like to see it... - My Blog",
+    //    ...
+    // }
 });
 </code></pre>
 
@@ -198,6 +186,15 @@ This package comes with a method:</p>
 
 <pre><code class="language-php">$seo-&gt;assertAllImagesHaveAltText();
 </code></pre>
+
+<h2>Conclusion</h2>
+
+<p>If your website relies on search engines, you'll do whatever you can to please them, and that includes not messing up.
+Having a decent SEO coverage can give your team the confidence to refactor for example from blade to inertiajs, and now worry about modifying the SEO structure by accident.</p>
+
+<p>Checkout the package to see all the features it includes, and Pull-Request are welcome!</p>
+
+<p><a href="https://github.com/juampi92/test-seo#test-seo">https://github.com/juampi92/test-seo</a></p>
     ]]></content>
 </entry>
     </feed>
