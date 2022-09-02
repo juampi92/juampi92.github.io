@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Juampi&#039;s Blog</title>
+    <link href="https://barreto.jp/blog" />
+    <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom" />
+    <updated>2022-09-02T17:44:54+00:00</updated>
+    <id>https://barreto.jp/blog/feed.atom</id>
+    <author>
+        <name>Juan Pablo Barreto</name>
+    </author>
+                <entry>
+    <id>https://barreto.jp/blog/seo-testing</id>
+    <link type="text/html" rel="alternate" href="https://barreto.jp/blog/seo-testing" />
+    <title>Testing your SEO with PHP &amp; Pest</title>
+    <published>2022-09-01T00:00:00+00:00</published>
+    <updated>2022-09-01T00:00:00+00:00</updated>
+    <author>
+        <name>Juan Pablo Barreto</name>
+    </author>
+    <summary type="html">Just like any other test suite, SEO tests will give your team confidence in your HTML structure and will prevent expensive mistakes.</summary>
+    <content type="html"><![CDATA[
+        <p>SEO testing is a practice that can prevent unwanted changes in search engines.
+In the medium story I wrote, I explain the importance of it with a small story about duplicated content.</p>
+
+<p>This article will focus on testing SEO for your PHP project using a package I made called <a href="https://github.com/juampi92/test-seo">test-seo</a>.
+Examples in this post are made using <a href="https://pestphp.com/">Pest</a> with Laravel, but none of these are required for the package to work.</p>
+
+<p><img src="/assets/images/1-test-seo-code-preview.jpg" alt="TestSEO Code Preview" /></p>
+
+<h2>Setup</h2>
+
+<p>To install the package, run:</p>
+
+<pre><code class="language-bash">composer require juampi92/test-seo --dev
+</code></pre>
+
+<blockquote>
+  <p>It is assumed Phpunit and Pest is already installed in your project.</p>
+</blockquote>
+
+<h2>Testing the landing page</h2>
+
+<p>The first step to a successful landing page, is a 200 status code, so we'll start with that.</p>
+
+<pre><code class="language-php">test('landing page SEO tags', function () {
+    $response = get('/')-&gt;assertStatus(200);
+});
+</code></pre>
+
+<p>To use this package, you will have to instantiate the TestSEO using the HTML response:</p>
+
+<pre><code class="language-php">test('landing page SEO tags', function () {
+    $response = get('/')-&gt;assertStatus(200);
+
+    // And now we generate the TestSEO object with the html response:
+    $seo = new TestSEO($response-&gt;getContent());
+});
+</code></pre>
+
+<p>For the landing page, we would like to test that the title is <code>My Blog</code>, the canonical url is self-referencing, and the robots are correct.</p>
+
+<pre><code class="language-php">test('landing page SEO tags', function () {
+    // ...
+    $seo = new TestSEO($response-&gt;getContent());
+
+    expect($seo-&gt;data)
+        -&gt;title()-&gt;toBe('My Blog')
+        -&gt;canonical()-&gt;toEqual(route('home'))
+        -&gt;robots()-&gt;index()-&gt;toBeTrue()
+        -&gt;robots()-&gt;follow()-&gt;toBeTrue();
+});
+</code></pre>
+
+<h2>Snapshot testing</h2>
+
+<p>To do snapshot testing, first we need to install spatie's snapshot package:</p>
+
+<pre><code class="language-bash">composer require spatie/pest-plugin-snapshots --dev
+</code></pre>
+
+<p>Now we only have to assert that the TestSEO matches the snapshot.</p>
+
+<pre><code class="language-php">use function Spatie\Snapshots\{assertMatchesJsonSnapshot};
+
+test('landing page SEO tags', function () {
+    // ...
+    $seo = new TestSEO($response-&gt;getContent());
+
+    assertMatchesJsonSnapshot(json_encode($seo));
+});
+</code></pre>
+
+<p>The TestSEO implements the <a href="https://www.php.net/manual/en/jsonserializable.jsonserialize.php">jsonSerialize()</a> method, meaning that it will serialize into a JSON so it can be compared against the snapshot.</p>
+
+<p>By default, it will use simple data, like the title, description, robots, etc. If you would like to make your custom Serializer, you can follow the following steps:</p>
+
+<pre><code class="language-php">use Juampi92\TestSEO\SEOData;
+use Juampi92\TestSEO\SnapshotFormatters\SnapshotSerializer;
+
+class MySerializer implements SnapshotSerializer
+{
+    public function toArray(SEOData $data): array
+    {
+        return [
+            'title' =&gt; $data-&gt;title(),
+            'description' =&gt; $data-&gt;description(),
+            'robots' =&gt; (string) $data-&gt;robots(),
+            'canonical' =&gt; $data-&gt;canonical(),
+            'pagination' =&gt; [
+                'prev' =&gt; $data-&gt;prev(),
+                'next' =&gt; $data-&gt;next(),
+            ],
+        ];
+    }
+}
+</code></pre>
+
+<p>To use this formatter, you simply have to pass it as TestSEO's second parameter:</p>
+
+<pre><code class="language-php">test('landing page SEO tags', function () {
+    // ...
+    $seo = new TestSEO($response-&gt;getContent(), new MySerializer());
+
+    $json = json_encode($seo);
+});
+</code></pre>
+
+<h3>What about seeded data?</h3>
+
+<p>When testing dynamic pages, you will have to seed data in order to test. Seeded data usually uses random data, which will make every seed unique, and it will never match the previous snapshot.</p>
+
+<p><strong>How do we solve this problem?</strong> We don't fake.</p>
+
+<p>When testing SEO pages, we will control our strings. If we want to test how a long post title gets cropped in the <code>&lt;title/&gt;</code> tag, we will seed always the same long title.</p>
+
+<pre><code class="language-php">test('article page SEO tags', function () {
+    $article = Article::factory()-&gt;create([
+        'title' =&gt; 'This is a very long title, and I would like to see it cropped',
+    ]);
+
+    $response = get(RouteHelper::article($article))-&gt;assertStatus(200);
+    $seo = new TestSEO($response-&gt;getContent(), new MySerializer());
+
+    expect($seo-&gt;data)
+        -&gt;title()-&gt;toBe('This is a very long title, and I would like to see it... - My Blog');
+
+    $json = json_encode($seo);
+    // {
+    //    "title": "This is a very long title, and I would like to see it... - My Blog",
+    //    ...
+    // }
+});
+</code></pre>
+
+<p>Now we have a new issue: URLs have unique IDs. If you don't reset your database after each test (and it's fine if you don't), it's very likely that you will get different IDs per-run. This will make again snapshots fail.</p>
+
+<p>The easiest solution to his problem is to replace the unique IDs with a generic string, and that's what the default serializer is doing.</p>
+
+<pre><code>/article/this-is-a-very-long-title/15
+Gets replaced to:
+/article/this-is-a-very-long-title/{id}
+</code></pre>
+
+<p>Now, any seeded article will match the snapshot.</p>
+
+<blockquote>
+  <p>In the case where replacing for {id} is not sufficient, snapshot testing may not be the best approach.</p>
+</blockquote>
+
+<h2>Most common assertions</h2>
+
+<p>From the SEO perspective, there are some rules that we must never break, and some of them are included in this package.</p>
+
+<h3>Never have more than one H1</h3>
+
+<p>Search engines pay a lot of attention to the H1, and that's also why they do not like it when you use more than one per page.
+This package comes with a method:</p>
+
+<pre><code class="language-php">$seo-&gt;assertThereIsOnlyOneH1();
+</code></pre>
+
+<h3>All images have <code>alt</code> attribute</h3>
+
+<p>This is also a good SEO practice: Images should have an "alternative" tag with a meaningful text.</p>
+
+<pre><code class="language-php">$seo-&gt;assertAllImagesHaveAltText();
+</code></pre>
+
+<h2>Conclusion</h2>
+
+<p>If your website relies on search engines, you'll do whatever you can to please them, and that includes not messing up.
+Having a decent SEO coverage can give your team the confidence to refactor for example from blade to inertiajs, and now worry about modifying the SEO structure by accident.</p>
+
+<p>Checkout the package to see all the features it includes, and Pull-Request are welcome!</p>
+
+<p><a href="https://github.com/juampi92/test-seo#test-seo">https://github.com/juampi92/test-seo</a></p>
+    ]]></content>
+</entry>
+    </feed>
