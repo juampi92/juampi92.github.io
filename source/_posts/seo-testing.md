@@ -10,8 +10,8 @@ thumbnail_image: /assets/images/1-test-seo-code-preview.jpg
 SEO testing is a practice that can prevent unwanted changes in search engines.
 In the medium story I wrote, I explain the importance of it with a small story about duplicated content.
 
-This article will focus on testing SEO for your PHP project using a package I made called [test-seo](https://github.com/juampi92/test-seo).
-Examples in this post are made using [Pest](https://pestphp.com/) with Laravel, but none of these are required for the package to work.
+This article will focus on testing SEO for your PHP project using a package I made called [test-seo](https://github.com/juampi92/test-seo){target=_blank}.
+Examples in this post are made using [Pest](https://pestphp.com/){target=_blank} with Laravel, but none of these are required for the package to work.
 
 ![TestSEO Code Preview](/assets/images/1-test-seo-code-preview.jpg)
 
@@ -82,7 +82,7 @@ test('landing page SEO tags', function () {
 });
 ```
 
-The TestSEO implements the [jsonSerialize()](https://www.php.net/manual/en/jsonserializable.jsonserialize.php) method, meaning that it will serialize into a JSON so it can be compared against the snapshot.
+The TestSEO implements the [jsonSerialize()](https://www.php.net/manual/en/jsonserializable.jsonserialize.php){target=_blank} method, meaning that it will serialize into a JSON so it can be compared against the snapshot.
 
 By default, it will use simple data, like the title, description, robots, etc. If you would like to make your custom Serializer, you can follow the following steps:
 
@@ -189,4 +189,4 @@ Having a decent SEO coverage can give your team the confidence to refactor for e
 
 Checkout the package to see all the features it includes, and Pull-Request are welcome!
 
-[https://github.com/juampi92/test-seo](https://github.com/juampi92/test-seo#test-seo)
+[https://github.com/juampi92/test-seo](https://github.com/juampi92/test-seo#test-seo){target=_blank}
