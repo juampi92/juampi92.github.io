@@ -1,0 +1,45 @@
+/* Your custom blog styles here */
+
+h2 {
+    @apply mt-12;
+    @apply text-2xl;
+    @apply font-bold;
+    @apply leading-tight;
+}
+
+pre code {
+    @apply leading-9;
+}
+
+table {
+    @apply w-full;
+    @apply my-8;
+    @apply p-8;
+    @apply sm:p-4;
+    @apply text-sm;
+    @apply bg-white;
+    @apply rounded;
+    @apply shadow;
+}
+
+table th {
+    @apply p-1;
+    @apply text-left;
+}
+
+table td {
+    @apply p-1;
+    @apply border-t;
+    @apply whitespace-nowrap;
+}
+
+.caption {
+    @apply text-sm;
+    @apply text-center;
+    @apply -mt-2
+}
+
+.caption a {
+    @apply text-gray-800;
+    @apply underline;
+}

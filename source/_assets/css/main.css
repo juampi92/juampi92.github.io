@@ -1,0 +1,10 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+/* Code syntax highlighting, powered by https://highlightjs.org */
+@import 'highlight.js/styles/github.css';
+
+@import 'base.css';
+@import 'blog.css';
+
+@import 'tailwindcss/utilities';
