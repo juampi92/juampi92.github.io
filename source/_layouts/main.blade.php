@@ -68,7 +68,7 @@
         <footer class="bg-white text-center text-sm mt-6 py-4 border-t-2 border-t-gray-300" role="contentinfo">
             <ul class="flex flex-col md:flex-row justify-center list-none">
                 <li class="md:mr-2">
-                    &copy; Juampi92 {{ date('Y') }}.
+                    &copy; Juan Pablo Barreto {{ date('Y') }}.
                 </li>
 
                 <li>

@@ -21,7 +21,7 @@ rm -fr gh-pages/*
 cp -a ./build_production/. ./gh-pages/
 cd ./gh-pages
 git add . && git commit -m "Build for deploy"
-git push
+git push && cd ..
 ```
 
 ## [Markdown tips](https://michelf.ca/projects/php-markdown/extra/)

@@ -3,7 +3,7 @@ title: Home
 description: My thoughts on web development.
 pagination:
     collection: posts
-    perPage: 2
+    perPage: 10
 ---
 @extends('_layouts.main')
 
@@ -12,10 +12,10 @@ pagination:
     @if($pagination->currentPage === 1)
         <h1 class="text-3xl">Hi 👋🏼</h1>
         <p>
-            I'm <b>Juan Pablo</b>, a PHP developer from Argentina living in <b>Amsterdam</b>.
+            I'm <b>Juan Pablo Barreto</b>, a PHP developer from Argentina living in <b>Amsterdam</b>.
             <br>I currently work @ <a href="https://www.studocu.com/" target="_blank">Studocu</a> as a Staff Engineer.</p>
         <p>
-            You can check out my open source contributions in <a title="Github" href="https://github.com/juampi92" target="_blank">Github</a> and you can contact me in <a title="Twitter" href="https://twitter.com/Juampi_92" target="_blank">Twitter</a>.
+            You can check out my open source contributions in <a title="Github" href="https://github.com/juampi92" target="_blank">Github</a>, and you can contact me on <a title="Twitter" href="https://twitter.com/Juampi_92" target="_blank">Twitter</a>.
         </p>
         <hr/>
     @endif
