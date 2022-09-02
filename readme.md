@@ -6,12 +6,22 @@
 npm run watch
 ```
 
+## Setup
+
+```
+git clone -b gh-pages git@github.com:juampi92/juampi92.github.io.git gh-pages
+```
+
 ## Build
+
 
 ```bash
 npm run prod
-git add build_production && git commit -m "Build for deploy"
-git subtree push --prefix build_production origin gh-pages
+rm -fr gh-pages/*
+cp -a ./build_production/. ./gh-pages/
+cd ./gh-pages
+git add . && git commit -m "Build for deploy"
+git push
 ```
 
 ## [Markdown tips](https://michelf.ca/projects/php-markdown/extra/)

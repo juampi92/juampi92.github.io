@@ -1,7 +1,8 @@
 /build_*/
-!/build_production/
+/build/
 /node_modules/
 /source/assets/build/
 /vendor/
+/gh-pages/
 .DS_Store
 .idea
