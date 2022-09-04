@@ -24,7 +24,7 @@ To install the package, run:
 composer require juampi92/test-seo --dev
 ```
 
-> It is assumed Phpunit and Pest is already installed in your project.
+> It is assumed PHPUnit and Pest are already installed in your project.
 
 ## Testing the landing page
 
@@ -83,9 +83,9 @@ test('landing page SEO tags', function () {
 });
 ```
 
-The TestSEO implements the [jsonSerialize()](https://www.php.net/manual/en/jsonserializable.jsonserialize.php){target=_blank} method, meaning that it will serialize into a JSON so it can be compared against the snapshot.
+The TestSEO implements the [jsonSerialize()](https://www.php.net/manual/en/jsonserializable.jsonserialize.php){target=_blank} method to be compared against the JSON snapshot.
 
-By default, it will use simple data, like the title, description, robots, etc. If you would like to make your custom Serializer, you can follow the following steps:
+By default, it will use a simple structure serializer that includes the title, description, robots, etc. If you would like to make your custom Serializer, you can follow the following steps:
 
 ```php
 use Juampi92\TestSEO\SEOData;
@@ -122,11 +122,11 @@ test('landing page SEO tags', function () {
 
 ### What about seeded data?
 
-When testing dynamic pages, you will have to seed data in order to test. Seeded data usually uses random data, which will make every seed unique, and it will never match the previous snapshot.
+When testing dynamic pages, you will have to seed data in order to test the page. Seeded data usually uses random attributes which will make every seed unique. Generating unique attributes each time will never match the previous attribute stored in the snapshot.
 
 **How do we solve this problem?** We don't fake.
 
-When testing SEO pages, we will control our strings. If we want to test how a long post title gets cropped in the `<title/>` tag, we will seed always the same long title.
+When testing SEO pages, we will control our attributes. If we want to test how a title gets cropped in the `<title/>` tag, we will seed always the same long title.
 
 ```php
 test('article page SEO tags', function () {
@@ -148,23 +148,26 @@ test('article page SEO tags', function () {
 });
 ```
 
-Now we have a new issue: URLs have unique IDs. If you don't reset your database after each test (and it's fine if you don't), it's very likely that you will get different IDs per-run. This will make again snapshots fail.
+Now we have a new issue: unique IDs. It is very likely that you will get different IDs on each run, and if you use IDs in URLs, the snapshots won't match.
 
-The easiest solution to his problem is to replace the unique IDs with a generic string, and that's what the default serializer is doing.
+The easiest solution to his problem is to replace the unique IDs with a generic placeholder, and that's what the default serializer is doing.
 
-```
+```bash
 /article/this-is-a-very-long-title/15
+```
 Gets replaced to:
+```bash
 /article/this-is-a-very-long-title/{id}
 ```
 
 Now, any seeded article will match the snapshot.
 
-> In the case where replacing for {id} is not sufficient, snapshot testing may not be the best approach.
+> In the case where replacing numbers for {id} is not sufficient, snapshot testing may not be the best approach.
 
 ## Most common assertions
 
-From the SEO perspective, there are some rules that we must never break, and some of them are included in this package.
+Search engines have made it clear that breaking certain rules can lead to a negative ranking.
+In order to test them easier, this package includes assertions for some of these rules:
 
 ### Never have more than one H1
 
@@ -185,9 +188,9 @@ $seo->assertAllImagesHaveAltText();
 
 ## Conclusion
 
-If your website relies on search engines, you'll do whatever you can to please them, and that includes not messing up.
-Having a decent SEO coverage can give your team the confidence to refactor for example from blade to inertiajs, and now worry about modifying the SEO structure by accident.
+If your website relies on search engines, you will do whatever you can to please them, and that includes not messing up.
+Having a decent SEO coverage can give your team the confidence to refactor pages and now worry about modifying the SEO structure by accident.
 
-Checkout the package to see all the features it includes, and Pull-Request are welcome!
+Checkout the package to see all its features, and Pull-Request are welcome!
 
 [https://github.com/juampi92/test-seo](https://github.com/juampi92/test-seo#test-seo){target=_blank}
