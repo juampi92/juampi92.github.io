@@ -8,10 +8,11 @@ thumbnail_image: /assets/images/1-test-seo-code-preview.jpg
 ---
 
 SEO testing is a practice that can prevent unwanted changes in search engines.
-In the medium story I wrote, I explain the importance of it with a small story about duplicated content.
+If you are interested in knowing why, in this [medium article](https://medium.com/studocu-techblog/the-importance-of-testing-your-seo-9056e8f47ef7){target=_blank} I explain the importance of it, and the possible consequences of not doing so.
 
-This article will focus on testing SEO for your PHP project using a package I made called [test-seo](https://github.com/juampi92/test-seo){target=_blank}.
-Examples in this post are made using [Pest](https://pestphp.com/){target=_blank} with Laravel, but none of these are required for the package to work.
+This article will focus on testing a PHP project using the utility package [test-seo](https://github.com/juampi92/test-seo){target=_blank}.
+
+> Note: The examples in this post are made using [Pest](https://pestphp.com/){target=_blank} with Laravel, but none of these are required for the package to work.
 
 ![TestSEO Code Preview](/assets/images/1-test-seo-code-preview.jpg)
 
