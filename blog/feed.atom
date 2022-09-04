@@ -3,7 +3,7 @@
     <title>Juampi&#039;s Blog</title>
     <link href="https://barreto.jp/blog" />
     <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom" />
-    <updated>2022-09-04T22:46:42+00:00</updated>
+    <updated>2022-09-04T23:01:34+00:00</updated>
     <id>https://barreto.jp/blog/feed.atom</id>
     <author>
         <name>Juan Pablo Barreto</name>
@@ -38,7 +38,7 @@ If you are interested in knowing why, in this <a href="https://medium.com/studoc
 </code></pre>
 
 <blockquote>
-  <p>It is assumed Phpunit and Pest is already installed in your project.</p>
+  <p>It is assumed PHPUnit and Pest are already installed in your project.</p>
 </blockquote>
 
 <h2>Testing the landing page</h2>
@@ -93,9 +93,9 @@ test('landing page SEO tags', function () {
 });
 </code></pre>
 
-<p>The TestSEO implements the <a href="https://www.php.net/manual/en/jsonserializable.jsonserialize.php" target="_blank">jsonSerialize()</a> method, meaning that it will serialize into a JSON so it can be compared against the snapshot.</p>
+<p>The TestSEO implements the <a href="https://www.php.net/manual/en/jsonserializable.jsonserialize.php" target="_blank">jsonSerialize()</a> method to be compared against the JSON snapshot.</p>
 
-<p>By default, it will use simple data, like the title, description, robots, etc. If you would like to make your custom Serializer, you can follow the following steps:</p>
+<p>By default, it will use a simple structure serializer that includes the title, description, robots, etc. If you would like to make your custom Serializer, you can follow the following steps:</p>
 
 <pre><code class="language-php">use Juampi92\TestSEO\SEOData;
 use Juampi92\TestSEO\SnapshotFormatters\SnapshotSerializer;
@@ -130,11 +130,11 @@ class MySerializer implements SnapshotSerializer
 
 <h3>What about seeded data?</h3>
 
-<p>When testing dynamic pages, you will have to seed data in order to test. Seeded data usually uses random data, which will make every seed unique, and it will never match the previous snapshot.</p>
+<p>When testing dynamic pages, you will have to seed data in order to test the page. Seeded data usually uses random attributes which will make every seed unique. Generating unique attributes each time will never match the previous attribute stored in the snapshot.</p>
 
 <p><strong>How do we solve this problem?</strong> We don't fake.</p>
 
-<p>When testing SEO pages, we will control our strings. If we want to test how a long post title gets cropped in the <code>&lt;title/&gt;</code> tag, we will seed always the same long title.</p>
+<p>When testing SEO pages, we will control our attributes. If we want to test how a title gets cropped in the <code>&lt;title/&gt;</code> tag, we will seed always the same long title.</p>
 
 <pre><code class="language-php">test('article page SEO tags', function () {
     $article = Article::factory()-&gt;create([
@@ -155,24 +155,28 @@ class MySerializer implements SnapshotSerializer
 });
 </code></pre>
 
-<p>Now we have a new issue: URLs have unique IDs. If you don't reset your database after each test (and it's fine if you don't), it's very likely that you will get different IDs per-run. This will make again snapshots fail.</p>
+<p>Now we have a new issue: unique IDs. It is very likely that you will get different IDs on each run, and if you use IDs in URLs, the snapshots won't match.</p>
 
-<p>The easiest solution to his problem is to replace the unique IDs with a generic string, and that's what the default serializer is doing.</p>
+<p>The easiest solution to his problem is to replace the unique IDs with a generic placeholder, and that's what the default serializer is doing.</p>
 
-<pre><code>/article/this-is-a-very-long-title/15
-Gets replaced to:
-/article/this-is-a-very-long-title/{id}
+<pre><code class="language-bash">/article/this-is-a-very-long-title/15
+</code></pre>
+
+<p>Gets replaced to:</p>
+
+<pre><code class="language-bash">/article/this-is-a-very-long-title/{id}
 </code></pre>
 
 <p>Now, any seeded article will match the snapshot.</p>
 
 <blockquote>
-  <p>In the case where replacing for {id} is not sufficient, snapshot testing may not be the best approach.</p>
+  <p>In the case where replacing numbers for {id} is not sufficient, snapshot testing may not be the best approach.</p>
 </blockquote>
 
 <h2>Most common assertions</h2>
 
-<p>From the SEO perspective, there are some rules that we must never break, and some of them are included in this package.</p>
+<p>Search engines have made it clear that breaking certain rules can lead to a negative ranking.
+In order to test them easier, this package includes assertions for some of these rules:</p>
 
 <h3>Never have more than one H1</h3>
 
@@ -191,10 +195,10 @@ This package comes with a method:</p>
 
 <h2>Conclusion</h2>
 
-<p>If your website relies on search engines, you'll do whatever you can to please them, and that includes not messing up.
-Having a decent SEO coverage can give your team the confidence to refactor for example from blade to inertiajs, and now worry about modifying the SEO structure by accident.</p>
+<p>If your website relies on search engines, you will do whatever you can to please them, and that includes not messing up.
+Having a decent SEO coverage can give your team the confidence to refactor pages and now worry about modifying the SEO structure by accident.</p>
 
-<p>Checkout the package to see all the features it includes, and Pull-Request are welcome!</p>
+<p>Checkout the package to see all its features, and Pull-Request are welcome!</p>
 
 <p><a href="https://github.com/juampi92/test-seo#test-seo" target="_blank">https://github.com/juampi92/test-seo</a></p>
     ]]></content>
