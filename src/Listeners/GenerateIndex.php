@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners;
+namespace BarretoJP\Listeners;
 
 use TightenCo\Jigsaw\Jigsaw;
 

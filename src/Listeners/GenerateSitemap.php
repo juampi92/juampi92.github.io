@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners;
+namespace BarretoJP\Listeners;
 
 use samdark\sitemap\Sitemap;
 use TightenCo\Jigsaw\Jigsaw;

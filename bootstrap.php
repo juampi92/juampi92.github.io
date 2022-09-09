@@ -14,5 +14,5 @@
  * });
  */
 
-$events->afterBuild(App\Listeners\GenerateSitemap::class);
-$events->afterBuild(App\Listeners\GenerateIndex::class);
+$events->afterBuild(BarretoJP\Listeners\GenerateSitemap::class);
+$events->afterBuild(BarretoJP\Listeners\GenerateIndex::class);
