@@ -4,6 +4,10 @@
     $page->type = 'article';
 @endphp
 
+@section('meta')
+    <link rel="canonical" href="{{ $page->getUrl() }}" />
+@endsection
+
 @section('body')
     <h1 class="text-3xl sm:text-5xl font-normal">{{ $page->title }}</h1>
 
