@@ -14,6 +14,7 @@ class GenerateSitemap
         '/favicon/*',
         '*/404*',
         '/CNAME',
+        '*/feed.atom',
     ];
 
     public function handle(Jigsaw $jigsaw)
