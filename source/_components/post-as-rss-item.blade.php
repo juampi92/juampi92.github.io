@@ -1,6 +1,6 @@
 <entry>
-    <id>{{ $entry->getUrl() }}</id>
-    <link type="text/html" rel="alternate" href="{{ $entry->getUrl() }}" />
+    <id>{{ $entry->getUrl() }}/</id>
+    <link type="text/html" rel="alternate" href="{{ $entry->getUrl() }}/" />
     <title>{{ $entry->title }}</title>
     <published>{{ date(DATE_ATOM, $entry->date) }}</published>
     <updated>{{ date(DATE_ATOM, $entry->date) }}</updated>

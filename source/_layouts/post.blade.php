@@ -5,7 +5,7 @@
 @endphp
 
 @section('meta')
-    <link rel="canonical" href="{{ $page->getUrl() }}" />
+    <link rel="canonical" href="{{ $page->getUrl() }}/" />
 @endsection
 
 @section('body')
@@ -39,7 +39,7 @@
     <nav class="flex justify-between text-sm md:text-base">
         <div>
             @if ($next = $page->getNext())
-                <a href="{{ $next->getUrl() }}" title="Older Post: {{ $next->title }}">
+                <a href="{{ $next->getUrl() }}/" title="Older Post: {{ $next->title }}">
                     &LeftArrow; {{ $next->title }}
                 </a>
             @endif
@@ -47,7 +47,7 @@
 
         <div>
             @if ($previous = $page->getPrevious())
-                <a href="{{ $previous->getUrl() }}" title="Newer Post: {{ $previous->title }}">
+                <a href="{{ $previous->getUrl() }}/" title="Newer Post: {{ $previous->title }}">
                     {{ $previous->title }} &RightArrow;
                 </a>
             @endif
