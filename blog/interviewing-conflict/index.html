@@ -4,14 +4,17 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="My thoughts on web development.">
+        <meta name="description" content="It is very common to start a technical interview by giving a coding challenge to the candidate and observing their problem-solving skills. Although technical skills are important, most developers face many soft-skill problems on a daily basis.">
 
-        <meta property="og:title" content="Home | Juampi&#039;s Blog"/>
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://barreto.jp/"/>
-        <meta property="og:description" content="My thoughts on web development." />
+        <meta property="og:title" content="Interviewing Conflict | Juampi&#039;s Blog"/>
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://barreto.jp/blog/interviewing-conflict"/>
+        <meta property="og:description" content="It is very common to start a technical interview by giving a coding challenge to the candidate and observing their problem-solving skills. Although technical skills are important, most developers face many soft-skill problems on a daily basis." />
+                    <meta property="image" content="/assets/images/2-interviewing-conflict.jpg" />
+            <meta property="og:image" content="/assets/images/2-interviewing-conflict.jpg" />
+            <meta property="twitter:image" content="/assets/images/2-interviewing-conflict.jpg" />
         
-        <title>Home | Juampi&#039;s Blog</title>
+        <title>Interviewing Conflict | Juampi&#039;s Blog</title>
 
         <link rel="home" href="https://barreto.jp">
 
@@ -33,7 +36,8 @@
             </script>
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        
+            <link rel="canonical" href="https://barreto.jp/blog/interviewing-conflict" />
+
         <link rel="stylesheet" href="/assets/build/css/main.css?id=6bc30715c901f83f5426745776a54136">
     </head>
 
@@ -96,61 +100,78 @@
 </nav>
 
         <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-8 px-10">
-            
-            <h1 class="text-3xl">Hi 👋🏼</h1>
-        <p>
-            I'm <b>Juan Pablo Barreto</b>, a PHP developer from Argentina living in <b>Amsterdam</b>.
-            <br>I currently work @ <a href="https://www.studocu.com/" target="_blank">Studocu</a> as a Staff Engineer.</p>
-        <p>
-            You can check out my open source contributions in <a title="Github" href="https://github.com/juampi92" target="_blank">Github</a>, and you can contact me on <a title="Twitter" href="https://twitter.com/Juampi_92" target="_blank">Twitter</a>.
-        </p>
-        <hr/>
+                <h1 class="text-3xl sm:text-5xl font-normal">Interviewing Conflict</h1>
+
+    <p class="mt-0 mb-12 text-gray-400">November 30, 2022</p>
+
     
-            <div class="flex flex-col mb-4">
-    <h2 class="text-3xl mt-0">
-        <a
-            href="https://barreto.jp/blog/interviewing-conflict"
-            title="Read more - Interviewing Conflict"
-            class="font-normal"
-        >Interviewing Conflict</a>
-        <p class="text-gray-500 font-thin my-2 text-sm">
-            November 30, 2022
+    <div class="border-b border-blue-200 mb-10 pb-3" v-pre>
+        <h2>Intro</h2>
+
+<p>It is very common to start a technical interview by giving a coding challenge to the candidate and observing their problem-solving skills.</p>
+
+<p>Although technical skills are important, most developers face many soft-skill problems on a daily basis. From reviewing pull requests to making RFCs, developers have to exchange ideas, negotiate, and deal with opinions from different cultures.</p>
+
+<p>It is the aim of this article to present interview strategies that can be used to detect conflicting candidates before hiring them.</p>
+
+<p><img src="/assets/images/2-interviewing-conflict.jpg" alt="Interviewing Conflict Preview" />
+Photo by <a href="https://unsplash.com/@hungriadb" target="_blank">Diogo Hungria</a> on Unsplash</p>
+
+<h2>The price of pride</h2>
+
+<p>Developers with experience tend to have big egos.
+Pride can make people focus on who is right or wrong, instead of working on what is right for the codebase.
+These long discussions tend to be very exhausting for everyone involved, lowering the morale of the developers involved, and preventing them from ever arguing with them again.</p>
+
+<h2>Interviewing for Conflicts</h2>
+
+<p>Would it be helpful to be able to identify candidates who will not integrate well with the rest of the team during the interview process?</p>
+
+<p><a href="https://www.google.com/search?q=interviewing+conflict" target="_blank">It is common practice</a> in the interview process to explicitly ask the candidate how would they deal with conflict. They are usually asked to describe a situation where they had conflicts with a colleague, and how did they manage to solve the problem. Although the intention is good, this is a theoretical question, and the practice can be far from ideal.</p>
+
+<p>A practice I adopted while interviewing is to focus on generating controlled conflicts and observing how the candidate reacts. Are they immediately defensive or are they considering new ideas? Are they asking questions to understand it better, or are they fixed in their initial solution? Can they recognize the pain points in their solution? Can they comprehend the tradeoffs from both solutions and make an informed decision considering both ideas?</p>
+
+<p>This practice is otherwise known as <a href="https://en.wiktionary.org/wiki/devil%27s_advocate#Noun" target="_blank">devil’s advocate</a>, and it is not only useful to test the strength of a proposal, but also to test how someone reacts to a difference of opinion from their own.</p>
+
+<h2>Do it yourself</h2>
+
+<p>This technique works only if you are going against an idea of their own. It helps if previous to the interview you reviewed a take-home test. Before the interview, we look for opinionated decisions that might have trade-offs with other approaches: are they using a specific pattern? Are they separating their responsibilities correctly? Could they be more decoupled?</p>
+
+<p>Once you’ve recognized these potential points, you should formulate a question that challenges the candidate to find weaknesses in them. You can achieve this by pointing out an edge case or proposing hypothetical scenarios where the solution doesn’t scale correctly.</p>
+
+<p>You should show that you don’t agree with their implementation, but instead of saying why you don’t, you should describe a situation that illustrates its flaws.</p>
+
+<p>The exercise is for them to reflect on their solution, understand the weakness you describe, and propose an alternative that will contemplate both, even if they don’t fully agree. Here, the goal is to get them to analyze the trade-offs of both solutions and engage in a productive discussion.</p>
+
+<p>It sounds simple, but you would be surprised at how many people act defensively against their code and have a hard time letting go of their own implementation.</p>
+
+<h2>Conclusion</h2>
+
+<p>Overall, what makes a high-performing team is not only having superhero developers, but having a healthy dynamic between team members.</p>
+
+<p>Team members who can communicate ideas without getting personal and collaborate towards a greater codebase will prove more valuable in the long run.</p>
+    </div>
+
+    <div class="border-blue-200 mb-10 pb-4 pt-1 text-center">
+        <p>
+            Have you found this helpful?
+            <br> Follow me on <a title="Twitter" href="https://twitter.com/Juampi_92" target="_blank">
+                <svg class="w-4 h-4 inline" viewBox="0 0 16 16" width="16" height="16"><g transform="matrix(0.6666666666666666,0,0,0.6666666666666666,0,0)"><path d="M23.32,6.44c0.212-0.177,0.241-0.492,0.065-0.704c-0.068-0.082-0.161-0.14-0.265-0.166l-0.79-0.2 c-0.268-0.067-0.431-0.339-0.364-0.606C21.974,4.731,21.986,4.7,22,4.67l0.44-0.89c0.12-0.249,0.015-0.548-0.233-0.668 C22.099,3.06,21.976,3.049,21.86,3.08l-2,0.56c-0.151,0.044-0.314,0.014-0.44-0.08c-0.865-0.649-1.918-1-3-1c-2.761,0-5,2.239-5,5 l0,0v0.36c0.001,0.127-0.094,0.235-0.22,0.25C8.39,8.5,5.7,7.07,2.8,3.73c-0.128-0.142-0.325-0.2-0.51-0.15 C2.124,3.656,2.013,3.817,2,4C1.599,5.645,1.761,7.377,2.46,8.92c0.062,0.123,0.013,0.274-0.11,0.336 C2.303,9.279,2.251,9.288,2.2,9.28L1.08,9.06C0.807,9.016,0.551,9.202,0.507,9.474C0.498,9.533,0.499,9.592,0.51,9.65 c0.175,1.555,1.047,2.945,2.37,3.78c0.124,0.06,0.176,0.21,0.116,0.334c-0.025,0.051-0.065,0.092-0.116,0.116l-0.53,0.21 c-0.256,0.103-0.381,0.394-0.278,0.65c0.005,0.014,0.011,0.027,0.018,0.04c0.595,1.302,1.791,2.229,3.2,2.48 c0.13,0.047,0.197,0.191,0.15,0.32c-0.025,0.07-0.08,0.124-0.15,0.15C3.93,18.292,2.471,18.575,1,18.56 c-0.276-0.055-0.545,0.124-0.6,0.4s0.124,0.545,0.4,0.6l0,0c2.548,1.208,5.321,1.866,8.14,1.93c2.479,0.038,4.915-0.658,7-2 c3.484-2.326,5.571-6.241,5.56-10.43V8.19c0.001-0.147,0.067-0.286,0.18-0.38L23.32,6.44z" stroke="none" fill="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>
+            </a> for more.
         </p>
-    </h2>
+    </div>
 
-    <p class="mb-4 mt-0">It is very common to start a technical interview by giving a coding challenge to the candidate and observing their problem-solving skills. Although technical skills are important, most developers face many soft-skill problems on a daily basis.</p>
+    <nav class="flex justify-between text-sm md:text-base">
+        <div>
+                            <a href="https://barreto.jp/blog/seo-testing" title="Older Post: Testing your SEO with PHP &amp; Pest">
+                    &LeftArrow; Testing your SEO with PHP &amp; Pest
+                </a>
+                    </div>
 
-    <a
-        href="https://barreto.jp/blog/interviewing-conflict"
-        title="Read more - Interviewing Conflict"
-        class="uppercase font-semibold tracking-wide mb-2"
-    >Read</a>
-</div>
-
-                    <hr class="border-b my-6">
-                    <div class="flex flex-col mb-4">
-    <h2 class="text-3xl mt-0">
-        <a
-            href="https://barreto.jp/blog/seo-testing"
-            title="Read more - Testing your SEO with PHP &amp; Pest"
-            class="font-normal"
-        >Testing your SEO with PHP &amp; Pest</a>
-        <p class="text-gray-500 font-thin my-2 text-sm">
-            September 1, 2022
-        </p>
-    </h2>
-
-    <p class="mb-4 mt-0">Just like any other test suite, SEO tests will give your team confidence in your HTML structure and will prevent expensive mistakes.</p>
-
-    <a
-        href="https://barreto.jp/blog/seo-testing"
-        title="Read more - Testing your SEO with PHP &amp; Pest"
-        class="uppercase font-semibold tracking-wide mb-2"
-    >Read</a>
-</div>
-
-            
-            </main>
+        <div>
+                    </div>
+    </nav>
+        </main>
 
         <footer class="bg-white text-center text-sm mt-6 py-4 border-t-2 border-t-gray-300" role="contentinfo">
             <ul class="flex flex-col md:flex-row justify-center list-none">

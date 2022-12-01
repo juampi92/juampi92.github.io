@@ -3,12 +3,69 @@
     <title>Juampi&#039;s Blog</title>
     <link href="https://barreto.jp/blog" />
     <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom" />
-    <updated>2022-09-09T07:12:42+00:00</updated>
+    <updated>2022-12-01T00:23:05+00:00</updated>
     <id>https://barreto.jp/blog/feed.atom</id>
     <author>
         <name>Juan Pablo Barreto</name>
     </author>
                 <entry>
+    <id>https://barreto.jp/blog/interviewing-conflict</id>
+    <link type="text/html" rel="alternate" href="https://barreto.jp/blog/interviewing-conflict" />
+    <title>Interviewing Conflict</title>
+    <published>2022-11-30T00:00:00+00:00</published>
+    <updated>2022-11-30T00:00:00+00:00</updated>
+    <author>
+        <name>Juan Pablo Barreto</name>
+    </author>
+    <summary type="html">It is very common to start a technical interview by giving a coding challenge to the candidate and observing their problem-solving skills. Although technical skills are important, most developers face many soft-skill problems on a daily basis.</summary>
+    <content type="html"><![CDATA[
+        <h2>Intro</h2>
+
+<p>It is very common to start a technical interview by giving a coding challenge to the candidate and observing their problem-solving skills.</p>
+
+<p>Although technical skills are important, most developers face many soft-skill problems on a daily basis. From reviewing pull requests to making RFCs, developers have to exchange ideas, negotiate, and deal with opinions from different cultures.</p>
+
+<p>It is the aim of this article to present interview strategies that can be used to detect conflicting candidates before hiring them.</p>
+
+<p><img src="/assets/images/2-interviewing-conflict.jpg" alt="Interviewing Conflict Preview" />
+Photo by <a href="https://unsplash.com/@hungriadb" target="_blank">Diogo Hungria</a> on Unsplash</p>
+
+<h2>The price of pride</h2>
+
+<p>Developers with experience tend to have big egos.
+Pride can make people focus on who is right or wrong, instead of working on what is right for the codebase.
+These long discussions tend to be very exhausting for everyone involved, lowering the morale of the developers involved, and preventing them from ever arguing with them again.</p>
+
+<h2>Interviewing for Conflicts</h2>
+
+<p>Would it be helpful to be able to identify candidates who will not integrate well with the rest of the team during the interview process?</p>
+
+<p><a href="https://www.google.com/search?q=interviewing+conflict" target="_blank">It is common practice</a> in the interview process to explicitly ask the candidate how would they deal with conflict. They are usually asked to describe a situation where they had conflicts with a colleague, and how did they manage to solve the problem. Although the intention is good, this is a theoretical question, and the practice can be far from ideal.</p>
+
+<p>A practice I adopted while interviewing is to focus on generating controlled conflicts and observing how the candidate reacts. Are they immediately defensive or are they considering new ideas? Are they asking questions to understand it better, or are they fixed in their initial solution? Can they recognize the pain points in their solution? Can they comprehend the tradeoffs from both solutions and make an informed decision considering both ideas?</p>
+
+<p>This practice is otherwise known as <a href="https://en.wiktionary.org/wiki/devil%27s_advocate#Noun" target="_blank">devil’s advocate</a>, and it is not only useful to test the strength of a proposal, but also to test how someone reacts to a difference of opinion from their own.</p>
+
+<h2>Do it yourself</h2>
+
+<p>This technique works only if you are going against an idea of their own. It helps if previous to the interview you reviewed a take-home test. Before the interview, we look for opinionated decisions that might have trade-offs with other approaches: are they using a specific pattern? Are they separating their responsibilities correctly? Could they be more decoupled?</p>
+
+<p>Once you’ve recognized these potential points, you should formulate a question that challenges the candidate to find weaknesses in them. You can achieve this by pointing out an edge case or proposing hypothetical scenarios where the solution doesn’t scale correctly.</p>
+
+<p>You should show that you don’t agree with their implementation, but instead of saying why you don’t, you should describe a situation that illustrates its flaws.</p>
+
+<p>The exercise is for them to reflect on their solution, understand the weakness you describe, and propose an alternative that will contemplate both, even if they don’t fully agree. Here, the goal is to get them to analyze the trade-offs of both solutions and engage in a productive discussion.</p>
+
+<p>It sounds simple, but you would be surprised at how many people act defensively against their code and have a hard time letting go of their own implementation.</p>
+
+<h2>Conclusion</h2>
+
+<p>Overall, what makes a high-performing team is not only having superhero developers, but having a healthy dynamic between team members.</p>
+
+<p>Team members who can communicate ideas without getting personal and collaborate towards a greater codebase will prove more valuable in the long run.</p>
+    ]]></content>
+</entry>
+            <entry>
     <id>https://barreto.jp/blog/seo-testing</id>
     <link type="text/html" rel="alternate" href="https://barreto.jp/blog/seo-testing" />
     <title>Testing your SEO with PHP &amp; Pest</title>

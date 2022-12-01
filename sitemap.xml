@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
  <url>
   <loc>https://barreto.jp</loc>
-  <lastmod>2022-09-09T07:12:42+00:00</lastmod>
+  <lastmod>2022-12-01T00:23:05+00:00</lastmod>
+  <changefreq>daily</changefreq>
+ </url>
+ <url>
+  <loc>https://barreto.jp/blog/interviewing-conflict</loc>
+  <lastmod>2022-12-01T00:23:05+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://barreto.jp/blog/seo-testing</loc>
-  <lastmod>2022-09-09T07:12:42+00:00</lastmod>
-  <changefreq>daily</changefreq>
- </url>
- <url>
-  <loc>https://barreto.jp/blog/feed.atom</loc>
-  <lastmod>2022-09-09T07:12:42+00:00</lastmod>
+  <lastmod>2022-12-01T00:23:05+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
 </urlset>
