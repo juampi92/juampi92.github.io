@@ -2,15 +2,15 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>Juampi&#039;s Blog</title>
     <link href="https://barreto.jp/blog" />
-    <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom" />
-    <updated>2022-12-01T08:55:22+00:00</updated>
-    <id>https://barreto.jp/blog/feed.atom</id>
+    <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom/" />
+    <updated>2022-12-01T09:14:41+00:00</updated>
+    <id>https://barreto.jp/blog/feed.atom/</id>
     <author>
         <name>Juan Pablo Barreto</name>
     </author>
                 <entry>
-    <id>https://barreto.jp/blog/interviewing-conflict</id>
-    <link type="text/html" rel="alternate" href="https://barreto.jp/blog/interviewing-conflict" />
+    <id>https://barreto.jp/blog/interviewing-conflict/</id>
+    <link type="text/html" rel="alternate" href="https://barreto.jp/blog/interviewing-conflict/" />
     <title>Interviewing Conflict</title>
     <published>2022-11-30T00:00:00+00:00</published>
     <updated>2022-11-30T00:00:00+00:00</updated>
@@ -66,8 +66,8 @@ These long discussions tend to be very exhausting for everyone involved, lowerin
     ]]></content>
 </entry>
             <entry>
-    <id>https://barreto.jp/blog/seo-testing</id>
-    <link type="text/html" rel="alternate" href="https://barreto.jp/blog/seo-testing" />
+    <id>https://barreto.jp/blog/seo-testing/</id>
+    <link type="text/html" rel="alternate" href="https://barreto.jp/blog/seo-testing/" />
     <title>Testing your SEO with PHP &amp; Pest</title>
     <published>2022-09-01T00:00:00+00:00</published>
     <updated>2022-09-01T00:00:00+00:00</updated>
