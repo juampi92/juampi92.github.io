@@ -4,14 +4,17 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="My thoughts on web development.">
+        <meta name="description" content="Sessions are an easy-to-use feature for a stateful application, but they usually get messy very quickly. Follow these steps to clean up your Sessions.">
 
-        <meta property="og:title" content="Juampi&#039;s Blog"/>
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://barreto.jp/404/"/>
-        <meta property="og:description" content="My thoughts on web development." />
+        <meta property="og:title" content="Reusable Sessions in Laravel | Juampi&#039;s Blog"/>
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://barreto.jp/blog/reusable-sessions/"/>
+        <meta property="og:description" content="Sessions are an easy-to-use feature for a stateful application, but they usually get messy very quickly. Follow these steps to clean up your Sessions." />
+                    <meta property="image" content="/assets/images/3-reusable-sessions.jpg" />
+            <meta property="og:image" content="/assets/images/3-reusable-sessions.jpg" />
+            <meta property="twitter:image" content="/assets/images/3-reusable-sessions.jpg" />
         
-        <title>Juampi&#039;s Blog</title>
+        <title>Reusable Sessions in Laravel | Juampi&#039;s Blog</title>
 
         <link rel="home" href="https://barreto.jp">
 
@@ -33,7 +36,8 @@
             </script>
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        
+            <link rel="canonical" href="https://barreto.jp/blog/reusable-sessions/" />
+
         <link rel="stylesheet" href="/assets/build/css/main.css?id=ee59ee3aca5902ac270f2d3c2d3fa7e1">
     </head>
 
@@ -96,17 +100,169 @@
 </nav>
 
         <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-8 px-10">
-                <div class="flex flex-col items-center text-gray-700 mt-32">
-        <h1 class="text-6xl font-light leading-none mb-2">404</h1>
+                <h1 class="text-3xl sm:text-5xl font-normal">Reusable Sessions in Laravel</h1>
 
-        <h2 class="text-3xl">Page not found.</h2>
+    <p class="mt-0 mb-12 text-gray-400">December 4, 2022</p>
 
-        <hr class="block w-full max-w-sm mx-auto border my-8">
+    
+    <div class="border-b border-blue-200 mb-10 pb-3" v-pre>
+        <p>Say you need to implement a simple shopping cart feature and you are planning on using the Session for it.</p>
 
-        <p class="text-xl">
-            Need to update this page? See the <a title="404 Page Documentation" href="https://jigsaw.tighten.co/docs/custom-404-page/">Jigsaw documentation</a>.
+<p>First, you create an endpoint to add a product and an amount:</p>
+
+<pre><code class="language-php">$request-&gt;session()-&gt;push('cart', [
+    'productId' =&gt; $product-&gt;id,
+    'amount' =&gt; $request-&gt;amount,
+]);
+</code></pre>
+
+<p>Then, to access it, you create the Cart endpoint to display all items:</p>
+
+<pre><code class="language-php">$items = $request-&gt;session()-&gt;get('cart', []);
+</code></pre>
+
+<p>Finally, you allow flushing the session altogether:</p>
+
+<pre><code class="language-php">$request-&gt;session()-&gt;forget('cart');
+</code></pre>
+
+<p>This implementation is decent enough, although we repeat <code>'cart'</code> too often. To avoid accidentally introducing a typo, we can refactor it into a constant.</p>
+
+<p>The client sees this and is happy about it. However, after using the feature, they realize they would like to see product recommendations based on what is in the cart.</p>
+
+<p>To achieve this, we simply need to use the <code>RecommendationService</code> that takes an array of product IDs.</p>
+
+<pre><code class="language-php">$items = $request-&gt;session()-&gt;get('cart', []);
+$productIds = Arr::pluck($items, 'productId');
+
+$recommendationService-&gt;recommend($productIds);
+</code></pre>
+
+<p>This approach doesn't scale. You will have to repeat every section that uses the session. Can you imagine how it would be to update the structure or the way we add products?</p>
+
+<h2>Repository pattern</h2>
+
+<p>This is where the Repository pattern comes into play. They abstract access to the data store and only provide access to business methods.</p>
+
+<p>Let's first imagine the methods we would like to have in this implementation.</p>
+
+<p>A method to add a product.</p>
+
+<pre><code class="language-php">public function addItem(Product $product, int $amount): void;
+</code></pre>
+
+<p>A method to get all items.</p>
+
+<pre><code class="language-php">/**
+ * @return array&lt;array{productId: int, amount: int}&gt;
+ */
+public function getItems(): array;
+</code></pre>
+
+<p>A method to flush all items.</p>
+
+<pre><code class="language-php">public function flush(): void;
+</code></pre>
+
+<p>And finally, a method to retrieve all products.</p>
+
+<pre><code class="language-php">/**
+ * @return array&lt;int&gt;
+ */
+public function getProductIds(): array;
+</code></pre>
+
+<p>Perfect!</p>
+
+<p>Now the implementation can write itself:</p>
+
+<pre><code class="language-php">&lt;?php
+
+namespace App\Http\Session;
+
+final class ShoppingCartSession
+{
+    private const KEY = 'cart';
+
+    public function __construct(
+        private readonly Store $store,
+    ) {}
+
+    public function addProduct(Product $product, int $amount): void
+    {
+        $this-&gt;store-&gt;push(self::KEY, [
+            'productId' =&gt; $product-&gt;id,
+            'amount' =&gt; $amount,
+        ]);
+    }
+
+    /**
+     * @return array&lt;array{productId: int, amount: int}&gt;
+     */
+    public function getItems(): array
+    {
+        return $this-&gt;store-&gt;get(self::KEY, []);
+    }
+
+    /**
+     * @return array&lt;int&gt;
+     */
+    public function getProductIds(): array
+    {
+        return Arr::pluck($this-&gt;getItems(), 'productId');
+    }
+
+    public function flush(): void
+    {
+        return $this-&gt;store-&gt;forget(self::KEY);
+    }
+}
+</code></pre>
+
+<p>And the controller would look something like this:</p>
+
+<pre><code class="language-php">public function store(Request $request, Product $product, ShoppingCartSession $cart)
+{
+    $cart-&gt;addProduct($product, $request-&gt;amount);
+    // ...
+</code></pre>
+
+<hr />
+
+<p>Some key features of using a class are:</p>
+
+<ul>
+<li>The dependencies are injected. There is no need to worry about facades or requests.</li>
+<li>You expose the methods that will be used by the controllers. As a consequence, you hide the underlying implementation, preventing invalid data from being inserted.</li>
+<li>You never expose the key.</li>
+</ul>
+
+<p>Even though in this example we store the same array-shape structure as we read, we could easily use a ValueObject, and refactor the getItems method to return an array of ProductItem value object instead.</p>
+
+<p>Now, where to locate these classes? I personally suggest <code>app/Http/Session</code>. Although they are a storage, the Session is an http-dependent storage (you can’t access the session inside a Command, for instance).</p>
+
+<p><u>Bonus track</u>: As a next level exercise, I would like to advise to take a look at this <a href="https://gist.github.com/juampi92/487dd66c5b2507679dd4c76863e6c01c" target="_blank">KeyedSession implementation</a> to avoid repeating the key every time.</p>
+    </div>
+
+    <div class="border-blue-200 mb-10 pb-4 pt-1 text-center">
+        <p>
+            Have you found this helpful?
+            <br> Follow me on <a title="Twitter" href="https://twitter.com/Juampi_92" target="_blank">
+                <svg class="w-4 h-4 inline" viewBox="0 0 16 16" width="16" height="16"><g transform="matrix(0.6666666666666666,0,0,0.6666666666666666,0,0)"><path d="M23.32,6.44c0.212-0.177,0.241-0.492,0.065-0.704c-0.068-0.082-0.161-0.14-0.265-0.166l-0.79-0.2 c-0.268-0.067-0.431-0.339-0.364-0.606C21.974,4.731,21.986,4.7,22,4.67l0.44-0.89c0.12-0.249,0.015-0.548-0.233-0.668 C22.099,3.06,21.976,3.049,21.86,3.08l-2,0.56c-0.151,0.044-0.314,0.014-0.44-0.08c-0.865-0.649-1.918-1-3-1c-2.761,0-5,2.239-5,5 l0,0v0.36c0.001,0.127-0.094,0.235-0.22,0.25C8.39,8.5,5.7,7.07,2.8,3.73c-0.128-0.142-0.325-0.2-0.51-0.15 C2.124,3.656,2.013,3.817,2,4C1.599,5.645,1.761,7.377,2.46,8.92c0.062,0.123,0.013,0.274-0.11,0.336 C2.303,9.279,2.251,9.288,2.2,9.28L1.08,9.06C0.807,9.016,0.551,9.202,0.507,9.474C0.498,9.533,0.499,9.592,0.51,9.65 c0.175,1.555,1.047,2.945,2.37,3.78c0.124,0.06,0.176,0.21,0.116,0.334c-0.025,0.051-0.065,0.092-0.116,0.116l-0.53,0.21 c-0.256,0.103-0.381,0.394-0.278,0.65c0.005,0.014,0.011,0.027,0.018,0.04c0.595,1.302,1.791,2.229,3.2,2.48 c0.13,0.047,0.197,0.191,0.15,0.32c-0.025,0.07-0.08,0.124-0.15,0.15C3.93,18.292,2.471,18.575,1,18.56 c-0.276-0.055-0.545,0.124-0.6,0.4s0.124,0.545,0.4,0.6l0,0c2.548,1.208,5.321,1.866,8.14,1.93c2.479,0.038,4.915-0.658,7-2 c3.484-2.326,5.571-6.241,5.56-10.43V8.19c0.001-0.147,0.067-0.286,0.18-0.38L23.32,6.44z" stroke="none" fill="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>
+            </a> for more.
         </p>
     </div>
+
+    <nav class="flex justify-between text-sm md:text-base">
+        <div>
+                            <a href="https://barreto.jp/blog/interviewing-conflict/" title="Older Post: Interviewing Conflict">
+                    &LeftArrow; Interviewing Conflict
+                </a>
+                    </div>
+
+        <div>
+                    </div>
+    </nav>
         </main>
 
         <footer class="bg-white text-center text-sm mt-6 py-4 border-t-2 border-t-gray-300" role="contentinfo">

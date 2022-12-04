@@ -3,12 +3,161 @@
     <title>Juampi&#039;s Blog</title>
     <link href="https://barreto.jp/blog" />
     <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom/" />
-    <updated>2022-12-01T09:14:41+00:00</updated>
+    <updated>2022-12-04T15:19:42+00:00</updated>
     <id>https://barreto.jp/blog/feed.atom/</id>
     <author>
         <name>Juan Pablo Barreto</name>
     </author>
                 <entry>
+    <id>https://barreto.jp/blog/reusable-sessions/</id>
+    <link type="text/html" rel="alternate" href="https://barreto.jp/blog/reusable-sessions/" />
+    <title>Reusable Sessions in Laravel</title>
+    <published>2022-12-04T00:00:00+00:00</published>
+    <updated>2022-12-04T00:00:00+00:00</updated>
+    <author>
+        <name>Juan Pablo Barreto</name>
+    </author>
+    <summary type="html">Sessions are an easy-to-use feature for a stateful application, but they usually get messy very quickly. Follow these steps to clean up your Sessions.</summary>
+    <content type="html"><![CDATA[
+        <p>Say you need to implement a simple shopping cart feature and you are planning on using the Session for it.</p>
+
+<p>First, you create an endpoint to add a product and an amount:</p>
+
+<pre><code class="language-php">$request-&gt;session()-&gt;push('cart', [
+    'productId' =&gt; $product-&gt;id,
+    'amount' =&gt; $request-&gt;amount,
+]);
+</code></pre>
+
+<p>Then, to access it, you create the Cart endpoint to display all items:</p>
+
+<pre><code class="language-php">$items = $request-&gt;session()-&gt;get('cart', []);
+</code></pre>
+
+<p>Finally, you allow flushing the session altogether:</p>
+
+<pre><code class="language-php">$request-&gt;session()-&gt;forget('cart');
+</code></pre>
+
+<p>This implementation is decent enough, although we repeat <code>'cart'</code> too often. To avoid accidentally introducing a typo, we can refactor it into a constant.</p>
+
+<p>The client sees this and is happy about it. However, after using the feature, they realize they would like to see product recommendations based on what is in the cart.</p>
+
+<p>To achieve this, we simply need to use the <code>RecommendationService</code> that takes an array of product IDs.</p>
+
+<pre><code class="language-php">$items = $request-&gt;session()-&gt;get('cart', []);
+$productIds = Arr::pluck($items, 'productId');
+
+$recommendationService-&gt;recommend($productIds);
+</code></pre>
+
+<p>This approach doesn't scale. You will have to repeat every section that uses the session. Can you imagine how it would be to update the structure or the way we add products?</p>
+
+<h2>Repository pattern</h2>
+
+<p>This is where the Repository pattern comes into play. They abstract access to the data store and only provide access to business methods.</p>
+
+<p>Let's first imagine the methods we would like to have in this implementation.</p>
+
+<p>A method to add a product.</p>
+
+<pre><code class="language-php">public function addItem(Product $product, int $amount): void;
+</code></pre>
+
+<p>A method to get all items.</p>
+
+<pre><code class="language-php">/**
+ * @return array&lt;array{productId: int, amount: int}&gt;
+ */
+public function getItems(): array;
+</code></pre>
+
+<p>A method to flush all items.</p>
+
+<pre><code class="language-php">public function flush(): void;
+</code></pre>
+
+<p>And finally, a method to retrieve all products.</p>
+
+<pre><code class="language-php">/**
+ * @return array&lt;int&gt;
+ */
+public function getProductIds(): array;
+</code></pre>
+
+<p>Perfect!</p>
+
+<p>Now the implementation can write itself:</p>
+
+<pre><code class="language-php">&lt;?php
+
+namespace App\Http\Session;
+
+final class ShoppingCartSession
+{
+    private const KEY = 'cart';
+
+    public function __construct(
+        private readonly Store $store,
+    ) {}
+
+    public function addProduct(Product $product, int $amount): void
+    {
+        $this-&gt;store-&gt;push(self::KEY, [
+            'productId' =&gt; $product-&gt;id,
+            'amount' =&gt; $amount,
+        ]);
+    }
+
+    /**
+     * @return array&lt;array{productId: int, amount: int}&gt;
+     */
+    public function getItems(): array
+    {
+        return $this-&gt;store-&gt;get(self::KEY, []);
+    }
+
+    /**
+     * @return array&lt;int&gt;
+     */
+    public function getProductIds(): array
+    {
+        return Arr::pluck($this-&gt;getItems(), 'productId');
+    }
+
+    public function flush(): void
+    {
+        return $this-&gt;store-&gt;forget(self::KEY);
+    }
+}
+</code></pre>
+
+<p>And the controller would look something like this:</p>
+
+<pre><code class="language-php">public function store(Request $request, Product $product, ShoppingCartSession $cart)
+{
+    $cart-&gt;addProduct($product, $request-&gt;amount);
+    // ...
+</code></pre>
+
+<hr />
+
+<p>Some key features of using a class are:</p>
+
+<ul>
+<li>The dependencies are injected. There is no need to worry about facades or requests.</li>
+<li>You expose the methods that will be used by the controllers. As a consequence, you hide the underlying implementation, preventing invalid data from being inserted.</li>
+<li>You never expose the key.</li>
+</ul>
+
+<p>Even though in this example we store the same array-shape structure as we read, we could easily use a ValueObject, and refactor the getItems method to return an array of ProductItem value object instead.</p>
+
+<p>Now, where to locate these classes? I personally suggest <code>app/Http/Session</code>. Although they are a storage, the Session is an http-dependent storage (you can’t access the session inside a Command, for instance).</p>
+
+<p><u>Bonus track</u>: As a next level exercise, I would like to advise to take a look at this <a href="https://gist.github.com/juampi92/487dd66c5b2507679dd4c76863e6c01c" target="_blank">KeyedSession implementation</a> to avoid repeating the key every time.</p>
+    ]]></content>
+</entry>
+            <entry>
     <id>https://barreto.jp/blog/interviewing-conflict/</id>
     <link type="text/html" rel="alternate" href="https://barreto.jp/blog/interviewing-conflict/" />
     <title>Interviewing Conflict</title>
