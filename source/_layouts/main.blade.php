@@ -16,9 +16,9 @@
 
         <meta name="twitter:card" content="article">
         @if($page->thumbnail_image)
-            <meta name="image" content="{{ $page->thumbnail_image }}" />
-            <meta property="og:image" content="{{ $page->thumbnail_image }}" />
-            <meta name="twitter:image" content="{{ $page->thumbnail_image }}" />
+            <meta name="image" content="{{ $page->baseUrl }}{{ $page->thumbnail_image }}" />
+            <meta property="og:image" content="{{ $page->baseUrl }}{{ $page->thumbnail_image }}" />
+            <meta name="twitter:image" content="{{ $page->baseUrl }}{{ $page->thumbnail_image }}" />
             <meta name="twitter:card" content="summary_large_image"/>
         @endif
 
