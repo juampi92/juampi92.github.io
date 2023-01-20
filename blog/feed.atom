@@ -3,12 +3,65 @@
     <title>Juampi&#039;s Blog</title>
     <link href="https://barreto.jp/blog" />
     <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom/" />
-    <updated>2022-12-05T10:29:41+00:00</updated>
+    <updated>2023-01-20T07:58:31+00:00</updated>
     <id>https://barreto.jp/blog/feed.atom/</id>
     <author>
         <name>Juan Pablo Barreto</name>
     </author>
                 <entry>
+    <id>https://barreto.jp/blog/dev-only-config/</id>
+    <link type="text/html" rel="alternate" href="https://barreto.jp/blog/dev-only-config/" />
+    <title>Dev-only Laravel config</title>
+    <published>2023-01-20T00:00:00+00:00</published>
+    <updated>2023-01-20T00:00:00+00:00</updated>
+    <author>
+        <name>Juan Pablo Barreto</name>
+    </author>
+    <summary type="html">Bloated configuration files in Laravel applications is an issue, particularly when using third-party packages. This post suggests disabling developer-only configuration files on production to keep configuration files lightweight and optimized.</summary>
+    <content type="html"><![CDATA[
+        <h2>Introduction</h2>
+
+<p>A key feature of Laravel is the way configuration files are handled. Configuration files are used to store and access a wide range of settings and parameters relevant for the application. As well as storing data like database connection strings or third-party service’s keys, they can also include application-specific data such as the title, authentication information, and other configuration settings.</p>
+
+<h2>A Growing Problem</h2>
+
+<p>Configuration files can easily become bloated and grow out of hand. This is especially true when working with third-party packages. Many third-party packages also use configuration files to configure their settings.</p>
+
+<p>Unfortunately, some of these packages are only meant to run on a development or CI/CD environment, but they will still introduce big configuration files into every production request.</p>
+
+<p>Packages like <a href="[https://github.com/enlightn/enlightn/blob/master/config/enlightn.php](https://github.com/enlightn/enlightn/blob/master/config/enlightn.php)">enlightn</a>, <a href="[https://github.com/barryvdh/laravel-debugbar/blob/master/config/debugbar.php](https://github.com/barryvdh/laravel-debugbar/blob/master/config/debugbar.php)">debugbar</a>, <a href="[https://github.com/laravel/telescope/blob/4.x/config/telescope.php](https://github.com/laravel/telescope/blob/4.x/config/telescope.php)">laravel telescope</a> are usually not used in production, yet they still contain a big configuration file that will be shipped to your production application.</p>
+
+<h2>A Possible Solution</h2>
+
+<p>My suggestion to handle this problem is to disable these developer-only configuration files on production. By ignoring certain configuration files, production can keep their configuration files lightweight and optimized.</p>
+
+<p><code>config/debugbar.php</code></p>
+
+<pre><code class="language-php">&lt;?php
+
+if (env('APP_ENV', 'production') === 'production') {
+    return [
+        'enabled' =&gt; false,
+    ];
+}
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Debugbar Settings
+</code></pre>
+
+<h2>Disclaimer</h2>
+
+<p>1) We can’t use <code>app()-&gt;environment(...)</code> inside config files because this method internally uses the config. Instead, we can use <code>env('APP_ENV')</code></p>
+
+<p>2) In third-party packages we can’t return an empty array <code>[]</code> because Laravel will use the package’s default configuration if no local configuration is found. Having at least one property will override this behavior and still keep a slim configuration for production.</p>
+
+<p>3) Having a different configuration for production can cause unexpected and untested results, so it is very important you are confident the code will fall back correctly.</p>
+    ]]></content>
+</entry>
+            <entry>
     <id>https://barreto.jp/blog/reusable-sessions/</id>
     <link type="text/html" rel="alternate" href="https://barreto.jp/blog/reusable-sessions/" />
     <title>Reusable Sessions in Laravel</title>
