@@ -3,7 +3,7 @@
     <title>Juampi&#039;s Blog</title>
     <link href="https://barreto.jp/blog" />
     <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom/" />
-    <updated>2023-01-20T07:58:31+00:00</updated>
+    <updated>2023-01-22T17:13:02+00:00</updated>
     <id>https://barreto.jp/blog/feed.atom/</id>
     <author>
         <name>Juan Pablo Barreto</name>
@@ -29,7 +29,7 @@
 
 <p>Unfortunately, some of these packages are only meant to run on a development or CI/CD environment, but they will still introduce big configuration files into every production request.</p>
 
-<p>Packages like <a href="[https://github.com/enlightn/enlightn/blob/master/config/enlightn.php](https://github.com/enlightn/enlightn/blob/master/config/enlightn.php)">enlightn</a>, <a href="[https://github.com/barryvdh/laravel-debugbar/blob/master/config/debugbar.php](https://github.com/barryvdh/laravel-debugbar/blob/master/config/debugbar.php)">debugbar</a>, <a href="[https://github.com/laravel/telescope/blob/4.x/config/telescope.php](https://github.com/laravel/telescope/blob/4.x/config/telescope.php)">laravel telescope</a> are usually not used in production, yet they still contain a big configuration file that will be shipped to your production application.</p>
+<p>Packages like <a href="https://github.com/enlightn/enlightn/blob/master/config/enlightn.php" target="_blank">enlightn</a>, <a href="https://github.com/barryvdh/laravel-debugbar/blob/master/config/debugbar.php" target="_blank">debugbar</a>, <a href="https://github.com/laravel/telescope/blob/4.x/config/telescope.php" target="_blank">laravel telescope</a> are usually not used in production, yet they still contain a big configuration file that will be shipped to your production application.</p>
 
 <h2>A Possible Solution</h2>
 
