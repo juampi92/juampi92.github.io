@@ -24,6 +24,11 @@ git add . && git commit -m "Build for deploy"
 git push && cd ..
 ```
 
+one-liner:
+```
+npm run prod && rm -fr gh-pages/* && cp -a ./build_production/. ./gh-pages/ && cd ./gh-pages && git add . && git commit -m "Build for deploy" && git push && cd ..
+```
+
 ## [Markdown tips](https://michelf.ca/projects/php-markdown/extra/)
 
 - `### Header {#id-for-anchor}`
