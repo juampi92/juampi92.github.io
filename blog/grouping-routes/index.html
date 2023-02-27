@@ -5,20 +5,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-        <meta property="og:title" content="Juampi&#039;s Blog"/>
-        <meta name="twitter:title" content="Juampi&#039;s Blog">
+        <meta property="og:title" content="When and How to Group Routes in Laravel - Juampi&#039;s Blog"/>
+        <meta name="twitter:title" content="When and How to Group Routes in Laravel - Juampi&#039;s Blog">
 
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://barreto.jp/404/"/>
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://barreto.jp/blog/grouping-routes/"/>
 
-        <meta name="description" content="My thoughts on web development.">
-        <meta property="og:description" content="My thoughts on web development." />
+        <meta name="description" content="This article discusses the problem of route file organization in Laravel applications and presents an alternative approach to route grouping that makes searching for paths easier and more efficient. It also covers the trade-offs and benefits of grouping routes and provides examples of when and how to group routes effectively.">
+        <meta property="og:description" content="This article discusses the problem of route file organization in Laravel applications and presents an alternative approach to route grouping that makes searching for paths easier and more efficient. It also covers the trade-offs and benefits of grouping routes and provides examples of when and how to group routes effectively." />
 
         <meta name="twitter:card" content="article">
+                    <meta name="image" content="https://barreto.jp/assets/images/5-grouping-routes.jpg" />
+            <meta property="og:image" content="https://barreto.jp/assets/images/5-grouping-routes.jpg" />
+            <meta name="twitter:image" content="https://barreto.jp/assets/images/5-grouping-routes.jpg" />
+            <meta name="twitter:card" content="summary_large_image"/>
         
         <meta name="twitter:creator" content="@juampi_92"/>
 
-        <title>Juampi&#039;s Blog</title>
+        <title>When and How to Group Routes in Laravel | Juampi&#039;s Blog</title>
 
         <link rel="home" href="https://barreto.jp">
 
@@ -40,7 +44,8 @@
             </script>
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        
+            <link rel="canonical" href="https://barreto.jp/blog/grouping-routes/" />
+
         <link rel="stylesheet" href="/assets/build/css/main.css?id=ee59ee3aca5902ac270f2d3c2d3fa7e1">
     </head>
 
@@ -103,17 +108,132 @@
 </nav>
 
         <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-8 px-10">
-                <div class="flex flex-col items-center text-gray-700 mt-32">
-        <h1 class="text-6xl font-light leading-none mb-2">404</h1>
+                <h1 class="text-3xl sm:text-5xl font-normal">When and How to Group Routes in Laravel</h1>
 
-        <h2 class="text-3xl">Page not found.</h2>
+    <p class="mt-0 mb-12 text-gray-400">February 27, 2023</p>
 
-        <hr class="block w-full max-w-sm mx-auto border my-8">
+    
+    <div class="border-b border-blue-200 mb-10 pb-3" v-pre>
+        <p>The aim of this article is to provide an explanation for why your route files should look less like this:</p>
 
-        <p class="text-xl">
-            Need to update this page? See the <a title="404 Page Documentation" href="https://jigsaw.tighten.co/docs/custom-404-page/">Jigsaw documentation</a>.
+<pre><code class="language-php">Route::prefix('playlists')-&gt;group(function () {
+    Route::prefix('/{playlist}')-&gt;group(function () {
+        Route::put('/', [PlaylistController::class, 'update']);
+        Route::get('/', [PlaylistController::class, 'show']);
+
+            Route::prefix('/tracks')-&gt;group(function () {
+                Route::put('/', [PlaylistTrackController::class, 'update']);
+                Route::post('/', [PlaylistTrackController::class, 'store']);
+                Route::get('/', [PlaylistTrackController::class, 'index']);
+                Route::delete('/', [PlaylistTrackController::class, 'delete']);
+            });
+
+        Route::prefix('/followers')-&gt;group(function () {
+            Route::put('/', [PlaylistFollowerController::class, 'follow']);
+            Route::delete('/', [PlaylistFollowerController::class, 'unfollow']);
+        });
+    });
+});
+
+Route::prefix('me')-&gt;group(function () {
+    Route::get('/playlists', [MePlaylistController::class, 'index']);
+});
+</code></pre>
+
+<p>And more like this:</p>
+
+<pre><code class="language-php">Route::put('/playlists/{playlist}', [PlaylistController::class, 'update']);
+Route::get('/playlists/{playlist}', [PlaylistController::class, 'show']);
+
+Route::put('/playlists/{playlist}/tracks', [PlaylistTrackController::class, 'update']);
+Route::post('/playlists/{playlist}/tracks', [PlaylistTrackController::class, 'store']);
+Route::get('/playlists/{playlist}/tracks', [PlaylistTrackController::class, 'index']);
+Route::delete('/playlists/{playlist}/tracks', [PlaylistTrackController::class, 'delete']);
+
+Route::put('/playlists/{playlist}/followers', [PlaylistFollowerController::class, 'follow']);
+Route::delete('/playlists/{playlist}/followers', [PlaylistFollowerController::class, 'unfollow']);
+
+Route::get('/me/playlists', [MeFollowerController::class, 'index']);
+</code></pre>
+
+<h2>We search for paths</h2>
+
+<p>If you use a text editor you are probably used to searching files using their name. Usually, the file name is enough, but what would you do if your files are all named “index”, “show”, “update”? Then you would have to narrow your search by adding the path of it.</p>
+
+<p>The grouped approach makes searching for a path a complicated task and will make you scan multiple places before you find your match.</p>
+
+<p>It is likely that your routes don’t look exactly like the first example, but they probably have some level of grouping. We will discuss when it is good to group and how to group consciously.</p>
+
+<h2>Namespace grouping</h2>
+
+<p>A popular approach to route grouping can be grouping by <strong>domain</strong>. You can take the example of this <a href="https://laravel-news.com/managing-routes" target="_blank">Laravel News article</a>.</p>
+
+<p>If we adapt what the article mentions to our Spotify API example, we will have something like:</p>
+
+<pre><code class="language-php">Route::prefix('playlists')-&gt;as('playlists:')-&gt;middleware(['auth:sanctum'])-&gt;group(
+    base_path('routes/resources/playlists.php'),
+);
+
+Route::prefix('albums')-&gt;as('albums:')-&gt;middleware(['auth:sanctum'])-&gt;group(
+    base_path('routes/resources/albums.php'),
+);
+
+Route::prefix('tracks')-&gt;as('tracks:')-&gt;middleware(['auth:sanctum'])-&gt;group(
+    base_path('routes/resources/tracks.php'),
+);
+</code></pre>
+
+<p>The confusion here comes when using prefixes to group the domain.</p>
+
+<p>Our API has many ways to access the Tracks, and they all depend on the context from the previous menu:</p>
+
+<pre><code class="language-php">/albums/{album}/tracks
+/artists/{artist}/top-tracks
+/tracks/{track}
+/playlists/{playlist}/tracks
+/...
+</code></pre>
+
+<p>The confusion to this comes when you have a <code>PlaylistTrackController</code>, does it belong to the Playlist domain or the Track domain? Will you search for it inside the <code>routes/resources/playlists.php</code> or <code>routes/resources/tracks.php</code>.</p>
+
+<p>Personally, if the controller returns a Track response, then it shouldn't be part of the Playlist, even if the Playlist is the parent resource.</p>
+
+<p>Whether it's by domain or by the root of the path, it will require your team to align on the way you group routes and resources.</p>
+
+<h2>When to group</h2>
+
+<p>There are some cases where grouping is useful and almost mandatory.</p>
+
+<p><strong>Middleware</strong> is one such example, which can be easily overlooked but can have severe consequences. Grouping routes with shared middleware can declutter your definitions and prevent expensive mistakes.</p>
+
+<p>Sometimes, we may need to group items based on <strong>technical considerations</strong> rather than domain-specific reasons. Examples of this include using the <code>/api</code> prefix, indicating the version of an API with <code>/v1</code>, or specifying the website's locale with <code>/{locale}</code>.</p>
+
+<h2>Trade-offs</h2>
+
+<p>One advantage of grouping paths is that it helps ensure consistent naming across all routes. If there's a typo in one path, it will likely affect all the others in the same group, making it easier to detect and fix the error compared to having a typo in a long list of 30 routes that share a common prefix.</p>
+
+<p>These days, there are tools available in your IDE that can help you avoid typos, especially if you use English for your routes.</p>
+    </div>
+
+    <div class="border-blue-200 mb-10 pb-4 pt-1 text-center">
+        <p>
+            Have you found this helpful?
+            <br> Follow me on <a title="Twitter" href="https://twitter.com/Juampi_92" target="_blank">
+                <svg class="w-4 h-4 inline" viewBox="0 0 16 16" width="16" height="16"><g transform="matrix(0.6666666666666666,0,0,0.6666666666666666,0,0)"><path d="M23.32,6.44c0.212-0.177,0.241-0.492,0.065-0.704c-0.068-0.082-0.161-0.14-0.265-0.166l-0.79-0.2 c-0.268-0.067-0.431-0.339-0.364-0.606C21.974,4.731,21.986,4.7,22,4.67l0.44-0.89c0.12-0.249,0.015-0.548-0.233-0.668 C22.099,3.06,21.976,3.049,21.86,3.08l-2,0.56c-0.151,0.044-0.314,0.014-0.44-0.08c-0.865-0.649-1.918-1-3-1c-2.761,0-5,2.239-5,5 l0,0v0.36c0.001,0.127-0.094,0.235-0.22,0.25C8.39,8.5,5.7,7.07,2.8,3.73c-0.128-0.142-0.325-0.2-0.51-0.15 C2.124,3.656,2.013,3.817,2,4C1.599,5.645,1.761,7.377,2.46,8.92c0.062,0.123,0.013,0.274-0.11,0.336 C2.303,9.279,2.251,9.288,2.2,9.28L1.08,9.06C0.807,9.016,0.551,9.202,0.507,9.474C0.498,9.533,0.499,9.592,0.51,9.65 c0.175,1.555,1.047,2.945,2.37,3.78c0.124,0.06,0.176,0.21,0.116,0.334c-0.025,0.051-0.065,0.092-0.116,0.116l-0.53,0.21 c-0.256,0.103-0.381,0.394-0.278,0.65c0.005,0.014,0.011,0.027,0.018,0.04c0.595,1.302,1.791,2.229,3.2,2.48 c0.13,0.047,0.197,0.191,0.15,0.32c-0.025,0.07-0.08,0.124-0.15,0.15C3.93,18.292,2.471,18.575,1,18.56 c-0.276-0.055-0.545,0.124-0.6,0.4s0.124,0.545,0.4,0.6l0,0c2.548,1.208,5.321,1.866,8.14,1.93c2.479,0.038,4.915-0.658,7-2 c3.484-2.326,5.571-6.241,5.56-10.43V8.19c0.001-0.147,0.067-0.286,0.18-0.38L23.32,6.44z" stroke="none" fill="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>
+            </a> for more.
         </p>
     </div>
+
+    <nav class="flex justify-between text-sm md:text-base">
+        <div>
+                            <a href="https://barreto.jp/blog/dev-only-config/" title="Older Post: Dev-only Laravel config">
+                    &LeftArrow; Dev-only Laravel config
+                </a>
+                    </div>
+
+        <div>
+                    </div>
+    </nav>
         </main>
 
         <footer class="bg-white text-center text-sm mt-6 py-4 border-t-2 border-t-gray-300" role="contentinfo">

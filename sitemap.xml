@@ -2,27 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
  <url>
   <loc>https://barreto.jp/</loc>
-  <lastmod>2023-01-22T17:13:02+00:00</lastmod>
+  <lastmod>2023-02-27T18:59:50+00:00</lastmod>
+  <changefreq>daily</changefreq>
+ </url>
+ <url>
+  <loc>https://barreto.jp/blog/grouping-routes/</loc>
+  <lastmod>2023-02-27T18:59:50+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://barreto.jp/blog/interviewing-conflict/</loc>
-  <lastmod>2023-01-22T17:13:02+00:00</lastmod>
+  <lastmod>2023-02-27T18:59:50+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://barreto.jp/blog/dev-only-config/</loc>
-  <lastmod>2023-01-22T17:13:02+00:00</lastmod>
+  <lastmod>2023-02-27T18:59:50+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://barreto.jp/blog/reusable-sessions/</loc>
-  <lastmod>2023-01-22T17:13:02+00:00</lastmod>
+  <lastmod>2023-02-27T18:59:50+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
  <url>
   <loc>https://barreto.jp/blog/seo-testing/</loc>
-  <lastmod>2023-01-22T17:13:02+00:00</lastmod>
+  <lastmod>2023-02-27T18:59:50+00:00</lastmod>
   <changefreq>daily</changefreq>
  </url>
 </urlset>
