@@ -3,7 +3,7 @@
     <title>Juampi&#039;s Blog</title>
     <link href="https://barreto.jp/" />
     <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom" />
-    <updated>2023-05-16T21:31:34+00:00</updated>
+    <updated>2023-05-16T21:32:41+00:00</updated>
     <id>https://barreto.jp/blog/feed.atom</id>
     <author>
         <name>Juan Pablo Barreto</name>
@@ -240,8 +240,6 @@ WebPilot uses a hosted server to browse. A server that can be rate-limited by we
 <p>And here is with our plugin:</p>
 
 <p><img src="/assets/images/chatgpt-plugin-with-laravel/7-local-plugin-ip.png" alt="WebPilot IP" /></p>
-
-<p>(The IP is the IP of my computer)</p>
 
 <h2>Conclusion</h2>
 
