@@ -5,24 +5,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-        <meta property="og:title" content="When and How to Group Routes in Laravel - Juampi&#039;s Blog"/>
-        <meta name="twitter:title" content="When and How to Group Routes in Laravel - Juampi&#039;s Blog">
+        <meta property="og:title" content="ChatGPT Plugin with Laravel - Juampi&#039;s Blog"/>
+        <meta name="twitter:title" content="ChatGPT Plugin with Laravel - Juampi&#039;s Blog">
 
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://barreto.jp/blog/grouping-routes/"/>
+        <meta property="og:url" content="https://barreto.jp/blog/chatgpt-plugin-with-laravel/"/>
 
-        <meta name="description" content="This article discusses the problem of route file organization in Laravel applications and presents an alternative approach to route grouping that makes searching for paths easier and more efficient. It also covers the trade-offs and benefits of grouping routes and provides examples of when and how to group routes effectively.">
-        <meta property="og:description" content="This article discusses the problem of route file organization in Laravel applications and presents an alternative approach to route grouping that makes searching for paths easier and more efficient. It also covers the trade-offs and benefits of grouping routes and provides examples of when and how to group routes effectively." />
+        <meta name="description" content="Tutorial on building your first ChatGPT plugin with Laravel step by step.">
+        <meta property="og:description" content="Tutorial on building your first ChatGPT plugin with Laravel step by step." />
 
         <meta name="twitter:card" content="article">
-                    <meta name="image" content="https://barreto.jp/assets/images/5-grouping-routes.jpg" />
-            <meta property="og:image" content="https://barreto.jp/assets/images/5-grouping-routes.jpg" />
-            <meta name="twitter:image" content="https://barreto.jp/assets/images/5-grouping-routes.jpg" />
+                    <meta name="image" content="https://barreto.jp/assets/images/chatgpt-plugin-with-laravel/7-local-plugin-ip.png" />
+            <meta property="og:image" content="https://barreto.jp/assets/images/chatgpt-plugin-with-laravel/7-local-plugin-ip.png" />
+            <meta name="twitter:image" content="https://barreto.jp/assets/images/chatgpt-plugin-with-laravel/7-local-plugin-ip.png" />
             <meta name="twitter:card" content="summary_large_image"/>
         
         <meta name="twitter:creator" content="@juampi_92"/>
 
-        <title>When and How to Group Routes in Laravel | Juampi&#039;s Blog</title>
+        <title>ChatGPT Plugin with Laravel | Juampi&#039;s Blog</title>
 
         <link rel="home" href="https://barreto.jp">
 
@@ -44,7 +44,7 @@
             </script>
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-            <link rel="canonical" href="https://barreto.jp/blog/grouping-routes/" />
+            <link rel="canonical" href="https://barreto.jp/blog/chatgpt-plugin-with-laravel/" />
 
         <link rel="stylesheet" href="/assets/build/css/main.css?id=7a5e3758eab5e653f75642db3f6510cc">
     </head>
@@ -108,111 +108,241 @@
 </nav>
 
         <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-8 px-10">
-                <h1 class="text-3xl sm:text-5xl font-normal">When and How to Group Routes in Laravel</h1>
+                <h1 class="text-3xl sm:text-5xl font-normal">ChatGPT Plugin with Laravel</h1>
 
-    <p class="mt-0 mb-12 text-gray-400">February 27, 2023</p>
+    <p class="mt-0 mb-12 text-gray-400">May 16, 2023</p>
 
     
     <div class="border-b border-blue-200 mb-10 pb-3" v-pre>
-        <p>The aim of this article is to provide an explanation for why your route files should look less like this:</p>
+        <p>Starting last week (May 12), OpenAI <a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes#h_9894d7b0a4" target="_blank">rolled out</a> the plugins for ChatGPT plus users. This means that we can not only use the plugins from their store but also create our own plugins.</p>
 
-<pre><code class="language-php">Route::prefix('playlists')-&gt;group(function () {
-    Route::prefix('/{playlist}')-&gt;group(function () {
-        Route::put('/', [PlaylistController::class, 'update']);
-        Route::get('/', [PlaylistController::class, 'show']);
+<p>In this article, we will go through the process of creating a plugin for ChatGPT using Laravel.
+The plugin will be a very simple web browser that will fetch the HTML content of a given URL, but this concept can be applied to any other use case.</p>
 
-            Route::prefix('/tracks')-&gt;group(function () {
-                Route::put('/', [PlaylistTrackController::class, 'update']);
-                Route::post('/', [PlaylistTrackController::class, 'store']);
-                Route::get('/', [PlaylistTrackController::class, 'index']);
-                Route::delete('/', [PlaylistTrackController::class, 'delete']);
-            });
+<p>Why a browser? Because it's a simple example.</p>
 
-        Route::prefix('/followers')-&gt;group(function () {
-            Route::put('/', [PlaylistFollowerController::class, 'follow']);
-            Route::delete('/', [PlaylistFollowerController::class, 'unfollow']);
-        });
-    });
-});
+<p><strong>TL;DR:</strong> The code is available at <a href="https://github.com/juampi92/chatgpt-plugin-in-laravel" target="_blank">github.com/juampi92/chatgpt-plugin-in-laravel</a>.</p>
 
-Route::prefix('me')-&gt;group(function () {
-    Route::get('/playlists', [MePlaylistController::class, 'index']);
-});
+<h2>Step 0 - Setup</h2>
+
+<p>Start by creating a new laravel project</p>
+
+<pre><code>composer create-project laravel/laravel chatgpt-browse-plugin
+composer require guzzlehttp/guzzle
 </code></pre>
 
-<p>And more like this:</p>
+<p>We will need the <code>guzzlehttp/guzzle</code> package to make HTTP requests using the <a href="https://laravel.com/docs/http-client" target="_blank">Laravel HTTP Client</a>.</p>
 
-<pre><code class="language-php">Route::put('/playlists/{playlist}', [PlaylistController::class, 'update']);
-Route::get('/playlists/{playlist}', [PlaylistController::class, 'show']);
+<h2>Step 1 - Plugin configuration</h2>
 
-Route::put('/playlists/{playlist}/tracks', [PlaylistTrackController::class, 'update']);
-Route::post('/playlists/{playlist}/tracks', [PlaylistTrackController::class, 'store']);
-Route::get('/playlists/{playlist}/tracks', [PlaylistTrackController::class, 'index']);
-Route::delete('/playlists/{playlist}/tracks', [PlaylistTrackController::class, 'delete']);
+<p>ChatGPT requires us to have a plugin manifesto. This file is a JSON file that contains information about the plugin, such as the name, description, logo, etc.
+We will need to locate it in the following URL <code>localhost:8000/.well-known/ai-plugin.json</code>.</p>
 
-Route::put('/playlists/{playlist}/followers', [PlaylistFollowerController::class, 'follow']);
-Route::delete('/playlists/{playlist}/followers', [PlaylistFollowerController::class, 'unfollow']);
+<p>For reasons that will be explained later, we will create the file inside <code>resources/</code> instead of <code>public</code>.</p>
 
-Route::get('/me/playlists', [MeFollowerController::class, 'index']);
+<pre><code>mkdir resources/.well-known
+touch resources/.well-known/ai-plugin.json
 </code></pre>
 
-<h2>We search for paths</h2>
-
-<p>If you use a text editor you are probably used to searching files using their name. Usually, the file name is enough, but what would you do if your files are all named “index”, “show”, “update”? Then you would have to narrow your search by adding the path of it.</p>
-
-<p>The grouped approach makes searching for a path a complicated task and will make you scan multiple places before you find your match.</p>
-
-<p>It is likely that your routes don’t look exactly like the first example, but they probably have some level of grouping. We will discuss when it is good to group and how to group consciously.</p>
-
-<h2>Namespace grouping</h2>
-
-<p>A popular approach to route grouping can be grouping by <strong>domain</strong>. You can take the example of this <a href="https://laravel-news.com/managing-routes" target="_blank">Laravel News article</a>.</p>
-
-<p>If we adapt what the article mentions to our Spotify API example, we will have something like:</p>
-
-<pre><code class="language-php">Route::prefix('playlists')-&gt;as('playlists:')-&gt;middleware(['auth:sanctum'])-&gt;group(
-    base_path('routes/resources/playlists.php'),
-);
-
-Route::prefix('albums')-&gt;as('albums:')-&gt;middleware(['auth:sanctum'])-&gt;group(
-    base_path('routes/resources/albums.php'),
-);
-
-Route::prefix('tracks')-&gt;as('tracks:')-&gt;middleware(['auth:sanctum'])-&gt;group(
-    base_path('routes/resources/tracks.php'),
-);
+<pre><code class="language-json">{
+    "schema_version": "v1",
+    "name_for_human": "My Local Web Browser Plugin",
+    "name_for_model": "MyLocalWebBrowser",
+    "description_for_human": "Plugin for browsing the web locally in the name of ChatGPT.",
+    "description_for_model": "Plugin for browsing websites locally and getting their content.",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "http://localhost:8000/openapi.yaml",
+        "is_user_authenticated": false
+    },
+    "logo_url": "http://localhost:8000/logo.png",
+    "contact_email": "support@example.com",
+    "legal_info_url": "http://www.example.com/legal"
+}
 </code></pre>
 
-<p>The confusion here comes when using prefixes to group the domain.</p>
+<p><strong>Notes:</strong></p>
 
-<p>Our API has many ways to access the Tracks, and they all depend on the context from the previous menu:</p>
+<ul>
+<li>If you decide to use a different <strong>port</strong>, make sure to update the <code>url</code> fields (api.url and logo_url).</li>
+<li>Also, if you decide to use a different name, make sure <code>name_for_model</code> doesn't have any spaces.</li>
+</ul>
 
-<pre><code class="language-php">/albums/{album}/tracks
-/artists/{artist}/top-tracks
-/tracks/{track}
-/playlists/{playlist}/tracks
-/...
+<p>To make the file available to the public, we need to do two things:</p>
+
+<ol>
+<li>Update the routes in <code>routes/web.php</code>:</li>
+</ol>
+
+<pre><code class="language-php">Route::get('.well-known/ai-plugin.json', fn () =&gt;
+    File::get(resource_path('.well-known/ai-plugin.json')));
 </code></pre>
 
-<p>The confusion to this comes when you have a <code>PlaylistTrackController</code>, does it belong to the Playlist domain or the Track domain? Will you search for it inside the <code>routes/resources/playlists.php</code> or <code>routes/resources/tracks.php</code>.</p>
+<ol start="2">
+<li>Update <code>config/cors.php</code> to have <code>'paths' =&gt; ['*'],</code>.</li>
+</ol>
 
-<p>Personally, if the controller returns a Track response, then it shouldn't be part of the Playlist, even if the Playlist is the parent resource.</p>
+<p>The reason why we can't use the <code>/public</code> directory is because
+the plugin will be hosted on a different domain and the browser
+will block the request due to CORS.
+If you intend to host the plugin on a server, you can use
+the <code>/public</code> directory and configure apache/nginx to allow
+CORS on static files.</p>
 
-<p>Whether it's by domain or by the root of the path, it will require your team to align on the way you group routes and resources.</p>
+<h2>Step 2 - Making it browse</h2>
 
-<h2>When to group</h2>
+<p>Now we need to create the API that will be used by ChatGPT to browse the web.</p>
 
-<p>There are some cases where grouping is useful and almost mandatory.</p>
+<p>Let's create a new controller:</p>
 
-<p><strong>Middleware</strong> is one such example, which can be easily overlooked but can have severe consequences. Grouping routes with shared middleware can declutter your definitions and prevent expensive mistakes.</p>
+<pre><code>php artisan make:controller BrowseController
+</code></pre>
 
-<p>Sometimes, we may need to group items based on <strong>technical considerations</strong> rather than domain-specific reasons. Examples of this include using the <code>/api</code> prefix, indicating the version of an API with <code>/v1</code>, or specifying the website's locale with <code>/{locale}</code>.</p>
+<p>And the content of the controller should look something like this:</p>
 
-<h2>Trade-offs</h2>
+<pre><code class="language-php">use Illuminate\Support\Facades\Http;
 
-<p>One advantage of grouping paths is that it helps ensure consistent naming across all routes. If there's a typo in one path, it will likely affect all the others in the same group, making it easier to detect and fix the error compared to having a typo in a long list of 30 routes that share a common prefix.</p>
+public function __invoke(Request $request): JsonResponse
+{
+    ['url' =&gt; $url] = $request-&gt;validate([
+        'url' =&gt; 'required|url',
+    ]);
 
-<p>These days, there are tools available in your IDE that can help you avoid typos, especially if you use English for your routes.</p>
+    $response = Http::withHeaders([
+            'User-Agent' =&gt; 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
+        ])
+            -&gt;get($url);
+
+    return new JsonResponse([
+        'response' =&gt; $response-&gt;body(),
+    ]);
+}
+</code></pre>
+
+<p>Add the controller to <code>routes/api.php</code>:</p>
+
+<pre><code class="language-php">Route::get('/browse', BrowseController::class);
+</code></pre>
+
+<h2>Step 3 - API Documentation</h2>
+
+<p>In order for ChatGPT to understand how to use our plugin,
+we need to generate an <a href="https://spec.openapis.org/oas/v3.1.0" target="_blank">OpenAPI specification</a>.
+GPT will read the specification and decide when and how to use your endpoints,
+so it's important that the API is clear.</p>
+
+<p>To generate the actual yaml file, we will use the <code>zircote/swagger-php</code> package.</p>
+
+<pre><code class="language-php">composer require zircote/swagger-php --dev
+</code></pre>
+
+<p>Now we need to update the Controller using the OpenApi Annotations:</p>
+
+<pre><code class="language-php">/**
+ * @OA\Info(title="MyLocalWebBrowserAPI", version="0.1")
+ */
+class BrowseController extends Controller
+{
+    /**
+     * @OA\Get(
+     *     path="/api/browse",
+     *     summary="Get HTML content of an URL",
+     *     @OA\Parameter(
+     *         name="url",
+     *         in="query",
+     *         description="URL to fetch the HTML from",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="http://example.com"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="HTML content of the URL",
+     *         @OA\JsonContent(
+     *            type="object",
+     *            required={"response"},
+     *            @OA\Property(
+     *              property="response",
+     *              type="string",
+     *              description="Raw HTML content of the URL"
+     *           )
+     *         )
+     *     )
+     * )
+     */
+</code></pre>
+
+<p>To generate our OpenAPI specification, we run the following:</p>
+
+<pre><code class="language-bash">./vendor/bin/openapi app -o resources/openapi.yaml
+</code></pre>
+
+<p>And, for the same reasons mentioned before, add
+the following route to <code>routes/web.php</code>:</p>
+
+<pre><code class="language-php">Route::get('openapi.yaml', fn () =&gt;
+    File::get(resource_path('openapi.yaml')));
+</code></pre>
+
+<h2>Step 4 - Serving</h2>
+
+<p>To run our plugin, simply call</p>
+
+<pre><code class="language-bash">php artisan serve --port=8000
+</code></pre>
+
+<h2>Step 5 - Installing the plugin</h2>
+
+<p>Now that we have our plugin ready, we need to install it in ChatGPT.
+When creating a new GPT-4 chat, you can click on the "Plugins" button and then go to the Plugin store.</p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/1-gpt-4.png" alt="GPT-4" /></p>
+
+<p>From there, we go to the Plugin Store, and at the bottom, we click on <code>Develop your own plugin</code>.</p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/2-plugin-store.png" alt="Plugin Store" /></p>
+
+<p>Here we are presented with a form to fill in the domain of our plugin. We input <code>localhost:8000</code> (if you changed the port, make sure to use the correct one).</p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/3-enter-website-domain.png" alt="Enter Website Domain" /></p>
+
+<p>If anything went well, you will see the following screen:</p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/4-found-plugin.png" alt="Found Plugin" /></p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/5-new-plugin-selected.png" alt="New Plugin Selected" /></p>
+
+<h2>Step 6 - Using the plugin</h2>
+
+<p>Now that we have our plugin installed, we can use it in our chat.</p>
+
+<p>ChatGPT will decide when to use your plugin depending on your description and OpenAPI specification,
+so in the case of our browser plugin, simply giving a URL will do.</p>
+
+<p>You might be wondering: why not just use <a href="https://www.webpilot.ai/" target="_blank">WebPilot</a>, the plugin that comes with ChatGPT?</p>
+
+<p>The truth is that you can use WebPilot. The only difference is that
+WebPilot uses a hosted server to browse. A server that can be rate-limited by websites, and you can't customize.</p>
+
+<p>This is an example using WebPilot:
+<img src="/assets/images/chatgpt-plugin-with-laravel/6-webpilot-ip.png" alt="WebPilot IP" /></p>
+
+<p>And here is with our plugin:</p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/7-local-plugin-ip.png" alt="WebPilot IP" /></p>
+
+<p>(The IP is the IP of my computer)</p>
+
+<h2>Conclusion</h2>
+
+<p>In this simple article, we saw how to create a plugin for ChatGPT using Laravel.</p>
+
+<p>If you would like to see the whole code, you can find it <a href="https://github.com/juampi92/chatgpt-plugin-in-laravel" target="_blank">here: juampi92/chatgpt-plugin-in-laravel</a>. I added a few more features, like transforming the content into markdown, so there is less content to send to ChatGPT, and so hitting the characters limit less often.</p>
     </div>
 
     <div class="border-blue-200 mb-10 pb-4 pt-1 text-center">
@@ -226,15 +356,12 @@ Route::prefix('tracks')-&gt;as('tracks:')-&gt;middleware(['auth:sanctum'])-&gt;g
 
     <nav class="flex justify-between text-sm md:text-base">
         <div>
-                            <a href="https://barreto.jp/blog/dev-only-config/" title="Older Post: Dev-only Laravel config">
-                    &LeftArrow; Dev-only Laravel config
+                            <a href="https://barreto.jp/blog/grouping-routes/" title="Older Post: When and How to Group Routes in Laravel">
+                    &LeftArrow; When and How to Group Routes in Laravel
                 </a>
                     </div>
 
         <div>
-                            <a href="https://barreto.jp/blog/chatgpt-plugin-with-laravel/" title="Newer Post: ChatGPT Plugin with Laravel">
-                    ChatGPT Plugin with Laravel &RightArrow;
-                </a>
                     </div>
     </nav>
         </main>

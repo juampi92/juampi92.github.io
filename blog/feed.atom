@@ -3,12 +3,254 @@
     <title>Juampi&#039;s Blog</title>
     <link href="https://barreto.jp/" />
     <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom" />
-    <updated>2023-02-27T18:59:50+00:00</updated>
+    <updated>2023-05-16T21:23:19+00:00</updated>
     <id>https://barreto.jp/blog/feed.atom</id>
     <author>
         <name>Juan Pablo Barreto</name>
     </author>
                 <entry>
+    <id>https://barreto.jp/blog/chatgpt-plugin-with-laravel/</id>
+    <link type="text/html" rel="alternate" href="https://barreto.jp/blog/chatgpt-plugin-with-laravel/" />
+    <title>ChatGPT Plugin with Laravel</title>
+    <published>2023-05-16T00:00:00+00:00</published>
+    <updated>2023-05-16T00:00:00+00:00</updated>
+    <author>
+        <name>Juan Pablo Barreto</name>
+    </author>
+    <summary type="html">Tutorial on building your first ChatGPT plugin with Laravel step by step.</summary>
+    <content type="html"><![CDATA[
+        <p>Starting last week (May 12), OpenAI <a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes#h_9894d7b0a4" target="_blank">rolled out</a> the plugins for ChatGPT plus users. This means that we can not only use the plugins from their store but also create our own plugins.</p>
+
+<p>In this article, we will go through the process of creating a plugin for ChatGPT using Laravel.
+The plugin will be a very simple web browser that will fetch the HTML content of a given URL, but this concept can be applied to any other use case.</p>
+
+<p>Why a browser? Because it's a simple example.</p>
+
+<p><strong>TL;DR:</strong> The code is available at <a href="https://github.com/juampi92/chatgpt-plugin-in-laravel" target="_blank">github.com/juampi92/chatgpt-plugin-in-laravel</a>.</p>
+
+<h2>Step 0 - Setup</h2>
+
+<p>Start by creating a new laravel project</p>
+
+<pre><code>composer create-project laravel/laravel chatgpt-browse-plugin
+composer require guzzlehttp/guzzle
+</code></pre>
+
+<p>We will need the <code>guzzlehttp/guzzle</code> package to make HTTP requests using the <a href="https://laravel.com/docs/http-client" target="_blank">Laravel HTTP Client</a>.</p>
+
+<h2>Step 1 - Plugin configuration</h2>
+
+<p>ChatGPT requires us to have a plugin manifesto. This file is a JSON file that contains information about the plugin, such as the name, description, logo, etc.
+We will need to locate it in the following URL <code>localhost:8000/.well-known/ai-plugin.json</code>.</p>
+
+<p>For reasons that will be explained later, we will create the file inside <code>resources/</code> instead of <code>public</code>.</p>
+
+<pre><code>mkdir resources/.well-known
+touch resources/.well-known/ai-plugin.json
+</code></pre>
+
+<pre><code class="language-json">{
+    "schema_version": "v1",
+    "name_for_human": "My Local Web Browser Plugin",
+    "name_for_model": "MyLocalWebBrowser",
+    "description_for_human": "Plugin for browsing the web locally in the name of ChatGPT.",
+    "description_for_model": "Plugin for browsing websites locally and getting their content.",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "http://localhost:8000/openapi.yaml",
+        "is_user_authenticated": false
+    },
+    "logo_url": "http://localhost:8000/logo.png",
+    "contact_email": "support@example.com",
+    "legal_info_url": "http://www.example.com/legal"
+}
+</code></pre>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>If you decide to use a different <strong>port</strong>, make sure to update the <code>url</code> fields (api.url and logo_url).</li>
+<li>Also, if you decide to use a different name, make sure <code>name_for_model</code> doesn't have any spaces.</li>
+</ul>
+
+<p>To make the file available to the public, we need to do two things:</p>
+
+<ol>
+<li>Update the routes in <code>routes/web.php</code>:</li>
+</ol>
+
+<pre><code class="language-php">Route::get('.well-known/ai-plugin.json', fn () =&gt;
+    File::get(resource_path('.well-known/ai-plugin.json')));
+</code></pre>
+
+<ol start="2">
+<li>Update <code>config/cors.php</code> to have <code>'paths' =&gt; ['*'],</code>.</li>
+</ol>
+
+<p>The reason why we can't use the <code>/public</code> directory is because
+the plugin will be hosted on a different domain and the browser
+will block the request due to CORS.
+If you intend to host the plugin on a server, you can use
+the <code>/public</code> directory and configure apache/nginx to allow
+CORS on static files.</p>
+
+<h2>Step 2 - Making it browse</h2>
+
+<p>Now we need to create the API that will be used by ChatGPT to browse the web.</p>
+
+<p>Let's create a new controller:</p>
+
+<pre><code>php artisan make:controller BrowseController
+</code></pre>
+
+<p>And the content of the controller should look something like this:</p>
+
+<pre><code class="language-php">use Illuminate\Support\Facades\Http;
+
+public function __invoke(Request $request): JsonResponse
+{
+    ['url' =&gt; $url] = $request-&gt;validate([
+        'url' =&gt; 'required|url',
+    ]);
+
+    $response = Http::withHeaders([
+            'User-Agent' =&gt; 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
+        ])
+            -&gt;get($url);
+
+    return new JsonResponse([
+        'response' =&gt; $response-&gt;body(),
+    ]);
+}
+</code></pre>
+
+<p>Add the controller to <code>routes/api.php</code>:</p>
+
+<pre><code class="language-php">Route::get('/browse', BrowseController::class);
+</code></pre>
+
+<h2>Step 3 - API Documentation</h2>
+
+<p>In order for ChatGPT to understand how to use our plugin,
+we need to generate an <a href="https://spec.openapis.org/oas/v3.1.0" target="_blank">OpenAPI specification</a>.
+GPT will read the specification and decide when and how to use your endpoints,
+so it's important that the API is clear.</p>
+
+<p>To generate the actual yaml file, we will use the <code>zircote/swagger-php</code> package.</p>
+
+<pre><code class="language-php">composer require zircote/swagger-php --dev
+</code></pre>
+
+<p>Now we need to update the Controller using the OpenApi Annotations:</p>
+
+<pre><code class="language-php">/**
+ * @OA\Info(title="MyLocalWebBrowserAPI", version="0.1")
+ */
+class BrowseController extends Controller
+{
+    /**
+     * @OA\Get(
+     *     path="/api/browse",
+     *     summary="Get HTML content of an URL",
+     *     @OA\Parameter(
+     *         name="url",
+     *         in="query",
+     *         description="URL to fetch the HTML from",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="http://example.com"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="HTML content of the URL",
+     *         @OA\JsonContent(
+     *            type="object",
+     *            required={"response"},
+     *            @OA\Property(
+     *              property="response",
+     *              type="string",
+     *              description="Raw HTML content of the URL"
+     *           )
+     *         )
+     *     )
+     * )
+     */
+</code></pre>
+
+<p>To generate our OpenAPI specification, we run the following:</p>
+
+<pre><code class="language-bash">./vendor/bin/openapi app -o resources/openapi.yaml
+</code></pre>
+
+<p>And, for the same reasons mentioned before, add
+the following route to <code>routes/web.php</code>:</p>
+
+<pre><code class="language-php">Route::get('openapi.yaml', fn () =&gt;
+    File::get(resource_path('openapi.yaml')));
+</code></pre>
+
+<h2>Step 4 - Serving</h2>
+
+<p>To run our plugin, simply call</p>
+
+<pre><code class="language-bash">php artisan serve --port=8000
+</code></pre>
+
+<h2>Step 5 - Installing the plugin</h2>
+
+<p>Now that we have our plugin ready, we need to install it in ChatGPT.
+When creating a new GPT-4 chat, you can click on the "Plugins" button and then go to the Plugin store.</p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/1-gpt-4.png" alt="GPT-4" /></p>
+
+<p>From there, we go to the Plugin Store, and at the bottom, we click on <code>Develop your own plugin</code>.</p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/2-plugin-store.png" alt="Plugin Store" /></p>
+
+<p>Here we are presented with a form to fill in the domain of our plugin. We input <code>localhost:8000</code> (if you changed the port, make sure to use the correct one).</p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/3-enter-website-domain.png" alt="Enter Website Domain" /></p>
+
+<p>If anything went well, you will see the following screen:</p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/4-found-plugin.png" alt="Found Plugin" /></p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/5-new-plugin-selected.png" alt="New Plugin Selected" /></p>
+
+<h2>Step 6 - Using the plugin</h2>
+
+<p>Now that we have our plugin installed, we can use it in our chat.</p>
+
+<p>ChatGPT will decide when to use your plugin depending on your description and OpenAPI specification,
+so in the case of our browser plugin, simply giving a URL will do.</p>
+
+<p>You might be wondering: why not just use <a href="https://www.webpilot.ai/" target="_blank">WebPilot</a>, the plugin that comes with ChatGPT?</p>
+
+<p>The truth is that you can use WebPilot. The only difference is that
+WebPilot uses a hosted server to browse. A server that can be rate-limited by websites, and you can't customize.</p>
+
+<p>This is an example using WebPilot:
+<img src="/assets/images/chatgpt-plugin-with-laravel/6-webpilot-ip.png" alt="WebPilot IP" /></p>
+
+<p>And here is with our plugin:</p>
+
+<p><img src="/assets/images/chatgpt-plugin-with-laravel/7-local-plugin-ip.png" alt="WebPilot IP" /></p>
+
+<p>(The IP is the IP of my computer)</p>
+
+<h2>Conclusion</h2>
+
+<p>In this simple article, we saw how to create a plugin for ChatGPT using Laravel.</p>
+
+<p>If you would like to see the whole code, you can find it <a href="https://github.com/juampi92/chatgpt-plugin-in-laravel" target="_blank">here: juampi92/chatgpt-plugin-in-laravel</a>. I added a few more features, like transforming the content into markdown, so there is less content to send to ChatGPT, and so hitting the characters limit less often.</p>
+    ]]></content>
+</entry>
+            <entry>
     <id>https://barreto.jp/blog/grouping-routes/</id>
     <link type="text/html" rel="alternate" href="https://barreto.jp/blog/grouping-routes/" />
     <title>When and How to Group Routes in Laravel</title>
