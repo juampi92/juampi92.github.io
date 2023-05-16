@@ -3,7 +3,7 @@
     <title>Juampi&#039;s Blog</title>
     <link href="https://barreto.jp/" />
     <link type="application/atom+xml" rel="self" href="https://barreto.jp/blog/feed.atom" />
-    <updated>2023-05-16T21:23:19+00:00</updated>
+    <updated>2023-05-16T21:31:34+00:00</updated>
     <id>https://barreto.jp/blog/feed.atom</id>
     <author>
         <name>Juan Pablo Barreto</name>
@@ -216,7 +216,7 @@ When creating a new GPT-4 chat, you can click on the "Plugins" button and then g
 
 <p><img src="/assets/images/chatgpt-plugin-with-laravel/3-enter-website-domain.png" alt="Enter Website Domain" /></p>
 
-<p>If anything went well, you will see the following screen:</p>
+<p>If everything went well, you will see the following screen:</p>
 
 <p><img src="/assets/images/chatgpt-plugin-with-laravel/4-found-plugin.png" alt="Found Plugin" /></p>
 
