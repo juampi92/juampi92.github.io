@@ -43,3 +43,7 @@ table td {
     @apply text-gray-800;
     @apply underline;
 }
+
+ol, ul {
+    margin-left: 1rem;
+}
