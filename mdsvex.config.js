@@ -1,0 +1,32 @@
+import { defineMDSveXConfig } from 'mdsvex';
+import { createHighlighter } from '@svelte-dev/pretty-code';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import remarkSmartypants from 'remark-smartypants';
+import remarkGfm from 'remark-gfm';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export default defineMDSveXConfig({
+	extensions: ['.md', '.svx'],
+	highlight: {
+		highlighter: createHighlighter({
+			theme: 'github-light',
+			keepBackground: true
+		})
+	},
+	remarkPlugins: [remarkSmartypants, remarkGfm],
+	rehypePlugins: [
+		rehypeSlug,
+		[
+			rehypeAutolinkHeadings,
+			{
+				behavior: 'wrap',
+				properties: { className: 'linked-heading' }
+			}
+		],
+	]
+});
+

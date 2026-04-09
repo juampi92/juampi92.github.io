@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+@theme {
+	--font-sans: Montserrat, ui-sans-serif, system-ui, sans-serif;
+	--font-serif: Merriweather, Georgia, Cambria, Times New Roman, Times, serif;
+}
+
+:root {
+	--text: rgb(36, 41, 47);
+	--title: rgb(31, 35, 40);
+	--bg: rgb(255, 255, 255);
+	--code-bg: rgb(246, 248, 250);
+	--link: rgb(9, 105, 218);
+	--border: rgb(208, 215, 222);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: 'Merriweather', Georgia, Cambria, 'Times New Roman', Times, serif;
+	line-height: 1.7;
+	font-size: 18px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: var(--title);
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 900;
+	line-height: 1.2;
+	margin: 2.5rem 0 1rem;
+}
+
+h1 {
+	font-size: 2.25rem;
+	margin-top: 0;
+}
+
+h2 {
+	font-size: 1.75rem;
+}
+
+h3 {
+	font-size: 1.375rem;
+}
+
+a {
+	color: var(--link);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+code {
+	font-family: 'Courier New', Courier, monospace;
+	background: var(--code-bg);
+	color: rgb(36, 41, 47);
+	padding: 0.2em 0.4em;
+	border-radius: 0.375em;
+	font-size: 0.9em;
+}
+
+figure {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+pre {
+	background: var(--code-bg);
+	color: rgb(36, 41, 47);
+	padding: 1.25rem;
+	border-radius: 0.5rem;
+	overflow-x: auto;
+	margin: 2rem 0;
+	border: 1px solid var(--border);
+}
+
+/* Code blocks marked with "wide" break out of container on larger screens */
+@media (min-width: 768px) {
+	.wide > figure > pre {
+		width: calc(100% + 8rem);
+		margin-left: -4rem;
+		margin-right: -4rem;
+		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	.wide > figure > pre {
+		width: calc(100% + 16rem);
+		margin-left: -8rem;
+		margin-right: -8rem;
+		padding-left: 3rem;
+		padding-right: 3rem;
+	}
+}
+
+pre code {
+	background: none;
+	padding: 0;
+}
+
+blockquote {
+	border-left: 4px solid var(--link);
+	padding-left: 1.5rem;
+	margin-left: 0;
+	margin-right: 0;
+	font-style: italic;
+	color: rgb(87, 96, 106);
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	border-radius: 0.5rem;
+}
+
+.linked-heading {
+	color: var(--title);
+}
+
+.linked-heading:hover {
+	text-decoration: none;
+}
+
+/* Better spacing for paragraphs */
+p {
+	margin: 1.5rem 0;
+}
+
+p:first-child {
+	margin-top: 0;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+/* Lists with better spacing */
+ul, ol {
+	margin: 2rem 0;
+	padding-left: 2rem;
+}
+
+li {
+	margin: 0.75rem 0;
+	line-height: 1.6;
+}
+
+/* Horizontal rule styling */
+hr {
+	border: none;
+	border-top: 2px solid var(--border);
+	margin: 3rem 0;
+}
+
+/* Improve article readability with proper line length */
+article img {
+	margin-top: 2.5rem;
+	margin-bottom: 2.5rem;
+}
+
+/* Better spacing for article content */
+article > * + * {
+	margin-top: 1.5rem;
+}
+
+article > h1 + *,
+article > h2 + *,
+article > h3 + * {
+	margin-top: 1rem;
+}
