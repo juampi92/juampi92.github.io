@@ -4,10 +4,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkSmartypants from 'remark-smartypants';
 import remarkGfm from 'remark-gfm';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import rehypeExternalLinks from './src/lib/markdown/external-links.js';
 
 export default defineMDSveXConfig({
 	extensions: ['.md', '.svx'],
@@ -27,6 +24,6 @@ export default defineMDSveXConfig({
 				properties: { className: 'linked-heading' }
 			}
 		],
+		rehypeExternalLinks
 	]
 });
-

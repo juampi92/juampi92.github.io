@@ -1,5 +1,6 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.ico';
+	import { dev } from '$app/environment';
 
 	import '@fontsource/merriweather/400.css';
 	import '@fontsource/merriweather/700.css';
@@ -11,6 +12,15 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	{#if !dev}
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-FKJEWDM5N9"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-FKJEWDM5N9');
+		</script>
+	{/if}
 </svelte:head>
 
 <div class="mx-auto max-w-3xl bg-[--bg] px-8 py-16 text-[--text]">

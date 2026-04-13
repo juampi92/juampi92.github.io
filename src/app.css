@@ -8,6 +8,7 @@
 :root {
 	--text: rgb(36, 41, 47);
 	--title: rgb(31, 35, 40);
+	--h3-title: #6741d9;
 	--bg: rgb(255, 255, 255);
 	--code-bg: rgb(246, 248, 250);
 	--link: rgb(9, 105, 218);
@@ -51,7 +52,22 @@ h2 {
 }
 
 h3 {
-	font-size: 1.375rem;
+	font-size: 1.5rem;
+	font-family: 'Courier New', Courier, monospace;
+	font-weight: 700;
+	color: var(--h3-title);
+
+	line-height: 0.75;
+}
+
+h3::before {
+	content: "// ";
+	opacity: 0.35;
+	font-weight: 800;
+}
+
+h3 + p {
+	margin-top: 0;
 }
 
 a {
@@ -137,6 +153,10 @@ img {
 	color: var(--title);
 }
 
+h3 .linked-heading {
+	color: var(--h3-title);
+}
+
 .linked-heading:hover {
 	text-decoration: none;
 }
@@ -158,6 +178,14 @@ p:last-child {
 ul, ol {
 	margin: 2rem 0;
 	padding-left: 2rem;
+}
+
+ul {
+	list-style-type: disc;
+}
+
+ol {
+	list-style-type: decimal;
 }
 
 li {
