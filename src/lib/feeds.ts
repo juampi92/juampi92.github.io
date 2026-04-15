@@ -1,26 +1,27 @@
 import { Feed } from 'feed';
 import { getListedPosts } from './posts';
 
+export const SITE_URL = 'https://barreto.jp/';
+
 export const metadata = {
-	title: 'My Blog',
-	description: 'A blog powered by SvelteKit',
+	title: "Juampi's Blog",
+	description: 'Articles on software, engineering, and more.',
 	author: {
-		name: 'Your Name',
-		email: 'your.email@example.com',
-		link: 'https://yourblog.com/'
+		name: 'Juan Pablo Barreto',
+		email: 'juampi92@gmail.com',
+		link: SITE_URL
 	}
 };
 
 export async function generateFeed() {
 	const posts = await getListedPosts();
-	const site_url = 'https://yourblog.com/';
+	const site_url = SITE_URL;
 
 	const feedOptions = {
 		author: metadata.author,
 		description: metadata.description,
 		favicon: `${site_url}favicon.ico`,
 		feedLinks: { atom: `${site_url}atom.xml`, rss: `${site_url}rss.xml` },
-		generator: 'Feed for Node.js',
 		id: site_url,
 		link: site_url,
 		title: metadata.title
