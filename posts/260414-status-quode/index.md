@@ -15,7 +15,7 @@ This article will give those rules a name. Because once you can name them, you c
 
 The Status Quo is Latin for _the existing state of affairs_, but don't let that simple definition deceive you.
 
-The Status Quo hides behind normality. It embeds itself so deeply in habit that it stopped looking like a choice and started looking like _the way things are_. You only notice it when you contrast it against a different era or a different culture. Normality, as it turns out, is a matter of perspective.
+The Status Quo hides behind normality. It embeds itself so deeply in habit that it stopped looking like a choice and started looking like _the way things are_. It is not a believe you hold, it's a default you don't notice holding. The awareness of it only comes when something breaks the pattern: a different culture, a different era. Normality, as it turns out, is a matter of perspective.
 
 Consider something as mundane as working days. Working five days a week is so embedded in everyday life that nobody questions a Monday-to-Friday schedule, but deviating from it requires explanation. The two-day weekend is not even [100 years old depending on your country](https://en.wikipedia.org/wiki/Workweek_and_weekend).
 
@@ -40,7 +40,15 @@ Software development is collaborative by nature, and most of that collaboration 
 
 An agreed programming language is not enough. Where to place files, how to name classes, group routes, indentation: all of these micro-agreements form a layer of shared understanding that sits on top of the technology itself. **This is what I call the Status Quode**.
 
-Every codebase you have ever worked on has one. It is a combination of the industry's conventions for that specific language or framework, the team's accumulated preferences, the patterns the earliest contributors chose, and the corrections that happened along the way through PR reviews, guild meetings, and tooling. It evolved. It was not designed. And most of the time, it is hard to articulate **what it is**, but easy to feel **when it is not**.
+Every codebase you have ever worked on has one. It is a combination of the industry's conventions for that specific language or framework, the team's accumulated preferences, the patterns the earliest contributors chose, and the corrections that happened along the way through PR reviews, team meetings, and tooling. It evolved. It was not designed. And most of the time, it is hard to articulate **what it is**, but easy to feel **when it is not**.
+
+Just like its namesake, the Status Quode is largely unconscious. You don't think "I follow convention X when naming services". You just name the service they way you see fit. The pattern lives in routine and common sense, not in a document. You become aware of it only when someone breaks it, or when you join a new codebase that is not aligned with your own practices.
+
+### Conventions vs the Status Quode
+
+Conventions are conscious. They are discussed, agreed upon, written down. A convention is a statement of intent: this is how we want things to be done. But a convention can exist on paper and be dead in practice: documented in a wiki nobody reads, enforced in an optional linter that nobody runs.
+
+The Status Quode is not what you agreed to do, it is **what you actually do**. It is the pattern that lives in every contributor's head that shapes code that the rest will then approve. Conventions attempt to shape the Status Quode, and when they succeed, the two align. But when they don't, the Status Quode is the accurate representation of reality: it is the practice, not the policy.
 
 ## Working with it
 
@@ -98,7 +106,7 @@ If you want to propose something different, start by providing evidence.
 
 Choose the right place. Guild meetings, proposals, RFCs. Avoid challenging the Status Quode during PR reviews: that's where it gets enforced, not where it gets redesigned. It would slow down the process of shipping software and turns code reviews into philosophical debates.
 
-Once the proposal is agreed upon, invest in enforcement: CI checks, linting rules, agentic skills/rules, auto-completions. Make the new way the path of least resistance. Because the moment it becomes effortless, it becomes the new Status Quode.
+Once the proposal is agreed upon, invest in enforcement: CI checks, linting rules, agentic skills/rules, auto-completions. Make the new way the path of least resistance. Because the moment it becomes effortless, it becomes the new Status Quode. This is where conventions earn their weight: not when they are written, but when they close the gap between what is documented and what is practiced.
 
 ## Your turn
 
