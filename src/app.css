@@ -211,6 +211,31 @@ article > * + * {
 	margin-top: 1.5rem;
 }
 
+/* Table styles */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 2rem 0;
+	font-size: 0.95em;
+}
+
+th, td {
+	border: 1px solid var(--border);
+	padding: 0.6rem 1rem;
+	text-align: left;
+}
+
+th {
+	background: var(--code-bg);
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 700;
+	font-size: 0.875em;
+}
+
+tr:nth-child(even) td {
+	background: rgb(246, 248, 250, 0.5);
+}
+
 article > h1 + *,
 article > h2 + *,
 article > h3 + * {

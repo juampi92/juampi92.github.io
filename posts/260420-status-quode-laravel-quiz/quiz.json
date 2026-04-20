@@ -1,0 +1,410 @@
+{
+  "name": "Laravel Status Quode",
+  "description": "A set of patterns, conventions, habits, defaults, and lints that make a Laravel codebase feel predictable. Each question has several valid answers, but only one is the one the codebase supports or expects by default.",
+  "categories": [
+    { "id": "http",         "name": "HTTP" },
+    { "id": "tests",        "name": "Tests" },
+    { "id": "models",       "name": "Models" },
+    { "id": "databases",    "name": "Databases" },
+    { "id": "events",       "name": "Events" },
+    { "id": "commands",     "name": "Artisan Commands" },
+    { "id": "config",       "name": "Configuration" },
+    { "id": "architecture", "name": "Architecture" },
+    { "id": "facades",      "name": "Facades" }
+  ],
+  "questions": [
+    {
+      "id": "http-01",
+      "category_id": "http",
+      "question": "How do you name the route for `POST /photos`?",
+      "pattern": "Laravel's seven resource verbs: `index`, `create`, `store`, `show`, `edit`, `update`, `destroy`, are the vocabulary for resourceful routes. `store` is the verb for persisting a new record, not `save` (an Eloquent method), not `create` (the GET form-display route), and not `new` (a Rails convention).",
+      "options": [
+        {
+          "value": "`photos.create`",
+          "is_status_quode": false,
+          "rationale": "`create` is reserved for the `GET` route that **displays the creation form**, not for persisting."
+        },
+        {
+          "value": "`photos.new`",
+          "is_status_quode": false,
+          "rationale": "This is a Rails convention. It does not exist in Laravel's resource routing vocabulary."
+        },
+        {
+          "value": "`photos.save`",
+          "is_status_quode": false,
+          "rationale": "`save()` is the **Eloquent method** for creating or updating a model - not a route name."
+        },
+        {
+          "value": "`photos.store`",
+          "is_status_quode": true,
+          "rationale": "The Status Quode verb for persisting a new record. Defined in the controller stub and documented throughout the routing docs."
+        }
+      ],
+      "sources": [
+        "https://github.com/laravel/docs/blob/13.x/controllers.md?plain=1#L305",
+        "https://github.com/laravel/framework/blob/v13.5.0/src/Illuminate/Routing/Console/stubs/controller.stub#L26-L32"
+      ]
+    },
+    {
+      "id": "http-02",
+      "category_id": "http",
+      "question": "How do you name a middleware that denies access if the user's email is not verified?",
+      "pattern": "Middleware names in Laravel are **imperative phrases** - they describe an action being enforced, not a noun describing what the class is. `EnsureEmailIsVerified` reads as a gate that acts. `VerifiedEmailCheckerMiddleware` reads as a label for a thing.",
+      "options": [
+        {
+          "value": "`EmailEnsureMiddleware`",
+          "is_status_quode": false,
+          "rationale": "Two problems: the word order is awkward, and Laravel does not suffix middleware class names with `Middleware` - the namespace already conveys that."
+        },
+        {
+          "value": "`EnsureEmailIsVerified`",
+          "is_status_quode": true,
+          "rationale": "Imperative verb phrase. Laravel itself ships this exact middleware in Breeze, and the pattern holds across the framework: `RedirectIfAuthenticated`, `PreventRequestsDuringMaintenance`, `TrimStrings`."
+        },
+        {
+          "value": "`VerifiedEmailEnsurer`",
+          "is_status_quode": false,
+          "rationale": "Nominalizing the verb into an agent noun (`Ensurer`) is not idiomatic in Laravel's class naming style."
+        },
+        {
+          "value": "`VerifiedEmailCheckerMiddleware`",
+          "is_status_quode": false,
+          "rationale": "Both the agent-noun pattern and the `Middleware` suffix are non-idiomatic."
+        }
+      ],
+      "sources": [
+        "https://github.com/laravel/breeze/blob/2.x/stubs/api/app/Http/Middleware/EnsureEmailIsVerified.php#L10",
+        "https://github.com/laravel/framework/blob/v13.5.0/src/Illuminate/Http/Middleware"
+      ]
+    },
+    {
+      "id": "tests-01",
+      "category_id": "tests",
+      "question": "How should test methods be named?",
+      "pattern": "Laravel's Pint preset overrides PHP-CS-Fixer's default camelCase test casing and enforces **snake_case with a `test_` prefix**. The prefix is required for PHPUnit to recognise the method as a test without a `@test` annotation.",
+      "options": [
+        {
+          "value": "```php\npublic function test_it_returns_a_successful_response(): void\n```",
+          "is_status_quode": true,
+          "rationale": "snake_case with `test_` prefix. This is what Laravel's Pint preset enforces via the `php_unit_method_casing` rule."
+        },
+        {
+          "value": "```php\npublic function testItReturnsASuccessfulResponse(): void\n```",
+          "is_status_quode": false,
+          "rationale": "camelCase is the PHP-CS-Fixer **default**, but Laravel's Pint preset explicitly overrides this to snake_case."
+        },
+        {
+          "value": "```php\n/** @test */\npublic function itReturnsASuccessfulResponse(): void\n```",
+          "is_status_quode": false,
+          "rationale": "The `@test` annotation pattern is not Laravel's default, and it is deprecated in PHPUnit 10+."
+        }
+      ],
+      "sources": [
+        "https://github.com/laravel/pint/blob/48f6ac89e31952ec7e4bccb99ae5a2bad24c9edf/resources/presets/laravel.php#L189",
+        "https://cs.symfony.com/doc/rules/php_unit/php_unit_method_casing.html"
+      ]
+    },
+    {
+      "id": "tests-02",
+      "category_id": "tests",
+      "question": "Where does this test live?\n\n```php\n// A test that stores a photo:\n$user = User::factory()->create();\n\n$this->actingAs($user)\n     ->post('/photos', [\n         'title' => 'Sunset',\n         'url'   => 'https://example.com/sunset.jpg',\n     ])\n     ->assertRedirect('/photos');\n\n$this->assertDatabaseHas('photos', ['title' => 'Sunset']);\n```",
+      "pattern": "Laravel's default test suite has two directories: `tests/Unit/` for isolated class tests with no framework boot, and `tests/Feature/` for tests that hit HTTP endpoints, touch the database, or exercise multiple layers together.",
+      "options": [
+        {
+          "value": "`tests/Unit/`",
+          "is_status_quode": false,
+          "rationale": "Unit tests do not boot the framework. Using `$this->post()` or `assertDatabaseHas()` requires a running application - that belongs in Feature."
+        },
+        {
+          "value": "`tests/Feature/`",
+          "is_status_quode": true,
+          "rationale": "This test hits an HTTP endpoint (`post('/photos')`) and asserts against the database (`assertDatabaseHas`). Both signals point to a Feature test."
+        },
+        {
+          "value": "`tests/Http/`",
+          "is_status_quode": false,
+          "rationale": "Not a suite in the default `phpunit.xml`. Some teams create this, but it is not the Status Quode."
+        }
+      ],
+      "sources": [
+        "https://github.com/laravel/framework/blob/v13.5.0/phpunit.xml",
+        "https://laravel.com/docs/testing"
+      ]
+    },
+    {
+      "id": "models-01",
+      "category_id": "models",
+      "question": "What is the pivot table name for a many-to-many between `User` and `Role`?",
+      "pattern": "Laravel guesses pivot table names as **singular snake_case model names joined in alphabetical order**. This is what `BelongsToMany::joiningTable()` computes - any deviation requires passing the table name explicitly to `belongsToMany()`.",
+      "options": [
+        {
+          "value": "`user_role`",
+          "is_status_quode": false,
+          "rationale": "Wrong alphabetical order. `r` comes before `u`, so `role` should be first."
+        },
+        {
+          "value": "`users_roles`",
+          "is_status_quode": false,
+          "rationale": "Wrong alphabetical order + plural form is not the Laravel convention."
+        },
+        {
+          "value": "`roles_users`",
+          "is_status_quode": false,
+          "rationale": "Plural form is not the Laravel convention for pivot tables."
+        },
+        {
+          "value": "`role_user`",
+          "is_status_quode": true,
+          "rationale": "Alphabetical (`r` before `u`), singular, snake_case. `HasRelationships::joiningTable()` computes exactly this: sort + implode."
+        }
+      ],
+      "sources": [
+        "https://github.com/laravel/framework/blob/v13.5.0/src/Illuminate/Database/Eloquent/Concerns/HasRelationships.php#L940-L958",
+        "https://laravel.com/docs/eloquent-relationships#many-to-many"
+      ]
+    },
+    {
+      "id": "databases-01",
+      "category_id": "databases",
+      "question": "An `Article` is written by a `User`.\n\n| `users` | `articles` |\n|-------|----------|\n| id, name | id, title, content | \n\nWhat do you name the foreign key on `articles`?",
+      "pattern": "Laravel derives foreign key column names as **`{related_model_snake}_id`**. This single convention is what makes `foreignId()`, `belongsTo()` guessing, `constrained()`, and factory relationships all auto-wire without any explicit configuration.",
+      "options": [
+        {
+          "value": "`authored_by`",
+          "is_status_quode": false,
+          "rationale": "Breaks the convention that infers column names from relationships."
+        },
+        {
+          "value": "`created_by`",
+          "is_status_quode": false,
+          "rationale": "A reasonable domain label, but forces explicit column names in `belongsTo()` calls."
+        },
+        {
+          "value": "`user_id`",
+          "is_status_quode": true,
+          "rationale": "Follows `{model_snake}_id`. Let's `belongsTo(User::class)` and `constrained()` auto-wire without configuration."
+        },
+        {
+          "value": "`author_id`",
+          "is_status_quode": false,
+          "rationale": "Valid, but requires explicit column and table names: `belongsTo(User::class, 'author_id')` and `constrained('users')`."
+        }
+      ],
+      "sources": [
+        "https://github.com/laravel/framework/blob/v13.5.0/src/Illuminate/Database/Eloquent/Concerns/HasRelationships.php#L372-L377"
+      ]
+    },
+    {
+      "id": "databases-02",
+      "category_id": "databases",
+      "question": "What do you name the migration for this operation?\n\n```php\nSchema::table('users', function (Blueprint $table) {\n    $table->string('avatar')->nullable()->after('password');\n});\n```",
+      "pattern": "Laravel's `TableGuesser` parses migration class names using `_to_` and `_from_` patterns to infer the target table automatically. The `add_{columns}_to_{table}_table` format also serves as a self-documenting changelog - reading the migration list tells you the history of the schema.",
+      "options": [
+        {
+          "value": "`add_avatar_to_users_table`",
+          "is_status_quode": true,
+          "rationale": "Matches the `_to_` pattern in `TableGuesser`, which infers `users` as the target table. Reads as a clear, self-documenting schema changelog entry."
+        },
+        {
+          "value": "`update_users_table`",
+          "is_status_quode": false,
+          "rationale": "Too generic. `TableGuesser` will not reliably infer the target table, and the name gives no information about what changed."
+        },
+        {
+          "value": "`update_users_table_add_avatar_column`",
+          "is_status_quode": false,
+          "rationale": "Does not match any `TableGuesser` regex pattern."
+        }
+      ],
+      "sources": [
+        "https://github.com/laravel/framework/blob/v13.5.0/src/Illuminate/Database/Console/Migrations/TableGuesser.php"
+      ]
+    },
+    {
+      "id": "databases-03",
+      "category_id": "databases",
+      "question": "What is the expected table name for a `BlogPost` model?",
+      "pattern": "Eloquent derives table names automatically via `Str::snake(Str::pluralStudly(class_basename($model)))`. Knowing this formula lets you predict table names for any model without looking them up.",
+      "options": [
+        {
+          "value": "`blogposts`",
+          "is_status_quode": false,
+          "rationale": "No word separator. `Str::snake` on `BlogPost` produces `blog_posts`, not `blogposts`."
+        },
+        {
+          "value": "`blogPosts`",
+          "is_status_quode": false,
+          "rationale": "camelCase in database identifiers is not idiomatic and is not what `Str::snake` produces."
+        },
+        {
+          "value": "`blog_posts`",
+          "is_status_quode": true,
+          "rationale": "`Str::snake(Str::pluralStudly('BlogPost'))` → `blog_posts`. This is computed by `Model::getTable()` automatically."
+        }
+      ],
+      "sources": [
+        "https://github.com/laravel/framework/blob/v13.5.0/src/Illuminate/Database/Eloquent/Model.php#L2233-L2236"
+      ]
+    },
+    {
+      "id": "events-01",
+      "category_id": "events",
+      "question": "What is the class name for an event fired when an order is shipped?",
+      "pattern": "**Events are named in the past tense** - they record that something already happened. This is distinct from Jobs and Listeners, which are named as imperative verb phrases (things *to do*). The tense is the signal.",
+      "options": [
+        {
+          "value": "`ShippedOrderEvent`",
+          "is_status_quode": false,
+          "rationale": "Laravel does not suffix event classes with `Event`. The `Events/` namespace already conveys the type."
+        },
+        {
+          "value": "`ShipOrder`",
+          "is_status_quode": false,
+          "rationale": "Imperative verb phrase is the pattern for **Jobs** - things to execute. Events report something that has already happened."
+        },
+        {
+          "value": "`OrderShipped`",
+          "is_status_quode": true,
+          "rationale": "Past-tense noun phrase, no suffix. The Laravel docs use this exact class as the canonical event example."
+        },
+        {
+          "value": "`OrderShipmentEvent`",
+          "is_status_quode": false,
+          "rationale": "Combines two anti-patterns: the redundant `Event` suffix and a noun compound (`Shipment`) instead of a past-tense verb phrase. It describes a concept rather than something that *occurred*."
+        }
+      ],
+      "sources": [
+        "https://laravel.com/docs/events",
+        "https://github.com/laravel/framework/tree/v13.5.0/src/Illuminate/Auth/Events"
+      ]
+    },
+    {
+      "id": "commands-01",
+      "category_id": "commands",
+      "question": "How do you name an Artisan command that sends invoices to customers?",
+      "pattern": "Artisan command signatures follow a **`namespace:kebab-action`** format. The namespace groups related commands (like a CLI module), and the action is a kebab-case description of what it does. No namespace, wrong casing, or an inverted structure all make commands harder to discover and inconsistent with the framework's own commands.",
+      "options": [
+        {
+          "value": "`sendInvoices`",
+          "is_status_quode": false,
+          "rationale": "No namespace. All user-defined commands should be namespaced to avoid collisions with Laravel's built-in commands and to keep `php artisan list` readable. Also, camelCase."
+        },
+        {
+          "value": "`app:sendInvoices`",
+          "is_status_quode": false,
+          "rationale": "The action part uses camelCase. Artisan signatures use **kebab-case** after the colon. The `app` namespace is too generic, and you are encouraged to come up with the right namespace."
+        },
+        {
+          "value": "`send:invoices`",
+          "is_status_quode": false,
+          "rationale": "Inverted structure. The namespace should be the domain group (like `invoices` or `billing`), not the action. `send` reads as the action, not a domain namespace."
+        },
+        {
+          "value": "`invoices:send`",
+          "is_status_quode": true,
+          "rationale": "`namespace:kebab-action`. Domain namespace first, then a clear description of the action. Consistent with Laravel's own commands: `queue:work`, `cache:clear`, `route:list`."
+        }
+      ],
+      "sources": [
+        "https://laravel.com/docs/artisan#writing-commands",
+        "https://github.com/laravel/framework/tree/v13.5.0/src/Illuminate/Foundation/Console/ConsoleMakeCommand.php#L49"
+      ]
+    },
+
+    {
+    "id": "architecture-01",
+    "category_id": "architecture",
+    "question": "Where do you place a trait that adds `HasTimestamps` behaviour to multiple Eloquent models?",
+    "pattern": "Laravel - and the broader PHP ecosystem that follows Laravel's lead - uses a **`Concerns/` folder** to group traits. The name signals that a trait *concerns* a class with a focused behaviour, as opposed to being a utility helper or a standalone class. This convention appears consistently across the framework itself and official packages.",
+    "options": [
+      {
+        "value": "`app/Concerns/HasTimestamps.php`",
+        "is_status_quode": true,
+        "rationale": "The `Concerns/` folder is the Status Quode. Laravel's own framework code (`Illuminate/Database/Concerns`, `Illuminate/Auth/Access/Concerns`) and official packages like Prompts use exactly this structure."
+      },
+      {
+        "value": "`app/Traits/HasTimestamps.php`",
+        "is_status_quode": false,
+        "rationale": "A common choice and fully functional, but `Traits/` is not what the framework itself uses. It names the *PHP construct* rather than the *role* the trait plays."
+      },
+      {
+        "value": "`app/Helpers/HasTimestamps.php`",
+        "is_status_quode": false,
+        "rationale": "`Helpers/` typically implies standalone functions or utility classes, not composable object behaviour. A trait named `HasTimestamps` is not a helper."
+      },
+      {
+        "value": "`app/Mixins/HasTimestamps.php`",
+        "is_status_quode": false,
+        "rationale": "Mixin is a term borrowed from JavaScript and Ruby. Laravel does not use this folder name for traits in any official code."
+      }
+    ],
+    "sources": [
+      "https://github.com/laravel/framework/tree/13.x/src/Illuminate/Database/Concerns",
+      "https://github.com/laravel/prompts/tree/v0.3.17/src/Concerns"
+    ]
+  },
+  {
+    "id": "architecture-02",
+  "category_id": "architecture",
+  "question": "Your application needs to create an `Order`. Where does that logic live?",
+  "pattern": "**This is a trick question. There is no correct answer.**\n\nLaravel does not prescribe where application business logic lives. Actions, Services, and Repositories are all patterns imported from other ecosystems - Laravel's own skeleton ships none of them. Eloquent directly in the controller is what the official Breeze and Jetstream scaffolding actually do. All four options are valid, widely used, and defensible. This is a team and application decision, not a framework convention. The Status Quode is silent here.",
+  "skipScore": true,
+  "options": [
+    {
+      "value": "An **Action** class\n\n```php\nclass CreateOrder\n{\n    public function handle(array $data): Order\n    {\n        return Order::create($data);\n    }\n}\n```",
+      "is_status_quode": false,
+      "rationale": "A popular pattern (made famous by `lorisleiva/laravel-actions`), but not part of Laravel's skeleton. The framework ships no `Actions/` folder, no base class, and no documentation on this approach."
+    },
+    {
+      "value": "A **Service** class\n\n```php\nclass OrderService\n{\n    public function create(array $data): Order\n    {\n        return Order::create($data);\n    }\n}\n```",
+      "is_status_quode": false,
+      "rationale": "Common in Laravel codebases, but entirely community-driven. The framework has no `Services/` folder, no service base class, and does not document this pattern."
+    },
+    {
+      "value": "A **Repository** class\n\n```php\nclass OrderRepository\n{\n    public function create(array $data): Order\n    {\n        return Order::create($data);\n    }\n}\n```",
+      "is_status_quode": false,
+      "rationale": "A pattern borrowed from Domain-Driven Design. Laravel's Eloquent is itself an Active Record implementation - adding a Repository layer on top is an architectural choice, not a framework convention."
+    },
+    {
+      "value": "**Eloquent directly** in the controller\n\n```php\nOrder::create($request->validated());\n```",
+      "is_status_quode": false,
+      "rationale": "This is actually what Laravel's own scaffolding (Breeze, Jetstream) does in simple cases, but it is not a rule either. The moment the logic grows, any of the other options become appropriate."
+    }
+  ],
+    "sources": [
+      "https://github.com/search?q=org%3Alaravel+Actions%2F&type=code",
+      "https://github.com/search?q=org%3Alaravel+Services%2F&type=code",
+      "https://github.com/search?q=org%3Alaravel+Repositories%2F&type=code",
+      "https://github.com/laravel/breeze/blob/v2.4.1/stubs/api/app/Http/Controllers/Auth/RegisteredUserController.php"
+    ]
+  },
+  {
+    "id": "facades-01",
+    "category_id": "facades",
+    "question": "How do you access the cache in a Laravel controller or service class?",
+    "pattern": "Laravel's design philosophy, documented explicitly in the 'Facades' section of the docs, is that **Facades are the preferred interface** for framework services. They are not a workaround or a shortcut; they are a first-class design decision. Other approaches (the service container, dependency injection) are equally valid, but the framework consistently demonstrates Facades in its own code, docs, and scaffolding.",
+    "options": [
+      {
+        "value": "```php\nuse Illuminate\\Support\\Facades\\Cache;\n\nCache::get('key');\n```",
+        "is_status_quode": true,
+        "rationale": "The Facade is Laravel's preferred and consistently demonstrated approach. It is what the docs show first, what the framework's own code uses, and what new developers are guided toward."
+      },
+      {
+        "value": "```php\nresolve('cache')->get('key');\n```",
+        "is_status_quode": false,
+        "rationale": "Reaches into the service container directly using the binding key. Works perfectly, but bypasses the readability and IDE support that Facades provide. Not what the docs demonstrate for typical application code."
+      },
+      {
+        "value": "```php\nuse Illuminate\\Contracts\\Cache\\Repository;\n\npublic function __construct(private Repository $cache) {}\n\n$this->cache->get('key');\n```",
+        "is_status_quode": false,
+        "rationale": "Constructor injection with a Contract is a fully valid, highly testable approach, and Laravel supports it well. But the framework does not reach for this in its own scaffolding for everyday cache access. It is a deliberate architectural choice, not the default path."
+      }
+    ],
+    "sources": [
+      "https://github.com/search?q=org%3Alaravel+cache%28%29-%3E&type=code",
+      "https://github.com/search?q=org%3Alaravel+Cache%3A%3A&type=code",
+      "https://laravel.com/docs/facades#when-to-use-facades"
+    ]
+  }
+  ]
+}
