@@ -15,7 +15,7 @@
 
 <svelte:head>
 	<title>Juampi's Blog</title>
-	<meta name="description" content="A blog powered by SvelteKit" />
+	<meta name="description" content="Just another blog" />
 </svelte:head>
 
 <div class="flex flex-col gap-16">

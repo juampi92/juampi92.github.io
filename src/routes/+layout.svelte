@@ -1,6 +1,14 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.ico';
 	import { dev } from '$app/environment';
+	import { page } from '$app/state';
+
+	const GITHUB_REPO = 'https://github.com/juampi92/juampi92.github.io';
+
+	let slug = $derived(page.data?.post?.slug ?? null);
+	let isPost = $derived(slug !== null);
+	let githubUrl = $derived(isPost ? `${GITHUB_REPO}/blob/main/posts/${slug}/index.md` : GITHUB_REPO);
+	let githubLabel = $derived(isPost ? 'View source' : 'Source on GitHub');
 
 	import '@fontsource/merriweather/400.css';
 	import '@fontsource/merriweather/700.css';
@@ -49,8 +57,14 @@
 		<slot />
 	</main>
 	<footer class="mt-24 pt-8 border-t text-sm opacity-60" style="border-color: var(--border);">
-		<p class="text-center m-0">
-			Built with <a href="https://kit.svelte.dev/" target="_blank" rel="noopener noreferrer">SvelteKit</a>
-		</p>
+		<div class="flex justify-between items-center">
+			<div class="flex gap-4">
+				{#if isPost}
+					<a href="/">← Home</a>
+				{/if}
+				<a href="/rss.xml" target="_blank" rel="noopener noreferrer">RSS</a>
+			</div>
+			<a href={githubUrl} target="_blank" rel="noopener noreferrer">{githubLabel}</a>
+		</div>
 	</footer>
 </div>
