@@ -31,13 +31,13 @@
 	{/if}
 </svelte:head>
 
-<div class="mx-auto max-w-3xl bg-[--bg] px-8 py-16 text-[--text]">
+<div class="mx-auto max-w-3xl px-8 pt-2 pb-16 mt-22 text-[--text]" style="background-color: white; box-shadow: 0 0 80px 40px white;">
 	<header class="mb-2 flex flex-row place-content-between items-center">
 		<a
 			href="/"
 			class="inline-block text-2xl font-sans font-black text-[--title] no-underline hover:no-underline"
 		>
-			Juampi's Blog
+			Juampi Barreto
 		</a>
 		<a 
 			href="https://github.com/juampi92" 

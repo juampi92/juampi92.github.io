@@ -4,8 +4,8 @@ import { getListedPosts } from './posts';
 export const SITE_URL = 'https://barreto.jp/';
 
 export const metadata = {
-	title: "Juampi's Blog",
-	description: 'Articles on software, engineering, and more.',
+	title: "Juampi Barreto",
+	description: 'I write mainly about software.',
 	author: {
 		name: 'Juan Pablo Barreto',
 		email: 'juampi92@gmail.com',
