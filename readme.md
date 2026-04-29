@@ -1,4 +1,4 @@
-# Juampi's Blog
+# Juampi Barreto
 
 Hi 👋
 If you're looking for my blog, it's here: https://barreto.jp/

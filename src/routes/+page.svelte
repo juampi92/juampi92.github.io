@@ -14,22 +14,21 @@
 </script>
 
 <svelte:head>
-	<title>Juampi's Blog</title>
-	<meta name="description" content="Just another blog" />
+	<title>Juampi Barreto</title>
+	<meta name="description" content="I write mainly about software." />
 </svelte:head>
 
-<div class="flex flex-col gap-16">
+<div class="flex flex-col gap-5">
 	{#each data.posts as post (post.slug)}
 		<article>
 			<Link href="/blog/{post.slug}/" className="block group">
-				<h2 class="text-3xl font-sans font-black leading-tight mb-2 text-[--title] group-hover:text-[--link] transition-colors">
+				<h2 class="text-2xl font-sans leading-tight text-[--title] group-hover:text-[--link] transition-colors">
 					{post.title}
 				</h2>
 			</Link>
-			<p class="text-sm mb-3 opacity-50">
+			<p class="text-sm opacity-50">
 				{formatDate(post.date)}
 			</p>
-			<p class="text-[17px] leading-relaxed opacity-90">{post.description}</p>
 		</article>
 	{/each}
 </div>
