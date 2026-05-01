@@ -31,23 +31,51 @@
 	{/if}
 </svelte:head>
 
+<style>
+	.logo {
+		font-family: Consolas, 'Courier New', monospace;
+		font-size: 1.75rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		color: #6741d9;
+		text-decoration: none;
+	}
+
+	.logo .dot {
+		letter-spacing: 0;
+	}
+
+	.logo .off {
+		display: inline-block;
+		overflow: hidden;
+		vertical-align: bottom;
+		white-space: nowrap;
+		max-width: 5ch;
+		opacity: 1;
+		transition: max-width 1s ease-out, opacity 1s ease-out;
+	}
+
+	header:hover .logo .off {
+		max-width: 0;
+		opacity: 0;
+		transition: max-width 1s ease, opacity 1s ease;
+	}
+</style>
+
 <div class="mx-auto max-w-3xl px-8 pt-2 pb-16 mt-22 text-[--text]" style="background-color: white; box-shadow: 0 0 80px 40px white;">
 	<header class="mb-2 flex flex-row place-content-between items-center">
-		<a
-			href="/"
-			class="inline-block text-2xl font-sans font-black text-[--title] no-underline hover:no-underline"
-		>
-			Juampi Barreto
+		<a href="/" class="logo">
+			<span>Barreto</span><span class="dot">.</span><span>j</span><span class="off">uam</span><span>p</span><span class="off">i</span>
 		</a>
-		<a 
-			href="https://github.com/juampi92" 
+		<a
+			href="https://github.com/juampi92"
 			target="_blank"
 			rel="noopener noreferrer"
 			class="hover:opacity-80 transition-opacity"
 		>
-			<img 
-				src="/avatar.png" 
-				alt="Avatar" 
+			<img
+				src="/avatar.png"
+				alt="Avatar"
 				class="w-10 h-10 rounded-full"
 				style="border-radius: 50%;"
 			/>
