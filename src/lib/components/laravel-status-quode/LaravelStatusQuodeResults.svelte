@@ -16,11 +16,11 @@
 	let scorePct = $derived(Math.round((score / total) * 100));
 
 	function getScoreMessage(pct: number): string {
-		if (pct === 100) return 'Perfect score! You are the Status Quode.';
-		if (pct >= 80) return 'Impressive! You know your Laravel conventions.';
-		if (pct >= 60) return 'Solid foundation. A few conventions slipped by.';
-		if (pct >= 40) return 'Room to grow. The docs are your friend.';
-		return 'The Status Quode is strong — just not with you yet.';
+		if (pct === 100) return 'Perfect score!';
+		if (pct >= 80) return 'Impressive!';
+		if (pct >= 60) return 'Solid foundation.';
+		if (pct >= 40) return 'Room to grow.';
+		return 'Not there yet...';
 	}
 
 	function handleShare() {

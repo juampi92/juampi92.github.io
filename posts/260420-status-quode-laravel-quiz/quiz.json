@@ -17,7 +17,7 @@
       "id": "http-01",
       "category_id": "http",
       "question": "How do you name the route for `POST /photos`?",
-      "pattern": "Laravel's seven resource verbs: `index`, `create`, `store`, `show`, `edit`, `update`, `destroy`, are the vocabulary for resourceful routes. `store` is the verb for persisting a new record, not `save` (an Eloquent method), not `create` (the GET form-display route), and not `new` (a Rails convention).",
+      "pattern": "Laravel's seven resource verbs: `index`, `create`, `store`, `show`, `edit`, `update`, `destroy`, are the vocabulary for resourceful routes. `store` is the verb for persisting a new record.",
       "options": [
         {
           "value": "`photos.create`",
@@ -32,7 +32,7 @@
         {
           "value": "`photos.save`",
           "is_status_quode": false,
-          "rationale": "`save()` is the **Eloquent method** for creating or updating a model - not a route name."
+          "rationale": "`save()` is the **Eloquent method** for creating or updating a model, not a route name."
         },
         {
           "value": "`photos.store`",
@@ -49,12 +49,12 @@
       "id": "http-02",
       "category_id": "http",
       "question": "How do you name a middleware that denies access if the user's email is not verified?",
-      "pattern": "Middleware names in Laravel are **imperative phrases** - they describe an action being enforced, not a noun describing what the class is. `EnsureEmailIsVerified` reads as a gate that acts. `VerifiedEmailCheckerMiddleware` reads as a label for a thing.",
+      "pattern": "Middleware names in Laravel are **imperative phrases**: they describe an action being enforced, not a noun describing what the class is. `EnsureEmailIsVerified` reads as a gate that acts. `VerifiedEmailCheckerMiddleware` reads as a label for a thing.",
       "options": [
         {
           "value": "`EmailEnsureMiddleware`",
           "is_status_quode": false,
-          "rationale": "Two problems: the word order is awkward, and Laravel does not suffix middleware class names with `Middleware` - the namespace already conveys that."
+          "rationale": "Two problems: the word order is awkward, and Laravel does not suffix middleware class names with `Middleware` (the namespace already conveys that)."
         },
         {
           "value": "`EnsureEmailIsVerified`",
