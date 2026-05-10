@@ -25,7 +25,7 @@
 		<h1 class="text-[2.25rem] leading-tight font-sans font-black text-[--title] mb-4">
 			{data.post.title}
 		</h1>
-		<p class="text-sm opacity-50 m-0">
+		<p class="text-sm opacity-50 m-0 font-mono">
 			{formatDate(data.post.date)}
 		</p>
 	</header>

@@ -15,6 +15,8 @@
 	import '@fontsource/merriweather/400-italic.css';
 	import '@fontsource/merriweather/700-italic.css';
 	import '@fontsource/montserrat/900.css';
+	import '@fontsource/jetbrains-mono/400.css';
+	import '@fontsource/jetbrains-mono/700.css';
 	import '../app.css';
 </script>
 
@@ -33,7 +35,7 @@
 
 <style>
 	.logo {
-		font-family: Consolas, 'Courier New', monospace;
+		font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
 		font-size: 1.75rem;
 		font-weight: 700;
 		letter-spacing: 0.04em;
@@ -84,7 +86,7 @@
 	<main class="min-h-[65vh]">
 		<slot />
 	</main>
-	<footer class="mt-24 pt-8 border-t text-sm opacity-60" style="border-color: var(--border);">
+	<footer class="mt-24 pt-8 border-t text-sm opacity-60 font-mono" style="border-color: var(--border);">
 		<div class="flex justify-between items-center">
 			<div class="flex gap-4">
 				{#if isPost}

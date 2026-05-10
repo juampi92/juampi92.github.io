@@ -22,11 +22,11 @@
 	{#each data.posts as post (post.slug)}
 		<article>
 			<Link href="/blog/{post.slug}/" className="block group">
-				<h2 class="text-2xl font-sans leading-tight text-[--title] group-hover:text-[--link] transition-colors">
+				<h2 class="text-xl font-serif font-normal leading-snug text-[--title] group-hover:text-[--link] transition-colors">
 					{post.title}
 				</h2>
 			</Link>
-			<p class="text-sm opacity-50">
+			<p class="text-sm opacity-50 font-mono">
 				{formatDate(post.date)}
 			</p>
 		</article>

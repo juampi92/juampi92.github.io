@@ -7,7 +7,7 @@ If you're looking for my blog, it's here: https://barreto.jp/
 
 ## Behind the scenes
 
-This blog is made using SvelteKit, built statically and deployed into gh-pages using an [action](./.github/workflows/deploy.yml).
+This blog is made using SvelteKit, built statically and deployed into gh-pages using an [action](./.github/workflows/deploy.yml). Typography uses [JetBrains Mono](https://www.jetbrains.com/lp/mono/) for monospace elements.
 
 It is pretty straight-forward. Local development using with `npm run dev`.
 
