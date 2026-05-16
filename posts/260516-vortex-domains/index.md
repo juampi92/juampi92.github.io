@@ -5,11 +5,11 @@ description: "Vortex Domains can unconsciously attract many features in your sof
 thumbnail_image: "./vortex.svg"
 ---
 
-If you have worked with Domain Driven Design, you probably heard about the concept of a '[God Domain](https://medium.com/navalia/the-most-common-domain-driven-design-mistake-6c3f90e0ec2b)'. It usually happens when we identify a core concept of the business, and we don't make the active decision on separating it into smaller concepts. That is how we end up with "Product" rather than "Inventory", "Marketplace", "Delivery".
+If you have worked with Domain Driven Design, you probably heard of the concept of a '[God Domain](https://medium.com/navalia/the-most-common-domain-driven-design-mistake-6c3f90e0ec2b)'. It usually happens when we identify a core concept of the business, but we don't make the active decision to separate it into smaller concepts. That is how we end up with a massive "Product" domain rather than distinct boundaries like "Inventory", "Marketplace" or "Delivery".
 
-In most agile companies though, software gets produced before having the entire picture of the process, and the future is defined as we go. We can start with a lean product, and with time add a robust marketplace, incorporate a delivery mechanism, etc.
+In most agile companies, though, software is built before we have the entire picture, so the future is defined as we go. We might start with a lean "product" concept, and over time add a robust marketplace, incorporate a delivery mechanism, and so on.
 
-These domains develop a gravitational pull that attract vaguely-related functionality under tight development timelines, creating what I call **Vortex Domains**.
+Eventually, these domains develop a gravitational pull that attracts vaguely-related functionality under tight development timelines, creating what I call **Vortex Domains**.
 
 ## The pull
 
